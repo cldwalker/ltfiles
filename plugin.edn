@@ -3,4 +3,5 @@
  :author ""
  :source ""
  :desc ""
+ :dependencies {"JSHint" "0.0.2"}
  :behaviors "ltfiles.behaviors"}
