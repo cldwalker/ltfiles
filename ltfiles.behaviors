@@ -1,0 +1,2 @@
+{:+ {:app [(:lt.objs.plugins/load-js "ltfiles_compiled.js")]
+     :ltfiles.hello [:lt.plugins.ltfiles/on-close-destroy]}}
