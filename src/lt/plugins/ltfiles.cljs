@@ -1,6 +1,9 @@
 (ns lt.plugins.ltfiles
   (:require [lt.object :as object]
             [lt.objs.tabs :as tabs]
+            [lt.objs.keyboard :as keyboard]
+            [lt.objs.workspace :as workspace]
+            [lt.util.cljs :refer [str-contains?]]
             [lt.objs.command :as cmd])
   (:require-macros [lt.macros :refer [defui behavior]]))
 
@@ -27,3 +30,22 @@
               :desc "ltfiles: Say Hello"
               :exec (fn []
                       (tabs/add-or-focus! hello))})
+
+(defn toggle-line-numbers []
+  ;; TODO - better line-num detection and save existing workspace behavior
+  (let [show-line-numbers (not (str-contains?
+                                (:ws-behaviors @workspace/current-ws) ":lt.objs.editor/line-numbers"))
+        line-behavior (if show-line-numbers :lt.objs.editor/line-numbers :lt.objs.editor/hide-line-numbers)
+        behavior-string (pr-str {:+ {:editor [line-behavior]}})]
+  (swap! workspace/current-ws assoc :ws-behaviors behavior-string)
+  (cmd/exec! :behaviors.reload)))
+
+(cmd/command {:command :ltfiles.toggle-line-numbers
+              :desc "ltfiles: toggles line numbers"
+              :exec toggle-line-numbers})
+
+
+(comment
+  (cmd/exec! :ltfiles.toggle-line-numbers)
+  (keyboard/cmd->current-binding :save)
+  (identity @keyboard/key-map))
