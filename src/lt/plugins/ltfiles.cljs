@@ -1,10 +1,11 @@
-l(ns lt.plugins.ltfiles
+(ns lt.plugins.ltfiles
   (:require [lt.object :as object]
             [lt.objs.tabs :as tabs]
             [lt.objs.keyboard :as keyboard]
             [lt.objs.workspace :as workspace]
             [lt.objs.notifos :as notifos]
             [lt.objs.settings :as settings]
+            #_[goog.string]
             [lt.objs.command :as cmd])
   (:require-macros [lt.macros :refer [defui behavior]]))
 
@@ -79,7 +80,26 @@ l(ns lt.plugins.ltfiles
               :desc "ltfiles: toggles stripping whitespace on save"
               :exec toggle-strip-whitespace})
 
+;; Misc
+;; ----
+
+(defn expand-current-inline-result []
+  (when-let [ed (lt.objs.editor.pool/last-active)]
+    (let [current-line (:line (lt.objs.editor/->cursor ed))]
+      (when-let [inline (->> (:widgets @ed)
+                             (some (fn [[[l t] widget]]
+                                     (when (and (= t :inline)
+                                                (= current-line (lt.objs.editor/lh->line ed l)))
+                                       widget))))]
+        (object/raise inline :click)))))
+
+(cmd/command {:command :ltfiles.expand-current-inline-result
+              :desc "ltfiles: expands current inline result"
+              :exec expand-current-inline-result})
+
 (comment
+  (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
+  (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
   (cmd/exec! :ltfiles.toggle-line-numbers)
   (keyboard/cmd->current-binding :save)
   (identity @keyboard/key-map))
