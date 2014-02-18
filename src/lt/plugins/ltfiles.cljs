@@ -83,7 +83,8 @@
 ;; Misc
 ;; ----
 
-(defn expand-current-inline-result []
+;; Only when inline result is on the same line as the cursor
+(defn toggle-current-inline-result []
   (when-let [ed (lt.objs.editor.pool/last-active)]
     (let [current-line (:line (lt.objs.editor/->cursor ed))]
       (when-let [inline (->> (:widgets @ed)
@@ -91,11 +92,13 @@
                                      (when (and (= t :inline)
                                                 (= current-line (lt.objs.editor/lh->line ed l)))
                                        widget))))]
-        (object/raise inline :click)))))
+        (if (:open @inline)
+          (object/raise inline :double-click)
+          (object/raise inline :click))))))
 
-(cmd/command {:command :ltfiles.expand-current-inline-result
-              :desc "ltfiles: expands current inline result"
-              :exec expand-current-inline-result})
+(cmd/command {:command :ltfiles.toggle-current-inline-result
+              :desc "ltfiles: toggles current inline result"
+              :exec toggle-current-inline-result})
 
 (comment
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
