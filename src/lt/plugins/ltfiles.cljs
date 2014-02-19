@@ -5,6 +5,8 @@
             [lt.objs.workspace :as workspace]
             [lt.objs.notifos :as notifos]
             [lt.objs.settings :as settings]
+            [lt.objs.editor :as editor]
+            [lt.objs.editor.pool :as pool]
             #_[goog.string]
             [lt.objs.command :as cmd])
   (:require-macros [lt.macros :refer [defui behavior]]))
@@ -83,19 +85,23 @@
 ;; Misc
 ;; ----
 
-;; Only when inline result is on the same line as the cursor
+;; Caution: This will not find an inline result if it moves a different line after the eval
 (defn toggle-current-inline-result []
-  (when-let [ed (lt.objs.editor.pool/last-active)]
-    (let [current-line (:line (lt.objs.editor/->cursor ed))]
+  (when-let [ed (pool/last-active)]
+    (let [current-line (if (editor/selection? ed)
+                         (-> ed editor/selection-bounds :to :line)
+                         (:line (editor/->cursor ed)))]
       (when-let [inline (->> (:widgets @ed)
                              (some (fn [[[l t] widget]]
                                      (when (and (= t :inline)
-                                                (= current-line (lt.objs.editor/lh->line ed l)))
+                                                (= current-line (editor/lh->line ed l)))
                                        widget))))]
         (if (:open @inline)
           (object/raise inline :double-click)
           (object/raise inline :click))))))
 
+;; This also works for a selection. Note: you cannot bind this to vim/map-keys
+;; because something about invoking it disables s selection
 (cmd/command {:command :ltfiles.toggle-current-inline-result
               :desc "ltfiles: toggles current inline result"
               :exec toggle-current-inline-result})
@@ -104,5 +110,5 @@
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
   (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
   (cmd/exec! :ltfiles.toggle-line-numbers)
-  (keyboard/cmd->current-binding :save)
+  (keyboard/cmd->current-binding :smart-indent-selection)
   (identity @keyboard/key-map))
