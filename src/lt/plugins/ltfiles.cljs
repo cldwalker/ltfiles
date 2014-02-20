@@ -7,6 +7,8 @@
             [lt.objs.settings :as settings]
             [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
+            [lt.objs.app :as app]
+            [lt.objs.files :as files]
             #_[goog.string]
             [lt.objs.command :as cmd])
   (:require-macros [lt.macros :refer [defui behavior]]))
@@ -136,9 +138,19 @@
               :desc "ltfiles: reselects last visual mode turned off by :ltfiles.vim-visual-mode"
               :exec vim-reselect-visual})
 
+;; open console log so I can search console!
+
+(defn open-console-log-file []
+  (cmd/exec! :open-path
+             (files/join (files/lt-user-dir "logs") (str "window" (app/window-number) ".log"))))
+
+(cmd/command {:command :ltfiles.open-console-log-file
+              :desc "ltfiles: open current console log as an editable/searchable file"
+              :exec open-console-log-file})
+
 (comment
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
   (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
-  (cmd/exec! :ltfiles.toggle-line-numbers)
+  (cmd/exec! :ltfiles.open-console-log-file)
   (keyboard/cmd->current-binding :smart-indent-selection)
   (identity @keyboard/key-map))
