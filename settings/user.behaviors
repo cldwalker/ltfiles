@@ -1,0 +1,51 @@
+{:+ {
+     ;; The app tag is kind of like global scope. You assign behaviors that affect
+     ;; all of Light Table here
+     :app [(:lt.objs.style/set-skin "dark")
+           (:lt.plugins.vim/map-keys {"-" "$",
+                                      "0" "^",
+                                      "j" "gj",
+                                      "k" "gk"
+                                      ;"v" ":ltexec ltfiles.vim-visual-mode"
+                                      "gv" ":ltexec ltfiles.vim-reselect-visual"
+                                      ;; <Space> is a leader key in normal mode
+                                      "<Space>b" ":ltexec behaviors.modify-user"
+                                      ; c - for cancel/clear/kill actions
+                                      "<Space>cc" ":ltexec clear-console"
+                                      "<Space>cC" ":ltexec editor.disconnect-clients"
+                                      "<Space>ce" ":ltexec eval.cancel-all!"
+                                      "<Space>cw" ":ltexec editor.watch.remove-all"
+                                      "<Space>cs" ":ltexec reset-working"
+                                      "<Space>k" ":ltexec keymap.modify-user"
+                                      "<Space>p" ":ltexec plugin-manager.show"
+                                      ; t - for toggle
+                                      "<Space>tc" ":ltexec toggle-console"
+                                      "<Space>tl" ":ltexec ltfiles.toggle-line-numbers"
+                                      "<Space>tw" ":ltexec ltfiles.toggle-strip-whitespace"
+                                      "<Space>v" ":ltexec tabset.new"
+                                      "<Space>w" ":ltexec workspace.show"
+                                      "<Space>x" ":ltexec tabset.close"
+                                      ;; \\ is leader key for paredit
+                                      ;; killing-backward also known as raise
+                                      "\\r" ":ltexec paredit-plus.splice-sexp-killing-backward"
+                                      "\\(" ":ltexec paredit-plus.wrap-round"
+                                      "\\{" ":ltexec paredit-plus.wrap-curly"
+                                      "\\[" ":ltexec paredit-plus.wrap-square"
+                                      "\\'" ":ltexec paredit-plus.wrap-quote"})]
+
+     ;; The editor tag is applied to all editors
+     :editor [:lt.objs.editor/no-wrap
+              (:lt.objs.style/set-theme "cobalt")
+              (:lt.plugins.vim/activate-vim)
+              :lt.objs.editor/hide-line-numbers]
+
+     ;; Here we can add behaviors to just clojure editors
+     :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]}
+
+ ;; You can use the subtract key to remove behavior that may get added by
+ ;; another diff
+ :- {:app [:lt.objs.intro/show-intro]
+     ;; turn off aggressive autocomplete
+     :editor [:lt.plugins.auto-complete/auto-show-on-input]
+     ;; turn off annoying info boxes while editing any behavior
+     :editor.behaviors [:lt.objs.langs.behaviors/show-info-on-move]}}
