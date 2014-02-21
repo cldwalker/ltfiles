@@ -1,7 +1,25 @@
-{:name "ltfiles"
- :version "0.0.2"
- :author ""
- :source ""
- :desc ""
- :dependencies {"JSHint" "0.0.2"}
- :behaviors "ltfiles.behaviors"}
+{
+:desc "",
+ :version "0.0.2",
+ :source "",
+ :behaviors "ltfiles.behaviors",
+ :dependencies {
+"Keymapper" "0.0.4",
+ "CSS" "0.0.1",
+ "Claire" "0.1.6",
+ "Clojure" "0.0.9",
+ "GBlame" "0.0.6",
+ "Describe Key" "0.0.5",
+ "Paredit" "0.0.4",
+ "HTML" "0.0.2",
+ "Javascript" "0.0.1",
+ "ltfiles" "0.0.2",
+ "Recall" "0.0.6",
+ "Rainbow" "0.0.8",
+ "Workspace Nav" "0.0.3",
+ "Vim" "0.0.2",
+ "Paredit-Plus" "0.0.3",
+ "Python" "0.0.3",
+ "plugins_inc" "0.1.0"},
+ :author "",
+ :name "ltfiles"}

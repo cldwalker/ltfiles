@@ -148,9 +148,35 @@
               :desc "ltfiles: open current console log as an editable/searchable file"
               :exec open-console-log-file})
 
+;; must be configured per user
+(def plugin-name "ltfiles")
+
+(defn save-plugins []
+  (let [personal-plugins-file (files/join (files/lt-user-dir "plugins") plugin-name "plugin.edn")
+        deps (->> @app/app
+                  :lt.objs.plugins/plugins
+                  vals
+                  (map (juxt :name :version))
+                  (into {}))
+        plugin-body (-> (files/open-sync personal-plugins-file)
+                        :content
+                        (settings/safe-read personal-plugins-file)
+                        (assoc :dependencies deps)
+                        pr-str)]
+
+    ;; one property and plugin per line for easier editing and diffing
+    (files/save personal-plugins-file
+                (clojure.string/replace plugin-body #"(\"\s*,|\{|\},)" #(str % "\n")))
+    ;; Causes  "Maximum call stack size exceeded" error?
+    #_(notifos/set-msg! "Plugins saved to " personal-plugins-file)))
+
+(cmd/command {:command :ltfiles.save-plugins
+              :desc "plugins-inc: Save plugins to :dependencies of personal plugin"
+              :exec save-plugins})
+
 (comment
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
   (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
-  (cmd/exec! :ltfiles.open-console-log-file)
+  (cmd/exec! :ltfiles.save-plugins)
   (keyboard/cmd->current-binding :smart-indent-selection)
   (identity @keyboard/key-map))
