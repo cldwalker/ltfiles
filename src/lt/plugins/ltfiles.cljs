@@ -117,7 +117,6 @@
 (defn visual-mode-with-history []
   (when-let [ed (pool/last-active)]
     (when (editor/selection? ed)
-      (prn "SELECTED" (editor/selection-bounds ed))
       (def last-selection (editor/selection-bounds ed)))
     (.handleKey CodeMirror.Vim (editor/->cm-ed ed) "v")))
 
@@ -157,7 +156,10 @@
                   :lt.objs.plugins/plugins
                   vals
                   (map (juxt :name :version))
-                  (into {}))
+                  sort
+                  flatten
+                  (apply sorted-map)
+                  (#(dissoc % plugin-name)))
         plugin-body (-> (files/open-sync personal-plugins-file)
                         :content
                         (settings/safe-read personal-plugins-file)
