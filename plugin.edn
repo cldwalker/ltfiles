@@ -1,7 +1,7 @@
 {
-:desc "",
- :version "0.0.2",
- :source "",
+:desc "My Light Table dotfiles",
+ :version "0.1.0",
+ :source "https://github.com/cldwalker/ltfiles",
  :behaviors "ltfiles.behaviors",
  :dependencies {
 "Keymapper" "0.0.4",
@@ -21,5 +21,5 @@
  "Paredit-Plus" "0.0.3",
  "Python" "0.0.3",
  "plugins_inc" "0.1.0"},
- :author "",
+ :author "Gabriel Horner",
  :name "ltfiles"}
