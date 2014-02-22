@@ -8,8 +8,6 @@
             [lt.objs.editor.pool :as pool]
             [lt.objs.app :as app]
             [lt.objs.files :as files]
-            [lt.objs.tabs :as tabs]
-            [lt.plugins.ltfiles.util :as util]
             #_[goog.string]
             [lt.objs.command :as cmd]))
 
@@ -151,26 +149,6 @@
 (cmd/command {:command :ltfiles.save-plugins
               :desc "ltfiles: Save plugins to :dependencies of personal plugin"
               :exec save-plugins})
-
-(defn open-current-url []
-  (let [current-word (util/current-word)
-        pre-commands (if (< (-> @tabs/multi :tabsets count) 2)
-                       [:tabset.new] [])
-        commands (into pre-commands
-                       [:add-browser-tab
-                        :tabs.move-next-tabset
-                        :browser.url-bar.focus
-                        [:browser.url-bar.navigate! current-word]
-                        :browser.focus-content])]
-    (doseq [c commands]
-      (if (coll? c)
-        (apply cmd/exec! c)
-        (cmd/exec! c)))))
-
-(cmd/command {:command :ltfiles.open-current-url
-              :desc "ltfiles: opens url under cursor in another tabset and browser"
-              :exec open-current-url})
-
 (comment
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
   (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")

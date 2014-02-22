@@ -17,7 +17,8 @@
                                       "<Space>cw" ":ltexec editor.watch.remove-all"
                                       "<Space>cs" ":ltexec reset-working"
                                       "<Space>k" ":ltexec keymap.modify-user"
-                                      "<Space>o" ":ltexec ltfiles.open-current-url"
+                                      "<Space>oi" ":ltexec ltfiles.tab-open-current-url"
+                                      "<Space>oo" ":ltexec ltfiles.system-open-current-url"
                                       "<Space>p" ":ltexec plugin-manager.show"
                                       ; t - for toggle
                                       "<Space>tc" ":ltexec toggle-console"
