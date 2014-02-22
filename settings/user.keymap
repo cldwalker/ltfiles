@@ -24,11 +24,7 @@
                           ;; open browser tab with focus to type url
                           "cmd-/ o" [:add-browser-tab :browser.url-bar.focus]
                           ;; view current html in a split window
-                          "cmd-/ s" [:tabset.new :tabset.next :editor.open-current-file-in-browser]
-
-                          ;; a dumb wrap - cursor must be before word
-                          ;; a smarter one would 'Bh' if in middle of word
-                          "cmd-." [(:editor.open-pair "(") :paredit.grow.right]}
+                          "cmd-/ s" [:tabset.new :tabset.next :editor.open-current-file-in-browser]}
 
      ;; thanks to https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
      :editor.keys.vim.normal {">" [:paredit.grow.right]
@@ -40,7 +36,7 @@
                               "cmd-," [:paredit.select.parent]
                               "cmd-;" [:toggle-comment-selection]}
 
-     ;; avoid going to out of the way keys for command bar
+     ;; avoid going too out of the way keys for command bar
      :filter-list.input { "ctrl-n" [(:filter-list.input.move-selection 1)]
                           "ctrl-p" [(:filter-list.input.move-selection -1)]}
 

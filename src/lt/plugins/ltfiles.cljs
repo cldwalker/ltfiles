@@ -8,6 +8,8 @@
             [lt.objs.editor.pool :as pool]
             [lt.objs.app :as app]
             [lt.objs.files :as files]
+            [lt.objs.tabs :as tabs]
+            [lt.plugins.ltfiles.util :as util]
             #_[goog.string]
             [lt.objs.command :as cmd]))
 
@@ -144,16 +146,34 @@
     ;; one property and plugin per line for easier editing and diffing
     (files/save personal-plugins-file
                 (clojure.string/replace plugin-body #"(\"\s*,|\{|\},)" #(str % "\n")))
-    ;; Causes  "Maximum call stack size exceeded" error?
-    #_(notifos/set-msg! "Plugins saved to " personal-plugins-file)))
+    (notifos/set-msg! "Plugins saved to " personal-plugins-file)))
 
 (cmd/command {:command :ltfiles.save-plugins
-              :desc "plugins-inc: Save plugins to :dependencies of personal plugin"
+              :desc "ltfiles: Save plugins to :dependencies of personal plugin"
               :exec save-plugins})
+
+(defn open-current-url []
+  (let [current-word (util/current-word)
+        pre-commands (if (< (-> @tabs/multi :tabsets count) 2)
+                       [:tabset.new] [])
+        commands (into pre-commands
+                       [:add-browser-tab
+                        :tabs.move-next-tabset
+                        :browser.url-bar.focus
+                        [:browser.url-bar.navigate! current-word]
+                        :browser.focus-content])]
+    (doseq [c commands]
+      (if (coll? c)
+        (apply cmd/exec! c)
+        (cmd/exec! c)))))
+
+(cmd/command {:command :ltfiles.open-current-url
+              :desc "ltfiles: opens url under cursor in another tabset and browser"
+              :exec open-current-url})
 
 (comment
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
   (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
-  (cmd/exec! :ltfiles.save-plugins)
+  (cmd/exec! :browser.url-bar.navigate! "http://google.com")
   (keyboard/cmd->current-binding :smart-indent-selection)
   (identity @keyboard/key-map))
