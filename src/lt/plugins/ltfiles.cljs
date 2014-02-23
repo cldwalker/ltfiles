@@ -8,6 +8,7 @@
             [lt.objs.editor.pool :as pool]
             [lt.objs.app :as app]
             [lt.objs.files :as files]
+            [lt.plugins.ltfiles.util :as util]
             #_[goog.string]
             [lt.objs.command :as cmd]))
 
@@ -149,6 +150,24 @@
 (cmd/command {:command :ltfiles.save-plugins
               :desc "ltfiles: Save plugins to :dependencies of personal plugin"
               :exec save-plugins})
+
+;; assumes only one instance of current folder is open across workspaces
+(defn refresh-current-folder []
+  (if-let [ws-folder (some
+                      #(when (util/parent? (-> % deref :path) (util/current-file))
+                         %)
+                      (object/instances-by-type :lt.objs.sidebar.workspace/workspace.folder))]
+    (do
+      (object/raise ws-folder :refresh!)
+      ;; message may print before refresh has actually happened, hook into raise?
+      (notifos/set-msg! "Current workspace folder refreshed."))
+    (notifos/set-msg! "No workspace folder found to refresh!")))
+
+;; handy for adding/removing files - especially when switching between branches
+(cmd/command {:command :ltfiles.refresh-current-workspace-folder
+              :desc "ltfiles: Refreshes current workspace folder"
+              :exec refresh-current-folder})
+
 (comment
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
   (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
