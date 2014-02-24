@@ -22,3 +22,11 @@
 
 (defn current-file []
   (-> @(pool/last-active) :info :path))
+
+;; Until lt.objs.proc/exec works: passing {:command "" :obj ""} to it didn't work
+(defn sh [cmd]
+  (.exec (js/require "child_process")
+         cmd
+         (fn [err stdout stderr]
+           (when (seq stdout) (println "STDOUT: " stdout))
+           (when (seq stderr) (println "STDERR: " stderr)))))
