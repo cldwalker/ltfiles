@@ -10,7 +10,7 @@ To set this up on a Mac:
 
 ```sh
 $ git clone https://github.com/cldwalker/ltfiles ~/Library/Application\ Support/LightTable/plugins
-$ cd ltfiles
+$ cd ~/Library/Application\ Support/LightTable/plugins/ltfiles
 # If you have existing settings, back them up
 $ mv ../../settings{,.bak}
 $ ln -s $PWD/settings $PWD/../../settings
