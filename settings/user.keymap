@@ -12,9 +12,7 @@
               ;;Eval the parent ( ... )
               "alt-enter" [(:paredit.select.parent "(")
                            :eval-editor-form
-                           :paredit.select.clear]
-              ;; requires master until 0.0.2 paredit
-              "alt-s" [:paredit.unwrap.parent]}
+                           :paredit.select.clear]}
 
      :editor.keys.normal {
                           ;;; for leader keys that work in normal mode see :vim/map-keys in behaviors

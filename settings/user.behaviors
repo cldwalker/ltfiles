@@ -34,8 +34,14 @@
                                       "\\," ":ltexec paredit.shrink.right"
                                       "\\<" ":ltexec paredit.grow.left"
                                       "\\>" ":ltexec paredit.shrink.left"
-                                      ;; killing-backward also known as raise
-                                      "\\r" ":ltexec paredit-plus.splice-sexp-killing-backward"
+                                      "\\d" ":ltexec paredit-plus.delete-pair-contents"
+                                      "\\j" ":ltexec paredit-plus.join-sexps"
+                                      "\\k" ":ltexec paredit-plus.kill"
+                                      "\\n" ":ltexec paredit-plus.new-line-after-pair-close"
+                                      "\\r" ":ltexec paredit-plus.raise-sexp"
+                                      ;; handles top-level case that paredit doesn't
+                                      "\\s" ":ltexec paredit-plus.splice-sexp"
+                                      "\\|" ":ltexec paredit-plus.split-sexp"
                                       "\\(" ":ltexec paredit-plus.wrap-round"
                                       "\\{" ":ltexec paredit-plus.wrap-curly"
                                       "\\[" ":ltexec paredit-plus.wrap-square"
