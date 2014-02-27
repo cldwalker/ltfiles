@@ -29,6 +29,11 @@
                                       "<Space>w" ":ltexec workspace.show"
                                       "<Space>x" ":ltexec tabset.close"
                                       ;; \\ is leader key for paredit
+                                      ;; loosely inspired by https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
+                                      "\\." ":ltexec paredit.grow.right"
+                                      "\\," ":ltexec paredit.shrink.right"
+                                      "\\<" ":ltexec paredit.grow.left"
+                                      "\\>" ":ltexec paredit.shrink.left"
                                       ;; killing-backward also known as raise
                                       "\\r" ":ltexec paredit-plus.splice-sexp-killing-backward"
                                       "\\(" ":ltexec paredit-plus.wrap-round"

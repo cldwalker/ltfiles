@@ -26,13 +26,7 @@
                           ;; view current html in a split window
                           "cmd-/ s" [:tabset.new :tabset.next :editor.open-current-file-in-browser]}
 
-     ;; thanks to https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
-     :editor.keys.vim.normal {">" [:paredit.grow.right]
-                              "<" [:paredit.shrink.right]
-                              "alt-shift-." [:paredit.shrink.left]
-                              "alt-shift-," [:paredit.grow.left]
-
-                              ;;Select the parent expression, whether that's [], {}, or ()
+     :editor.keys.vim.normal { ;;Select the parent expression, whether that's [], {}, or ()
                               "cmd-," [:paredit.select.parent]
                               "cmd-;" [:toggle-comment-selection]}
 
