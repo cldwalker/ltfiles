@@ -46,5 +46,7 @@
                   "alt-t" [(:editor.watch.custom-watch-selection "(let [start (java.lang.System/nanoTime)
                                                                  res (do __SELECTION__)]
                                                                  __|(str (float (/ (- (java.lang.System/nanoTime) start) 1000000)) \" ms\")|__
-                                                                 res)" {:class "timed" :verbatim true})]}}
+                                                                 res)" {:class "timed" :verbatim true})]}
+     :editor.cljs {"alt-p" [(:eval.custom "(.log js/console __SELECTION__)" {:result-type :inline :verbatim true})]
+                   "alt-shift-p" [(:eval.custom "(prn __SELECTION__)" {:result-type :inline :verbatim true})]}}
  }
