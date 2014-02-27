@@ -16,7 +16,7 @@
  "Python" "0.0.3",
  "Rainbow" "0.0.8",
  "Recall" "0.0.6",
- "Vim" "0.0.2",
+ "Vim" "0.0.4",
  "Workspace Nav" "0.0.4"},
  :author "Gabriel Horner",
  :name "ltfiles"}

@@ -28,7 +28,7 @@
 
      :editor.keys.vim.normal { ;;Select the parent expression, whether that's [], {}, or ()
                               "cmd-," [:paredit.select.parent]
-                              "cmd-;" [:toggle-comment-selection]}
+                              "cmd-;" [:ltfiles.vim-toggle-comment-selection]}
 
      ;; avoid going too out of the way keys for command bar
      :filter-list.input { "ctrl-n" [(:filter-list.input.move-selection 1)]
