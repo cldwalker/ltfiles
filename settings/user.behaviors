@@ -16,6 +16,8 @@
                                       "<Space>ce" ":ltexec eval.cancel-all!"
                                       "<Space>cw" ":ltexec editor.watch.remove-all"
                                       "<Space>cs" ":ltexec reset-working"
+                                      "<Space>gi" ":ltexec gitbeam.clone-project-from-clipboard"
+                                      "<Space>go" ":ltexec gitbeam.system-open-github-url"
                                       "<Space>k" ":ltexec keymap.modify-user"
                                       "<Space>oi" ":ltexec ltfiles.tab-open-current-url"
                                       "<Space>oo" ":ltexec ltfiles.system-open-current-url"
