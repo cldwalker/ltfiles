@@ -4,9 +4,13 @@
 
      :editor {"alt-w" [:editor.watch.watch-selection]
               "alt-shift-w" [:editor.watch.unwatch]
-              ;; has to be here instead of <Space>-ti b/c of selection limitation
+
+              ;; here instead of <Space> vim/map-keys b/c of selection limitation
               "alt-," [:ltfiles.toggle-current-inline-result]
               "alt-v" [:ltfiles.vim-visual-mode]
+              "alt-g" [:gitbeam.out-with-external-browser]
+              "alt-shift-g" [:gitbeam.out-with-internal-browser]
+              "alt-c" [:gitbeam.out-with-clipboard-copy]
 
               "cmd-=" [:paredit.select.parent :smart-indent-selection :paredit.select.clear]
               ;;Eval the parent ( ... )
