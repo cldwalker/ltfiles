@@ -6,7 +6,7 @@
  :dependencies {
 "CSS" "0.0.2",
  "Claire" "0.1.6",
- "Clojure" "0.0.7",
+ "Clojure" "0.0.10",
  "GBlame" "0.0.5",
  "HTML" "0.0.2",
  "Javascript" "0.0.1",
@@ -17,6 +17,7 @@
  "Rainbow" "0.0.8",
  "Recall" "0.0.6",
  "Vim" "0.0.4",
- "Workspace Nav" "0.0.4"},
+ "Workspace Nav" "0.0.4",
+ "gitbeam" "0.2.0"},
  :author "Gabriel Horner",
  :name "ltfiles"}

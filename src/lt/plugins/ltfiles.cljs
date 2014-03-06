@@ -9,9 +9,9 @@
             [lt.objs.app :as app]
             [lt.objs.files :as files]
             [lt.plugins.ltfiles.util :as util]
+            [lt.objs.clients.local :as local]
             #_[goog.string]
             [lt.objs.command :as cmd]))
-
 
 ;; cmds to toggle behaviors by changing workspace behavior
 ;; is there a more localized way of doing this?
@@ -138,7 +138,22 @@
               :desc "ltfiles: Refreshes current workspace folder"
               :exec refresh-current-folder})
 
+;; faster than mousing around
+(cmd/command {:command :ltfiles.connect-to-lt-ui
+              :desc "ltfiles: Connect to LT UI via a keystroke"
+              :exec local/init})
+
 (comment
+  (do
+    (def win (app/open-window))
+    (.on win "focus"
+         (fn []
+           (prn "SET!")
+           (object/raise workspace/current-ws :add.folder! "/Users/me/.gitbeam/technomancy_leiningen"))
+           (.on win "focus" (fn []
+                              (object/raise app :focus))))
+    (.focus win))
+
   (when-let [ed (pool/last-active)]
     )
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")

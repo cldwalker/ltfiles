@@ -2,6 +2,8 @@
      ;; The app tag is kind of like global scope. You assign behaviors that affect
      ;; all of Light Table here
      :app [(:lt.objs.style/set-skin "dark")
+           ;; only works on > 0.6.4 e.g. master
+           (:lt.objs.app/set-default-zoom-level -0.5)
            (:lt.plugins.vim/map-keys {"-" "$",
                                       "0" "^",
                                       "j" "gj",
@@ -19,6 +21,7 @@
                                       "<Space>gi" ":ltexec gitbeam.in-with-clipboard"
                                       "<Space>gI" ":ltexec gitbeam.in-with-current-word"
                                       "<Space>go" ":ltexec gitbeam.out-with-external-browser"
+                                      "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
                                       "<Space>k" ":ltexec keymap.modify-user"
                                       "<Space>oi" ":ltexec ltfiles.tab-open-current-url"
                                       "<Space>oo" ":ltexec ltfiles.system-open-current-url"
