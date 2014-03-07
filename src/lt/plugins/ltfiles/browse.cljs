@@ -1,6 +1,8 @@
 (ns lt.plugins.ltfiles.browse
+  "Browser related commands"
   (:require [lt.objs.tabs :as tabs]
             [lt.plugins.ltfiles.util :as util]
+            [lt.objs.platform :as platform]
             [lt.objs.command :as cmd]))
 
 (defn tab-open-current-url []
@@ -23,9 +25,8 @@
               :exec tab-open-current-url})
 
 
-;; OSX-specific for now
 (defn system-open-current-url []
-   (util/sh (str "open " (util/current-word))))
+  (platform/open (util/current-word)))
 
 (cmd/command {:command :ltfiles.system-open-current-url
               :desc "ltfiles: opens url under cursor in system browser"
