@@ -1,6 +1,5 @@
 (ns lt.plugins.ltfiles
   (:require [lt.object :as object]
-            [lt.objs.keyboard :as keyboard]
             [lt.objs.workspace :as workspace]
             [lt.objs.notifos :as notifos]
             [lt.objs.settings :as settings]
@@ -158,6 +157,4 @@
     )
   (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
   (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
-  (cmd/exec! :browser.url-bar.navigate! "http://google.com")
-  (keyboard/cmd->current-binding :smart-indent-selection)
-  (identity @keyboard/key-map))
+  )
