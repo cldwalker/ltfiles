@@ -21,16 +21,22 @@
     (prn results)))
 
 (defn find-command-keybindings [keymap]
-  (input/popup input/url-input #(find-command-keybindings* % keymap)))
+  (println "Searching " (count keymap) "keybindings...")
+  (input/popup
+   input/basic-input
+   #(find-command-keybindings* % keymap)
+   :placeholder "regex"
+   :header "Enter command regex"))
 
 ;; consider a separate cmd that pulls result using autocompleted widget
 (cmd/command {:command :ltfiles.find-command-keybindings
               :desc "ltfiles: Finds keybinds that use a command for the given regex"
               ;; pull out keymap early so it searches a broader set
               ;; reading keymap inside a command or input narrows visible keys
+              ;; Note: this may only be pulling the right keys when repl testing
               :exec (partial find-command-keybindings @keyboard/key-map)})
 
 (comment
-  (search-keybindings "eval.custom" @keyboard/key-map)
+  (find-command-keybindings @keyboard/key-map)
   (keyboard/cmd->current-binding :ltfiles.tab-open-current-url)
   (->> @keyboard/key-map vals (take 5)))

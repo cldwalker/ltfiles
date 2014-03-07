@@ -22,11 +22,13 @@
   (doto (object/create ::basic-input)
       (object/merge! attrs)))
 
-(def url-input (->input {:placeholder "URL"}))
+(def basic-input (->input {:placeholder ""}))
 
 ;; TODO: focus should be on input, not cancel
 ;; autofocus nor tabindex work
 (defn popup [input-obj action-fn & {:as opts}]
+  (when (:placeholder opts)
+    (object/merge! input-obj (select-keys opts [:placeholder])))
   (popup/popup! {:header  (or (:header opts) "Enter value")
                  :body (input input-obj)
                  :buttons [{:label "Submit"
@@ -37,7 +39,8 @@
 
 (comment
   (do
-    (popup url-input #(prn "SUBMIT" %)
+    (popup basic-input #(prn "SUBMIT" %)
+           :placeholder "URL"
            :header "Enter url")
     (.focus (-> @basic-input :content)))
   )

@@ -45,7 +45,9 @@
     (notifos/set-msg! (str "Plugin " plugin " not found"))))
 
 (defn system-open-plugin-changelog []
-  (input/popup input/url-input open-plugin-changelog))
+  (input/popup input/basic-input open-plugin-changelog
+               :header "Enter Plugin"
+               :placeholder "PLUGIN"))
 
 ;; useful to see before upgrading
 (cmd/command {:command :ltfiles.system-open-plugin-changelog
