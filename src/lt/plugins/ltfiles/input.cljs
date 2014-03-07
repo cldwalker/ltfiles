@@ -7,14 +7,14 @@
   (:require-macros [lt.macros :refer [defui behavior]]))
 
 (defui input [this]
-  [:input.option {:type "text" :placeholder (bound this :placeholder) :value (bound this #(str (:value %)))}]
+  [:input.option {:type "text" :placeholder (bound this :placeholder)}]
+  ;; this is a hack to get at the input value on submit
   :keyup (fn [e]
            (this-as me
-                    (println "input: " (dom/val me)))))
+                    (swap! this assoc :input-value (dom/val me)))))
 
 (object/object* ::basic-input
                 :tags #{:basic-input}
-                :commit (atom nil)
                 :init (fn [this opts]
                         (input this)))
 
@@ -22,16 +22,22 @@
   (doto (object/create ::basic-input)
       (object/merge! attrs)))
 
-(def basic-input (->input {:placeholder "todo"}))
+(def url-input (->input {:placeholder "URL"}))
 
-
-(comment
-  ;; TODO
-  (popup/popup! {:header  "Enter something"
-                 :body (input basic-input)
+;; TODO: focus should be on input, not cancel
+;; autofocus nor tabindex work
+(defn popup [input-obj action-fn & {:as opts}]
+  (popup/popup! {:header  (or (:header opts) "Enter value")
+                 :body (input input-obj)
                  :buttons [{:label "Submit"
                             :action (fn []
-                                      (prn "SUBMIT"))}
-                           {:label "Cancel"
-                            :action (fn [] (prn "CANCEL"))}]})
+                                      ;; why can't we just read from the input elem here?
+                                      (action-fn (-> input-obj deref :input-value))) }
+                           {:label "Cancel"}]}))
+
+(comment
+  (do
+    (popup url-input #(prn "SUBMIT" %)
+           :header "Enter url")
+    (.focus (-> @basic-input :content)))
   )

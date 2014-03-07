@@ -2,7 +2,10 @@
   "Browser related commands"
   (:require [lt.objs.tabs :as tabs]
             [lt.plugins.ltfiles.util :as util]
+            [lt.plugins.ltfiles.input :as input]
             [lt.objs.platform :as platform]
+            [lt.objs.app :as app]
+            [lt.objs.notifos :as notifos]
             [lt.objs.command :as cmd]))
 
 (defn tab-open-current-url []
@@ -31,6 +34,23 @@
 (cmd/command {:command :ltfiles.system-open-current-url
               :desc "ltfiles: opens url under cursor in system browser"
               :exec system-open-current-url})
+
+;; could use github api to see if there's an actual changelog
+(defn open-plugin-changelog [plugin]
+  (if-let [url (some-> (:lt.objs.plugins/plugins @app/app)
+                       (get plugin)
+                       (as-> m
+                             (str (:source m) "/compare/" (:version m) "...master") ))]
+    (platform/open url)
+    (notifos/set-msg! (str "Plugin " plugin " not found"))))
+
+(defn system-open-plugin-changelog []
+  (input/popup input/url-input open-plugin-changelog))
+
+;; useful to see before upgrading
+(cmd/command {:command :ltfiles.system-open-plugin-changelog
+              :desc "ltfiles: opens changelog/diff of plugin"
+              :exec system-open-plugin-changelog})
 
 (comment
   (util/sh "ls")

@@ -25,7 +25,8 @@
                                       "<Space>k" ":ltexec keymap.modify-user"
                                       "<Space>oi" ":ltexec ltfiles.tab-open-current-url"
                                       "<Space>oo" ":ltexec ltfiles.system-open-current-url"
-                                      "<Space>p" ":ltexec plugin-manager.show"
+                                      "<Space>pc" ":ltexec ltfiles.system-open-plugin-changelog"
+                                      "<Space>pm" ":ltexec plugin-manager.show"
                                       "<Space>r" ":ltexec ltfiles.refresh-current-workspace-folder"
                                       ; t - for toggle
                                       "<Space>tc" ":ltexec toggle-console"
