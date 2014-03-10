@@ -152,53 +152,53 @@ goog.require('lt.plugins.ltfiles.input');
 goog.require('lt.plugins.ltfiles.util');
 goog.require('lt.plugins.ltfiles.util');
 goog.require('lt.objs.command');
-lt.plugins.ltfiles.browse.tab_open_current_url = (function tab_open_current_url(){var current_word = lt.plugins.ltfiles.util.current_word.call(null);var pre_commands = (((cljs.core.count.call(null,new cljs.core.Keyword(null,"tabsets","tabsets",3756175576).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.tabs.multi))) < 2))?new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"tabset.new","tabset.new",1444331601)], null):cljs.core.PersistentVector.EMPTY);var commands = cljs.core.into.call(null,pre_commands,new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"add-browser-tab","add-browser-tab",3663273910),new cljs.core.Keyword(null,"tabs.move-next-tabset","tabs.move-next-tabset",3557293229),new cljs.core.Keyword(null,"browser.url-bar.focus","browser.url-bar.focus",3353788299),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"browser.url-bar.navigate!","browser.url-bar.navigate!",1014303491),current_word], null),new cljs.core.Keyword(null,"browser.focus-content","browser.focus-content",1148241840)], null));var seq__8405 = cljs.core.seq.call(null,commands);var chunk__8406 = null;var count__8407 = 0;var i__8408 = 0;while(true){
-if((i__8408 < count__8407))
-{var c = cljs.core._nth.call(null,chunk__8406,i__8408);if(cljs.core.coll_QMARK_.call(null,c))
+lt.plugins.ltfiles.browse.tab_open_current_url = (function tab_open_current_url(){var current_word = lt.plugins.ltfiles.util.current_word.call(null);var pre_commands = (((cljs.core.count.call(null,new cljs.core.Keyword(null,"tabsets","tabsets",3756175576).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.tabs.multi))) < 2))?new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"tabset.new","tabset.new",1444331601)], null):cljs.core.PersistentVector.EMPTY);var commands = cljs.core.into.call(null,pre_commands,new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"add-browser-tab","add-browser-tab",3663273910),new cljs.core.Keyword(null,"tabs.move-next-tabset","tabs.move-next-tabset",3557293229),new cljs.core.Keyword(null,"browser.url-bar.focus","browser.url-bar.focus",3353788299),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"browser.url-bar.navigate!","browser.url-bar.navigate!",1014303491),current_word], null),new cljs.core.Keyword(null,"browser.focus-content","browser.focus-content",1148241840)], null));var seq__8249 = cljs.core.seq.call(null,commands);var chunk__8250 = null;var count__8251 = 0;var i__8252 = 0;while(true){
+if((i__8252 < count__8251))
+{var c = cljs.core._nth.call(null,chunk__8250,i__8252);if(cljs.core.coll_QMARK_.call(null,c))
 {cljs.core.apply.call(null,lt.objs.command.exec_BANG_,c);
 } else
 {lt.objs.command.exec_BANG_.call(null,c);
 }
 {
-var G__8411 = seq__8405;
-var G__8412 = chunk__8406;
-var G__8413 = count__8407;
-var G__8414 = (i__8408 + 1);
-seq__8405 = G__8411;
-chunk__8406 = G__8412;
-count__8407 = G__8413;
-i__8408 = G__8414;
+var G__8265 = seq__8249;
+var G__8266 = chunk__8250;
+var G__8267 = count__8251;
+var G__8268 = (i__8252 + 1);
+seq__8249 = G__8265;
+chunk__8250 = G__8266;
+count__8251 = G__8267;
+i__8252 = G__8268;
 continue;
 }
 } else
-{var temp__4092__auto__ = cljs.core.seq.call(null,seq__8405);if(temp__4092__auto__)
-{var seq__8405__$1 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__8405__$1))
-{var c__7497__auto__ = cljs.core.chunk_first.call(null,seq__8405__$1);{
-var G__8415 = cljs.core.chunk_rest.call(null,seq__8405__$1);
-var G__8416 = c__7497__auto__;
-var G__8417 = cljs.core.count.call(null,c__7497__auto__);
-var G__8418 = 0;
-seq__8405 = G__8415;
-chunk__8406 = G__8416;
-count__8407 = G__8417;
-i__8408 = G__8418;
+{var temp__4092__auto__ = cljs.core.seq.call(null,seq__8249);if(temp__4092__auto__)
+{var seq__8249__$1 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,seq__8249__$1))
+{var c__7497__auto__ = cljs.core.chunk_first.call(null,seq__8249__$1);{
+var G__8269 = cljs.core.chunk_rest.call(null,seq__8249__$1);
+var G__8270 = c__7497__auto__;
+var G__8271 = cljs.core.count.call(null,c__7497__auto__);
+var G__8272 = 0;
+seq__8249 = G__8269;
+chunk__8250 = G__8270;
+count__8251 = G__8271;
+i__8252 = G__8272;
 continue;
 }
 } else
-{var c = cljs.core.first.call(null,seq__8405__$1);if(cljs.core.coll_QMARK_.call(null,c))
+{var c = cljs.core.first.call(null,seq__8249__$1);if(cljs.core.coll_QMARK_.call(null,c))
 {cljs.core.apply.call(null,lt.objs.command.exec_BANG_,c);
 } else
 {lt.objs.command.exec_BANG_.call(null,c);
 }
 {
-var G__8419 = cljs.core.next.call(null,seq__8405__$1);
-var G__8420 = null;
-var G__8421 = 0;
-var G__8422 = 0;
-seq__8405 = G__8419;
-chunk__8406 = G__8420;
-count__8407 = G__8421;
-i__8408 = G__8422;
+var G__8273 = cljs.core.next.call(null,seq__8249__$1);
+var G__8274 = null;
+var G__8275 = 0;
+var G__8276 = 0;
+seq__8249 = G__8273;
+chunk__8250 = G__8274;
+count__8251 = G__8275;
+i__8252 = G__8276;
 continue;
 }
 }
@@ -213,8 +213,8 @@ lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new
 lt.plugins.ltfiles.browse.system_open_current_url = (function system_open_current_url(){return lt.objs.platform.open.call(null,lt.plugins.ltfiles.util.current_word.call(null));
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.system-open-current-url","ltfiles.system-open-current-url",3961612393),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: opens url under cursor in system browser",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.ltfiles.browse.system_open_current_url], null));
-lt.plugins.ltfiles.browse.open_plugin_changelog = (function open_plugin_changelog(plugin){var temp__4090__auto__ = (function (){var G__8410 = new cljs.core.Keyword("lt.objs.plugins","plugins","lt.objs.plugins/plugins",2920328683).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.app.app));var G__8410__$1 = (((G__8410 == null))?null:cljs.core.get.call(null,G__8410,plugin));var G__8410__$2 = (((G__8410__$1 == null))?null:(function (){var m = G__8410__$1;var m__$1 = [cljs.core.str(new cljs.core.Keyword(null,"source","source",4412365709).cljs$core$IFn$_invoke$arity$1(m)),cljs.core.str("/compare/"),cljs.core.str(new cljs.core.Keyword(null,"version","version",1365512266).cljs$core$IFn$_invoke$arity$1(m)),cljs.core.str("...master")].join('');return m__$1;
-})());return G__8410__$2;
+lt.plugins.ltfiles.browse.open_plugin_changelog = (function open_plugin_changelog(plugin){var temp__4090__auto__ = (function (){var G__8254 = new cljs.core.Keyword("lt.objs.plugins","plugins","lt.objs.plugins/plugins",2920328683).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.app.app));var G__8254__$1 = (((G__8254 == null))?null:cljs.core.get.call(null,G__8254,plugin));var G__8254__$2 = (((G__8254__$1 == null))?null:(function (){var m = G__8254__$1;var m__$1 = [cljs.core.str(new cljs.core.Keyword(null,"source","source",4412365709).cljs$core$IFn$_invoke$arity$1(m)),cljs.core.str("/compare/"),cljs.core.str(new cljs.core.Keyword(null,"version","version",1365512266).cljs$core$IFn$_invoke$arity$1(m)),cljs.core.str("...master")].join('');return m__$1;
+})());return G__8254__$2;
 })();if(cljs.core.truth_(temp__4090__auto__))
 {var url = temp__4090__auto__;return lt.objs.platform.open.call(null,url);
 } else
@@ -234,7 +234,7 @@ goog.require('lt.objs.command');
 goog.require('lt.objs.command');
 goog.require('lt.objs.keyboard');
 goog.require('lt.objs.keyboard');
-lt.plugins.ltfiles.keybindings.search_keybindings = (function search_keybindings(query,key_map){return cljs.core.filter.call(null,(function (p__8456){var vec__8457 = p__8456;var k = cljs.core.nth.call(null,vec__8457,0,null);var v = cljs.core.nth.call(null,vec__8457,1,null);return cljs.core.some.call(null,(function (p1__8453_SHARP_){return cljs.core.re_find.call(null,cljs.core.re_pattern.call(null,query),[cljs.core.str(p1__8453_SHARP_)].join(''));
+lt.plugins.ltfiles.keybindings.search_keybindings = (function search_keybindings(query,key_map){return cljs.core.filter.call(null,(function (p__8378){var vec__8379 = p__8378;var k = cljs.core.nth.call(null,vec__8379,0,null);var v = cljs.core.nth.call(null,vec__8379,1,null);return cljs.core.some.call(null,(function (p1__8375_SHARP_){return cljs.core.re_find.call(null,cljs.core.re_pattern.call(null,query),[cljs.core.str(p1__8375_SHARP_)].join(''));
 }),v);
 }),key_map);
 });
@@ -242,7 +242,7 @@ lt.plugins.ltfiles.keybindings.find_command_keybindings_STAR_ = (function find_c
 return cljs.core.prn.call(null,results);
 });
 lt.plugins.ltfiles.keybindings.find_command_keybindings = (function find_command_keybindings(keymap){cljs.core.println.call(null,"Searching ",cljs.core.count.call(null,keymap),"keybindings...");
-return lt.plugins.ltfiles.input.popup.call(null,lt.plugins.ltfiles.input.basic_input,(function (p1__8458_SHARP_){return lt.plugins.ltfiles.keybindings.find_command_keybindings_STAR_.call(null,p1__8458_SHARP_,keymap);
+return lt.plugins.ltfiles.input.popup.call(null,lt.plugins.ltfiles.input.basic_input,(function (p1__8380_SHARP_){return lt.plugins.ltfiles.keybindings.find_command_keybindings_STAR_.call(null,p1__8380_SHARP_,keymap);
 }),new cljs.core.Keyword(null,"placeholder","placeholder",1612151013),"regex",new cljs.core.Keyword(null,"header","header",4087600639),"Enter command regex");
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.find-command-keybindings","ltfiles.find-command-keybindings",575437544),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: Finds keybinds that use a command for the given regex",new cljs.core.Keyword(null,"exec","exec",1017031683),cljs.core.partial.call(null,lt.plugins.ltfiles.keybindings.find_command_keybindings,cljs.core.deref.call(null,lt.objs.keyboard.key_map))], null));

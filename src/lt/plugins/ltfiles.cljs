@@ -9,7 +9,6 @@
             [lt.objs.files :as files]
             [lt.plugins.ltfiles.util :as util]
             [lt.objs.clients.local :as local]
-            #_[goog.string]
             [lt.objs.command :as cmd]))
 
 ;; cmds to toggle behaviors by changing workspace behavior
@@ -137,7 +136,7 @@
               :desc "ltfiles: Refreshes current workspace folder"
               :exec refresh-current-folder})
 
-;; faster than mousing around
+;; Faster than mousing around. Only needs to be done once
 (cmd/command {:command :ltfiles.connect-to-lt-ui
               :desc "ltfiles: Connect to LT UI via a keystroke"
               :exec local/init})
@@ -155,6 +154,4 @@
 
   (when-let [ed (pool/last-active)]
     )
-  (clojure.string/split (.-source lt.objs.files/ignore-pattern) #"\|")
-  (re-find (prn lt.objs.files/ignore-pattern) #"e$" #_(re-pattern (goog.string/regExpEscape "e$")) "me$dude")
   )
