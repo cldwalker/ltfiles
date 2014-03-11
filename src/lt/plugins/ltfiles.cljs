@@ -142,6 +142,7 @@
               :exec local/init})
 
 (comment
+
   (do
     (def win (app/open-window))
     (.on win "focus"
@@ -151,7 +152,7 @@
            (.on win "focus" (fn []
                               (object/raise app :focus))))
     (.focus win))
-
   (when-let [ed (pool/last-active)]
-    )
+      )
+
   )

@@ -4,8 +4,8 @@
      :app [(:lt.objs.style/set-skin "dark")
            ;; only works on > 0.6.4 e.g. master
            (:lt.objs.app/set-default-zoom-level -0.5)
-           (:lt.plugins.vim/map-keys {"-" "$",
-                                      "0" "^",
+           (:lt.plugins.vim/map-keys {"0" "^",
+                                      "-" ":ltexec ltfiles.find-next-clojure-word",
                                       "j" "gj",
                                       "k" "gk"
                                       ;"v" ":ltexec ltfiles.vim-visual-mode"
