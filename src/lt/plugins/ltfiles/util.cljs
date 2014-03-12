@@ -7,7 +7,7 @@
   [string cursor]
   (str
    (re-find #"\S+$" (subs string 0 cursor))
-   (re-find #"\S+" (subs string cursor))))
+   (re-find #"^\S+" (subs string cursor))))
 
 (defn current-word
   "Current word under cursor"
@@ -30,3 +30,8 @@
          (fn [err stdout stderr]
            (when (seq stdout) (println "STDOUT: " stdout))
            (when (seq stderr) (println "STDERR: " stderr)))))
+
+(comment
+ (assert (= "this" (current-word* "this is a test" 3)))
+ (assert (= "this" (current-word* "this is a test" 4)))
+  )
