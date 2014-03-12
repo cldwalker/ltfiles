@@ -11,6 +11,7 @@
               "alt-g" [:gitbeam.out-with-external-browser]
               "alt-shift-g" [:gitbeam.out-with-internal-browser]
               "alt-c" [:gitbeam.out-with-clipboard-copy]
+              "alt-shift-c" [:ltfiles.copy-current-inline-result]
 
               "cmd-=" [:paredit.select.parent :smart-indent-selection :paredit.select.clear]
               ;;Eval the parent ( ... )

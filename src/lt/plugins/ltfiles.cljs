@@ -61,26 +61,6 @@
 ;; Misc
 ;; ----
 
-;; Caution: This will not find an inline result if it moves a different line after the eval
-(defn toggle-current-inline-result []
-  (when-let [ed (pool/last-active)]
-    (let [current-line (if (editor/selection? ed)
-                         (-> ed editor/selection-bounds :to :line)
-                         (:line (editor/->cursor ed)))]
-      (when-let [inline (->> (:widgets @ed)
-                             (some (fn [[[l t] widget]]
-                                     (when (and (= t :inline)
-                                                (= current-line (editor/lh->line ed l)))
-                                       widget))))]
-        (if (:open @inline)
-          (object/raise inline :double-click)
-          (object/raise inline :click))))))
-
-;; This also works for a selection. Note: you cannot bind this to vim/map-keys
-;; because something about invoking it disables s selection
-(cmd/command {:command :ltfiles.toggle-current-inline-result
-              :desc "ltfiles: toggles current inline result"
-              :exec toggle-current-inline-result})
 
 ;; open console log so I can search console!
 (defn open-console-log-file []
@@ -142,7 +122,6 @@
               :exec local/init})
 
 (comment
-
   (do
     (def win (app/open-window))
     (.on win "focus"
@@ -154,5 +133,4 @@
     (.focus win))
   (when-let [ed (pool/last-active)]
       )
-
   )

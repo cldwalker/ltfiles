@@ -31,6 +31,11 @@
            (when (seq stdout) (println "STDOUT: " stdout))
            (when (seq stderr) (println "STDERR: " stderr)))))
 
+(defn copy
+  "Platform-independent copy"
+  [text]
+  (.set (.Clipboard.get (js/require "nw.gui")) text "text"))
+
 (comment
  (assert (= "this" (current-word* "this is a test" 3)))
  (assert (= "this" (current-word* "this is a test" 4)))
