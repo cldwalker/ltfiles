@@ -50,5 +50,7 @@
                                                                  __|(str (float (/ (- (java.lang.System/nanoTime) start) 1000000)) \" ms\")|__
                                                                  res)" {:class "timed" :verbatim true})]}
      :editor.cljs {"alt-p" [(:eval.custom "(.log js/console __SELECTION__)" {:result-type :inline :verbatim true})]
-                   "alt-shift-p" [(:eval.custom "(prn __SELECTION__)" {:result-type :inline :verbatim true})]}}
+                   "alt-shift-p" [(:eval.custom "(prn __SELECTION__)" {:result-type :inline :verbatim true})]
+                   ;; Sorts a clojure :require statement. Doesn't pretty print it yet
+                   "alt-r" [(:eval.custom "(cons (first '__SELECTION__) (sort (rest '__SELECTION__)))" {:result-type :replace :verbatim false})]}}
  }
