@@ -3,7 +3,6 @@
             [lt.objs.workspace :as workspace]
             [lt.objs.notifos :as notifos]
             [lt.objs.settings :as settings]
-            [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
             [lt.objs.app :as app]
             [lt.objs.files :as files]

@@ -23,11 +23,9 @@
 
 (defn toggle-current-inline-result []
   (when-let [inline (current-inline-widget)]
-        ;(prn (:result @inline))
-        ;(util/copy (:result @inline))
-        (if (:open @inline)
-          (object/raise inline :double-click)
-          (object/raise inline :click))))
+    (if (:open @inline)
+      (object/raise inline :double-click)
+      (object/raise inline :click))))
 
 (defn copy-current-inline-result []
   (when-let [inline (current-inline-widget)]

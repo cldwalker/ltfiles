@@ -25,6 +25,7 @@
                                       "<Space>k" ":ltexec keymap.modify-user"
                                       "<Space>oi" ":ltexec ltfiles.tab-open-current-url"
                                       "<Space>oo" ":ltexec ltfiles.system-open-current-url"
+                                      "<Space>or" ":ltexec workspace.show-recents"
                                       "<Space>pc" ":ltexec ltfiles.system-open-plugin-changelog"
                                       "<Space>pm" ":ltexec plugin-manager.show"
                                       "<Space>r" ":ltexec ltfiles.refresh-current-workspace-folder"
