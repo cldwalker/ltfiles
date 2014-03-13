@@ -33,11 +33,23 @@
               :desc "ltfiles: reselects last visual mode turned off by :ltfiles.vim-visual-mode"
               :exec vim-reselect-visual})
 
+;; exact same as lt.objs.files except for {:indent true}
+;; TODO: PR upstream
+(cmd/command {:command :ltfiles.toggle-comment-selection
+              :desc "Editor: Toggle comment line(s)"
+              :exec (fn []
+                      (when-let [cur (pool/last-active)]
+                        (let [cursor (editor/->cursor cur "start")
+                              [start end] (if (editor/selection? cur)
+                                            [cursor (editor/->cursor cur "end")]
+                                            [cursor cursor])]
+                          (when-not (editor/uncomment cur start end)
+                            (editor/line-comment cur cursor (editor/->cursor cur "end") {:indent true})))))})
 
 (defn vim-toggle-comment-selection
   "Turns off visual mode, v or V, after comment operation"
   []
-  (cmd/exec! :toggle-comment-selection)
+  (cmd/exec! :ltfiles.toggle-comment-selection)
   (when (editor/selection? (pool/last-active))
     (if (-> (util/current-ed) .-state .-vim .-visualLine)
       (cmd/exec! :vim.send-key "V")
