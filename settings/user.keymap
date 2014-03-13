@@ -40,12 +40,13 @@
      ;; Broken alt combos: i,e
      ;; thanks to https://github.com/jamii/lt-config/
      :editor.clj {"alt-p" [(:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:result-type :inline :verbatim true})]
+                  "alt-shift-p" [(:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:result-type :replace :verbatim true})]
                   "alt-m" [(:eval.custom "(with-out-str (clojure.pprint/write (macroexpand-1 '__SELECTION__) :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:result-type :inline :verbatim true})]
                   "alt-b" [(:eval.custom "(with-out-str (time (do __SELECTION__)))" {:result-type :inline :verbatim true})]
                   "alt-r" [(:eval.custom "(clojure.test/run-tests)" {:result-type :statusbar})]
                   "alt-shift-b" [(:eval.custom "(do (require '[criterium.core]) (with-out-str (criterium.core/bench (do __SELECTION__))))" {:result-type :inline :verbatim true})]
                   ;; watches
-                  "alt-shift-p" [(:editor.watch.custom-watch-selection "(let [result (do __SELECTION__)] (prn __SELECTION*__ result) __|result|__ result)" {})]
+                  "alt-shift-t" [(:editor.watch.custom-watch-selection "(let [result (do __SELECTION__)] (prn __SELECTION*__ result) __|result|__ result)" {})]
                   "alt-t" [(:editor.watch.custom-watch-selection "(let [start (java.lang.System/nanoTime)
                                                                  res (do __SELECTION__)]
                                                                  __|(str (float (/ (- (java.lang.System/nanoTime) start) 1000000)) \" ms\")|__
