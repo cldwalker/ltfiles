@@ -19,6 +19,34 @@ lt.plugins.ltfiles.util.current_word = (function current_word(){var temp__4092__
 {return null;
 }
 });
+/**
+* Returns a line of the current file relative to the cursor. Returns current line by default
+*/
+lt.plugins.ltfiles.util.relative_line = (function() {
+var relative_line = null;
+var relative_line__0 = (function (){return relative_line.call(null,0);
+});
+var relative_line__1 = (function (offset){var ed = lt.objs.editor.pool.last_active.call(null);var line_num = (offset + new cljs.core.Keyword(null,"line","line",1017226086).cljs$core$IFn$_invoke$arity$1(lt.objs.editor.__GT_cursor.call(null,ed)));return lt.objs.editor.line.call(null,ed,line_num);
+});
+relative_line = function(offset){
+switch(arguments.length){
+case 0:
+return relative_line__0.call(this);
+case 1:
+return relative_line__1.call(this,offset);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+relative_line.cljs$core$IFn$_invoke$arity$0 = relative_line__0;
+relative_line.cljs$core$IFn$_invoke$arity$1 = relative_line__1;
+return relative_line;
+})()
+;
+/**
+* CodeMirror object for current editor
+*/
+lt.plugins.ltfiles.util.current_ed = (function current_ed(){return lt.objs.editor.__GT_cm_ed.call(null,lt.objs.editor.pool.last_active.call(null));
+});
 lt.plugins.ltfiles.util.parent_QMARK_ = (function parent_QMARK_(parent_path,path){return cljs.core.re_find.call(null,cljs.core.re_pattern.call(null,[cljs.core.str("^"),cljs.core.str(parent_path)].join('')),path);
 });
 lt.plugins.ltfiles.util.current_file = (function current_file(){return new cljs.core.Keyword(null,"path","path",1017337751).cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"info","info",1017141280).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.editor.pool.last_active.call(null))));
@@ -330,14 +358,16 @@ lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new
 if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.vim')) {
 goog.provide('lt.plugins.ltfiles.vim');
 goog.require('cljs.core');
-goog.require('lt.objs.command');
-goog.require('lt.objs.command');
-goog.require('lt.plugins.vim');
 goog.require('lt.plugins.vim');
 goog.require('lt.objs.editor.pool');
+goog.require('lt.objs.command');
+goog.require('lt.plugins.vim');
+goog.require('lt.objs.editor');
+goog.require('lt.objs.editor');
+goog.require('lt.plugins.ltfiles.util');
+goog.require('lt.plugins.ltfiles.util');
 goog.require('lt.objs.editor.pool');
-goog.require('lt.objs.editor');
-goog.require('lt.objs.editor');
+goog.require('lt.objs.command');
 lt.plugins.ltfiles.vim.last_selection = null;
 lt.plugins.ltfiles.vim.visual_mode_with_history = (function visual_mode_with_history(){var temp__4092__auto__ = lt.objs.editor.pool.last_active.call(null);if(cljs.core.truth_(temp__4092__auto__))
 {var ed = temp__4092__auto__;if(cljs.core.truth_(lt.objs.editor.selection_QMARK_.call(null,ed)))
@@ -366,7 +396,7 @@ lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new
 */
 lt.plugins.ltfiles.vim.vim_toggle_comment_selection = (function vim_toggle_comment_selection(){lt.objs.command.exec_BANG_.call(null,new cljs.core.Keyword(null,"toggle-comment-selection","toggle-comment-selection",4499822807));
 if(cljs.core.truth_(lt.objs.editor.selection_QMARK_.call(null,lt.objs.editor.pool.last_active.call(null))))
-{if(cljs.core.truth_(lt.objs.editor.__GT_cm_ed.call(null,lt.objs.editor.pool.last_active.call(null)).state.vim.visualLine))
+{if(cljs.core.truth_(lt.plugins.ltfiles.util.current_ed.call(null).state.vim.visualLine))
 {return lt.objs.command.exec_BANG_.call(null,new cljs.core.Keyword(null,"vim.send-key","vim.send-key",3422058848),"V");
 } else
 {return lt.objs.command.exec_BANG_.call(null,new cljs.core.Keyword(null,"vim.send-key","vim.send-key",3422058848),"v");
@@ -376,6 +406,18 @@ if(cljs.core.truth_(lt.objs.editor.selection_QMARK_.call(null,lt.objs.editor.poo
 }
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.vim-toggle-comment-selection","ltfiles.vim-toggle-comment-selection",2683966153),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: toggle comment selection that also handles visual mode",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.ltfiles.vim.vim_toggle_comment_selection], null));
+lt.plugins.ltfiles.vim.set_vim_yank = (function set_vim_yank(text){return CodeMirror.Vim.getRegisterController.call(null).unamedRegister.set(text,true);
+});
+lt.plugins.ltfiles.vim.replace_prefix_whitespace_for_latest_yank = (function replace_prefix_whitespace_for_latest_yank(new_wspace){return lt.plugins.ltfiles.vim.set_vim_yank.call(null,[cljs.core.str(new_wspace),cljs.core.str(cljs.core.second.call(null,cljs.core.re_find.call(null,/^\s*(.*)/,CodeMirror.Vim.getRegisterController.call(null).unamedRegister.text))),cljs.core.str("\n")].join(''));
+});
+lt.plugins.ltfiles.vim.vim_indent_paste_above = (function vim_indent_paste_above(){lt.plugins.ltfiles.vim.replace_prefix_whitespace_for_latest_yank.call(null,cljs.core.re_find.call(null,/^\s*/,lt.plugins.ltfiles.util.relative_line.call(null)));
+return CodeMirror.Vim.handleKey(lt.plugins.ltfiles.util.current_ed.call(null),"P");
+});
+lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.vim-indent-paste-above","ltfiles.vim-indent-paste-above",4373301030),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: P current yank at current indent",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.ltfiles.vim.vim_indent_paste_above], null));
+lt.plugins.ltfiles.vim.vim_indent_paste_below = (function vim_indent_paste_below(){lt.plugins.ltfiles.vim.replace_prefix_whitespace_for_latest_yank.call(null,cljs.core.re_find.call(null,/^\s*/,lt.plugins.ltfiles.util.relative_line.call(null)));
+return CodeMirror.Vim.handleKey(lt.plugins.ltfiles.util.current_ed.call(null),"p");
+});
+lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.vim-indent-paste-below","ltfiles.vim-indent-paste-below",4374310842),new cljs.core.Keyword(null,"desc","desc",1016984067),"p current yank at current indent",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.ltfiles.vim.vim_indent_paste_below], null));
 }
 if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.clojure')) {
 goog.provide('lt.plugins.ltfiles.clojure');

@@ -17,6 +17,22 @@
       (current-word* (editor/line ed (:line cursor))
                     (:ch cursor)))))
 
+(defn relative-line
+  "Returns a line of the current file relative to the cursor. Returns current line by default"
+  ([] (relative-line 0))
+  ([offset]
+   (let [ed (pool/last-active)
+         line-num (+ offset
+                     (:line (editor/->cursor ed)))]
+     (editor/line ed line-num))))
+
+;; Same as lt.objs.find/current-ed
+;; Could use it but dependence on that ns seems weird and subject to change
+(defn current-ed
+  "CodeMirror object for current editor"
+  []
+  (editor/->cm-ed (pool/last-active)))
+
 (defn parent? [parent-path path]
   (re-find (re-pattern (str "^" parent-path)) path))
 

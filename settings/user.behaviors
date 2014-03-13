@@ -8,8 +8,10 @@
                                       "-" ":ltexec ltfiles.find-next-clojure-word",
                                       "j" "gj",
                                       "k" "gk"
-                                      ;"v" ":ltexec ltfiles.vim-visual-mode"
                                       "gv" ":ltexec ltfiles.vim-reselect-visual"
+                                      "[p" ":ltexec ltfiles.vim-indent-paste-above"
+                                      "]p" ":ltexec ltfiles.vim-indent-paste-below"
+
                                       ;; <Space> is a leader key in normal mode
                                       "<Space>b" ":ltexec behaviors.modify-user"
                                       ; c - for cancel/clear/kill actions
@@ -36,6 +38,7 @@
                                       "<Space>v" ":ltexec tabset.new"
                                       "<Space>w" ":ltexec workspace.show"
                                       "<Space>x" ":ltexec tabset.close"
+
                                       ;; \\ is leader key for paredit
                                       ;; loosely inspired by https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
                                       "\\." ":ltexec paredit.grow.right"
