@@ -8,7 +8,8 @@
                                       "-" ":ltexec ltfiles.find-next-clojure-word",
                                       "j" "gj",
                                       "k" "gk"
-                                      "gv" ":ltexec ltfiles.vim-reselect-visual"
+                                      ;; assumes running with a CM that has an updated vim.js
+                                      ;"gv" ":ltexec ltfiles.vim-reselect-visual"
                                       "[p" ":ltexec ltfiles.vim-indent-paste-above"
                                       "]p" ":ltexec ltfiles.vim-indent-paste-below"
 

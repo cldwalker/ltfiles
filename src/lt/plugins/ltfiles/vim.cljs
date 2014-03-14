@@ -36,7 +36,7 @@
 ;; exact same as lt.objs.files except for {:indent true}
 ;; TODO: PR upstream
 (cmd/command {:command :ltfiles.toggle-comment-selection
-              :desc "Editor: Toggle comment line(s)"
+              :desc "ltfiles: Toggle comment line(s)"
               :exec (fn []
                       (when-let [cur (pool/last-active)]
                         (let [cursor (editor/->cursor cur "start")

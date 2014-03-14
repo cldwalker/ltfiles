@@ -98,6 +98,11 @@
               :desc "ltfiles: Save plugins to :dependencies of personal plugin"
               :exec save-plugins})
 
+(cmd/command {:command :ltfiles.add-plugins-folder
+              :desc "ltfiles: Add plugins folder to current workspace"
+              :exec (fn []
+                      (object/raise workspace/current-ws :add.folder! (files/lt-user-dir "plugins")))})
+
 ;; assumes only one instance of current folder is open across workspaces
 (defn refresh-current-folder []
   (if-let [ws-folder (some
@@ -119,6 +124,10 @@
 (cmd/command {:command :ltfiles.connect-to-lt-ui
               :desc "ltfiles: Connect to LT UI via a keystroke"
               :exec local/init})
+
+(cmd/command {:command :ltfiles.print-current-file
+              :desc "ltfiles: Print current file path"
+              :exec (fn [] (notifos/set-msg! (str "Current path is " (util/current-file))))})
 
 (comment
   (do
