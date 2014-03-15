@@ -19,16 +19,6 @@
                            :eval-editor-form
                            :paredit.select.clear]}
 
-     :editor.keys.normal {
-                          ;;; for leader keys that work in normal mode see :vim/map-keys in behaviors
-                          ;;; cmd-/ is a leader for multi-command keys - must be in insert mode :(
-
-                          "cmd-/ c" [:tabset.new :tabset.next :console-tab]
-                          ;; open browser tab with focus to type url
-                          "cmd-/ o" [:add-browser-tab :browser.url-bar.focus]
-                          ;; view current html in a split window
-                          "cmd-/ s" [:tabset.new :tabset.next :editor.open-current-file-in-browser]}
-
      :editor.keys.vim.normal { ;;Select the parent expression, whether that's [], {}, or ()
                               "cmd-," [:paredit.select.parent]
                               "cmd-;" [:ltfiles.vim-toggle-comment-selection]}

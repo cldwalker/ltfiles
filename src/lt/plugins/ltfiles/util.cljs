@@ -1,5 +1,6 @@
 (ns lt.plugins.ltfiles.util
   (:require [lt.objs.editor :as editor]
+            [lt.objs.command :as cmd]
             [lt.objs.editor.pool :as pool]))
 
 (defn current-word*
@@ -51,6 +52,14 @@
   "Platform-independent copy"
   [text]
   (.set (.Clipboard.get (js/require "nw.gui")) text "text"))
+
+(defn exec-commands
+  "Execs a vec of commands - same format as a user.keymap vec"
+  [commands]
+  (doseq [c commands]
+      (if (coll? c)
+        (apply cmd/exec! c)
+        (cmd/exec! c))))
 
 (comment
  (assert (= "this" (current-word* "this is a test" 3)))

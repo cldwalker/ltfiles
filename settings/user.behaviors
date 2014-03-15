@@ -4,6 +4,7 @@
      :app [(:lt.objs.style/set-skin "dark")
            ;; only works on > 0.6.4 e.g. master
            (:lt.objs.app/set-default-zoom-level -0.5)
+           ;; :ltexec_clj is a custom ex_command from my vim.cljs
            (:lt.plugins.vim/map-keys {"0" "^",
                                       "-" ":ltexec ltfiles.find-next-clojure-word",
                                       "j" "gj",
@@ -26,6 +27,9 @@
                                       "<Space>go" ":ltexec gitbeam.out-with-external-browser"
                                       "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
                                       "<Space>k" ":ltexec keymap.modify-user"
+                                      "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
+                                      "<Space>oc" ":ltexec_clj [:tabset.new :tabset.next :console-tab]"
+                                      "<Space>of" ":ltexec_clj [:tabset.new :tabset.next :editor.open-current-file-in-browser]"
                                       "<Space>oi" ":ltexec ltfiles.tab-open-current-url"
                                       "<Space>oo" ":ltexec ltfiles.system-open-current-url"
                                       "<Space>or" ":ltexec workspace.show-recents"

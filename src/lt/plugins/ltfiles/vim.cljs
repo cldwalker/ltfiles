@@ -92,6 +92,11 @@
               :desc "p current yank at current indent"
               :exec vim-indent-paste-below})
 
+;; like :ltexec but execs multiple commands
+(vim/ex-command {:name "ltexec_clj"
+                 :func (fn [cm info]
+                         (util/exec-commands (cljs.reader/read-string (.-argString info))))})
+
 (comment
   (.-text (.-unamedRegister (CodeMirror.Vim.getRegisterController)))
   (.-registers (CodeMirror.Vim.getRegisterController))

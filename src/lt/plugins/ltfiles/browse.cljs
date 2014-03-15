@@ -18,10 +18,7 @@
                         :browser.url-bar.focus
                         [:browser.url-bar.navigate! current-word]
                         :browser.focus-content])]
-    (doseq [c commands]
-      (if (coll? c)
-        (apply cmd/exec! c)
-        (cmd/exec! c)))))
+    (util/exec-commands commands)))
 
 (cmd/command {:command :ltfiles.tab-open-current-url
               :desc "ltfiles: opens url under cursor in another tabset and browser"
