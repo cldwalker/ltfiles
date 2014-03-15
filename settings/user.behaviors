@@ -29,20 +29,21 @@
                                       "<Space>go" ":ltexec gitbeam.out-with-external-browser"
                                       "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
                                       "<Space>k" ":ltexec keymap.modify-user"
+                                      ; (o)pen
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
                                       "<Space>oc" ":ltexec_clj [:tabset.new :tabset.next :console-tab]"
                                       "<Space>of" ":ltexec_clj [:tabset.new :tabset.next :editor.open-current-file-in-browser]"
-                                      "<Space>oi" ":ltexec ltfiles.tab-open-current-url"
-                                      "<Space>oo" ":ltexec ltfiles.system-open-current-url"
                                       "<Space>or" ":ltexec workspace.show-recents"
+                                      "<Space>ot" ":ltexec tabset.new"
+                                      "<Space>ou" ":ltexec ltfiles.system-open-current-url"
+                                      "<Space>oU" ":ltexec ltfiles.tab-open-current-url"
                                       "<Space>pc" ":ltexec ltfiles.system-open-plugin-changelog"
                                       "<Space>pm" ":ltexec plugin-manager.show"
                                       "<Space>r" ":ltexec ltfiles.refresh-current-workspace-folder"
-                                      ; t - for toggle
+                                      ; (t)oggle
                                       "<Space>tc" ":ltexec toggle-console"
                                       "<Space>tl" ":ltexec ltfiles.toggle-line-numbers"
                                       "<Space>tw" ":ltexec ltfiles.toggle-strip-whitespace"
-                                      "<Space>v" ":ltexec tabset.new"
                                       "<Space>w" ":ltexec workspace.show"
                                       "<Space>x" ":ltexec ltfiles.smart-tab-close"
 
