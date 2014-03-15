@@ -10,6 +10,10 @@
             [lt.objs.clients.local :as local]
             [lt.objs.command :as cmd]))
 
+
+;; Prevent common error when introspecting LT objects: "RangeError: Maximum call stack size exceeded"
+(set! *print-level* 5)
+
 ;; cmds to toggle behaviors by changing workspace behavior
 ;; is there a more localized way of doing this?
 ;; --------------------------------------------
@@ -128,6 +132,18 @@
 (cmd/command {:command :ltfiles.print-current-file
               :desc "ltfiles: Print current file path"
               :exec (fn [] (notifos/set-msg! (str "Current path is " (util/current-file))))})
+
+;; This could be done in a behavior but I didn't want to make this a global default yet
+(defn smart-tab-close []
+  (let [ts (lt.objs.context/->obj :tabset)
+        tabs (some-> ts deref :objs count)]
+    (cmd/exec! :tabs.close)
+    (when (= 1 tabs)
+      (cmd/exec! :tabset.close))))
+
+(cmd/command {:command :ltfiles.smart-tab-close
+              :desc "ltfiles: closes a tab and tabset if last tab"
+              :exec smart-tab-close})
 
 (comment
   (do

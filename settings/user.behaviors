@@ -38,7 +38,7 @@
                                       "<Space>tw" ":ltexec ltfiles.toggle-strip-whitespace"
                                       "<Space>v" ":ltexec tabset.new"
                                       "<Space>w" ":ltexec workspace.show"
-                                      "<Space>x" ":ltexec tabset.close"
+                                      "<Space>x" ":ltexec ltfiles.smart-tab-close"
 
                                       ;; \\ is leader key for paredit
                                       ;; loosely inspired by https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
