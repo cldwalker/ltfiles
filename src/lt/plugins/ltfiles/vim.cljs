@@ -3,6 +3,7 @@
             [lt.objs.editor.pool :as pool]
             [lt.plugins.vim :as vim]
             [lt.plugins.ltfiles.util :as util]
+            [cljs.reader :as reader]
             [lt.objs.command :as cmd]))
 
 ;; override vim's v
@@ -95,7 +96,7 @@
 ;; like :ltexec but execs multiple commands
 (vim/ex-command {:name "ltexec_clj"
                  :func (fn [cm info]
-                         (util/exec-commands (cljs.reader/read-string (.-argString info))))})
+                         (util/exec-commands (reader/read-string (.-argString info))))})
 
 (comment
   (.-text (.-unamedRegister (CodeMirror.Vim.getRegisterController)))

@@ -109,10 +109,10 @@
 
 ;; assumes only one instance of current folder is open across workspaces
 (defn refresh-current-folder []
-  (if-let [ws-folder (some
-                      #(when (util/parent? (-> % deref :path) (util/current-file))
-                         %)
-                      (object/instances-by-type :lt.objs.sidebar.workspace/workspace.folder))]
+  (if-let [ws-folder (as-> (util/current-folder) folder
+                           (some
+                            #(when (= (-> % deref :path) folder) %)
+                            (object/instances-by-type :lt.objs.sidebar.workspace/workspace.folder)))]
     (do
       (object/raise ws-folder :refresh!)
       ;; message may print before refresh has actually happened, hook into raise?
@@ -155,6 +155,4 @@
            (.on win "focus" (fn []
                               (object/raise app :focus))))
     (.focus win))
-  (when-let [ed (pool/last-active)]
-      )
   )

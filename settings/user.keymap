@@ -1,6 +1,7 @@
 {:+ {:app {"alt-tab" [:tabset.next]
            "cmd-k" [:clear-inline-results]
-           "alt-d" [:dev-inspector]}
+           "alt-d" [:dev-inspector]
+           "alt-x" [:tabset.close]}
 
      :editor {"alt-w" [:editor.watch.watch-selection]
               "alt-shift-w" [:editor.watch.unwatch]

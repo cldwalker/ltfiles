@@ -1,6 +1,7 @@
 (ns lt.plugins.ltfiles.util
   (:require [lt.objs.editor :as editor]
             [lt.objs.command :as cmd]
+            [lt.objs.workspace :as workspace]
             [lt.objs.editor.pool :as pool]))
 
 (defn current-word*
@@ -39,6 +40,11 @@
 
 (defn current-file []
   (-> @(pool/last-active) :info :path))
+
+(defn current-folder []
+  (let [file (current-file)]
+    (some #(when (parent? % file) %)
+          (:folders @workspace/current-ws))))
 
 ;; Until lt.objs.proc/exec works: passing {:command "" :obj ""} to it didn't work
 (defn sh [cmd]
