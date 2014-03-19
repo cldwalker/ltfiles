@@ -6,8 +6,11 @@
 
 ;; consider passing regex to current-word so regex is cursor aware
 ;; e.g. highlight command of cmd/command
+(defn current-word []
+  (re-find #"[a-zA-Z-0-9-!?/_>:\.]+" (util/current-word)))
+
 (defn find-next-clojure-word []
-  (let [word (re-find #"[a-zA-Z-0-9-!?/_>:\.]+" (util/current-word))]
+  (let [word (current-word)]
     (find/set-val find/bar word) ;; necessary for find.next to work
     (object/raise find/bar :search! word)))
 
