@@ -4,9 +4,10 @@
  :source "https://github.com/cldwalker/ltfiles",
  :behaviors "ltfiles.behaviors",
  :dependencies {
-"CSS" "0.0.4",
+"Aleph" "0.0.1",
+ "CSS" "0.0.4",
  "Claire" "0.1.6",
- "Clojure" "0.0.9",
+ "Clojure" "0.0.10",
  "Describe Key" "0.0.5",
  "GBlame" "0.0.6",
  "HTML" "0.0.2",
@@ -20,6 +21,6 @@
  "Vim" "0.0.4",
  "Workspace Nav" "0.0.4",
  "gitbeam" "0.2.0",
- "smart-ignore" "0.1.0"},
+ "smart-ignore" "0.1.1"},
  :author "Gabriel Horner",
  :name "ltfiles"}
