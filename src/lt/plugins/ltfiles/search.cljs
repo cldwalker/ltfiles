@@ -3,6 +3,7 @@
            [lt.object :as object]
            [lt.util.dom :as dom]
            [lt.objs.command :as cmd]
+           [clojure.string :as s]
            [lt.plugins.ltfiles.clojure :as clojure]
            [lt.plugins.ltfiles.util :as util]))
 
@@ -24,6 +25,8 @@
   (cmd/exec! :searcher.show))
 
 ;; These commands could be composed in user.behaviors but that seems too messy
+;; Would like to add selection detection to these but am limited by vim keys not
+;; picking up selection
 
 (cmd/command {:command :ltfiles.search-current-folder
               :desc "ltfiles: Searches current folder"
@@ -60,3 +63,16 @@
 (cmd/command {:command :ltfiles.search-current-folder-with-current-word
               :desc "ltfiles: Searches current folder with current word"
               :exec search-current-folder-with-current-word})
+
+
+(defn search-current-folder-for-fn-usage []
+  (set-search search/searcher
+              (s/replace-first "/\\(\\S+\\/%s\\s*/" "%s" (clojure/current-word)))
+  (set-location search/searcher "<folder>")
+  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
+  (cmd/exec! :searcher.show)
+  (cmd/exec! :searcher.search))
+
+(cmd/command {:command :ltfiles.search-current-folder-for-fn-usage
+              :desc "ltfiles: Searches current folder for locations where fn is used"
+              :exec search-current-folder-for-fn-usage})
