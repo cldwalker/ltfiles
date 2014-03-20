@@ -34,7 +34,6 @@
               :desc "ltfiles: Searches current file"
               :exec search-current-file})
 
-
 (defn search-current-file-with-current-word []
   (set-search search/searcher (clojure/current-word))
   (set-location search/searcher "<file>")
@@ -44,3 +43,14 @@
 (cmd/command {:command :ltfiles.search-current-file-with-current-word
               :desc "ltfiles: Searches current file with current word"
               :exec search-current-file-with-current-word})
+
+
+(defn search-current-folder-with-current-word []
+  (set-search search/searcher (clojure/current-word))
+  (set-location search/searcher "<folder>")
+  (cmd/exec! :searcher.show)
+  (cmd/exec! :searcher.search))
+
+(cmd/command {:command :ltfiles.search-current-folder-with-current-word
+              :desc "ltfiles: Searches current folder with current word"
+              :exec search-current-folder-with-current-word})
