@@ -20,7 +20,10 @@
 
 (defn search-current-folder []
   (set-location search/searcher "<folder>")
+  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show))
+
+;; These commands could be composed in user.behaviors but that seems too messy
 
 (cmd/command {:command :ltfiles.search-current-folder
               :desc "ltfiles: Searches current folder"
@@ -28,6 +31,7 @@
 
 (defn search-current-file []
   (set-location search/searcher "<file>")
+  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show))
 
 (cmd/command {:command :ltfiles.search-current-file
@@ -37,6 +41,7 @@
 (defn search-current-file-with-current-word []
   (set-search search/searcher (clojure/current-word))
   (set-location search/searcher "<file>")
+  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show)
   (cmd/exec! :searcher.search))
 
@@ -48,6 +53,7 @@
 (defn search-current-folder-with-current-word []
   (set-search search/searcher (clojure/current-word))
   (set-location search/searcher "<folder>")
+  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show)
   (cmd/exec! :searcher.search))
 

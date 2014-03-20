@@ -1,7 +1,6 @@
 (ns lt.plugins.ltfiles.browse
   "Browser related commands"
-  (:require [lt.objs.tabs :as tabs]
-            [lt.plugins.ltfiles.util :as util]
+  (:require [lt.plugins.ltfiles.util :as util]
             [lt.plugins.ltfiles.input :as input]
             [lt.objs.platform :as platform]
             [lt.objs.app :as app]
@@ -10,14 +9,11 @@
 
 (defn tab-open-current-url []
   (let [current-word (util/current-word)
-        pre-commands (if (< (-> @tabs/multi :tabsets count) 2)
-                       [:tabset.new] [])
-        commands (into pre-commands
-                       [:add-browser-tab
-                        :tabs.move-next-tabset
-                        :browser.url-bar.focus
-                        [:browser.url-bar.navigate! current-word]
-                        :browser.focus-content])]
+        commands [:ltfiles.ensure-and-focus-second-tabset
+                  :add-browser-tab
+                  :browser.url-bar.focus
+                  [:browser.url-bar.navigate! current-word]
+                  :browser.focus-content]]
     (util/exec-commands commands)))
 
 (cmd/command {:command :ltfiles.tab-open-current-url

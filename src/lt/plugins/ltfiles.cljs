@@ -6,6 +6,7 @@
             [lt.objs.editor.pool :as pool]
             [lt.objs.app :as app]
             [lt.objs.files :as files]
+            [lt.objs.tabs :as tabs]
             [lt.plugins.ltfiles.util :as util]
             [lt.objs.clients.local :as local]
             [lt.objs.command :as cmd]))
@@ -144,6 +145,15 @@
 (cmd/command {:command :ltfiles.smart-tab-close
               :desc "ltfiles: closes a tab and tabset if last tab"
               :exec smart-tab-close})
+
+(defn ensure-and-focus-second-tabset []
+  (when (< (-> @tabs/multi :tabsets count) 2)
+      (cmd/exec! :tabset.new))
+  (cmd/exec! :tabset.next))
+
+(cmd/command {:command :ltfiles.ensure-and-focus-second-tabset
+              :desc "ltfiles: Ensure second tabset and focus it"
+              :exec ensure-and-focus-second-tabset})
 
 (comment
   (do
