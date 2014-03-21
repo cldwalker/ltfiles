@@ -6,6 +6,7 @@
            [clojure.string :as s]
            [lt.objs.files :as files]
            [lt.plugins.ltfiles.clojure :as clojure]
+           [goog.string :as gs]
            [lt.plugins.ltfiles.util :as util]))
 
 (defmethod search/location "<file>" [_]
@@ -70,7 +71,7 @@
 
 (defn search-current-folder-for-fn-usage []
   (set-search search/searcher
-              (s/replace-first "/\\((\\S+\\/)?%s\\s+/" "%s" (clojure/current-word)))
+              (s/replace-first "/\\((\\S+\\/)?%s\\s+/" "%s" (gs/regExpEscape (clojure/current-word))))
   (set-location search/searcher "<folder>")
   (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show)

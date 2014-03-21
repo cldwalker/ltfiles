@@ -15,6 +15,7 @@
 
                                       ;; <Space> is a leader key in normal mode
                                       "<Space>b" ":ltexec behaviors.modify-user"
+                                      "<Space>B" ":ltexec behaviors.view-default"
                                       ; c - for cancel/clear/kill actions
                                       "<Space>cc" ":ltexec clear-console"
                                       "<Space>cC" ":ltexec editor.disconnect-clients"
@@ -32,6 +33,7 @@
                                       "<Space>go" ":ltexec gitbeam.out-with-external-browser"
                                       "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
                                       "<Space>k" ":ltexec keymap.modify-user"
+                                      "<Space>K" ":ltexec keymap.view-default"
                                       ; (o)pen
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
                                       "<Space>oc" ":ltexec ltfiles.rotate-console"

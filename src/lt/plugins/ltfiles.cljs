@@ -180,9 +180,8 @@
     (open-path lt.objs.opener/opener current-file)))
 
 (cmd/command {:command :ltfiles.vertical-split-current-file
-              :desc "lltfiles: open current file"
+              :desc "ltfiles: open current file"
               :exec open-current-file})
-
 
 (comment
   (do
