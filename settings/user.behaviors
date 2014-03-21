@@ -33,7 +33,8 @@
                                       "<Space>k" ":ltexec keymap.modify-user"
                                       ; (o)pen
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
-                                      "<Space>oc" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :console-tab]"
+                                      "<Space>oc" ":ltexec ltfiles.rotate-console"
+                                      "<Space>oC" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :console-tab :console.show]"
                                       "<Space>of" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :editor.open-current-file-in-browser]"
                                       "<Space>or" ":ltexec workspace.show-recents"
                                       "<Space>ot" ":ltexec tabset.new"

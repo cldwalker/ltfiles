@@ -4,6 +4,8 @@
             [lt.objs.notifos :as notifos]
             [lt.objs.settings :as settings]
             [lt.objs.editor.pool :as pool]
+            [lt.objs.bottombar :as bottombar]
+            [lt.objs.console :as console]
             [lt.objs.app :as app]
             [lt.objs.files :as files]
             [lt.objs.tabs :as tabs]
@@ -15,9 +17,10 @@
 ;; Prevent common error when introspecting LT objects: "RangeError: Maximum call stack size exceeded"
 (set! *print-level* 5)
 
-;; cmds to toggle behaviors by changing workspace behavior
-;; is there a more localized way of doing this?
-;; --------------------------------------------
+;; Editor behaviors
+;; ================
+
+;; toggle behaviors by changing workspace behavior: is there a more localized way of doing this?
 (defn toggle-line-numbers
   "Sets line number first time this is called and toggles on subsequent calls"
   []
@@ -62,8 +65,8 @@
               :desc "ltfiles: toggles stripping whitespace on save"
               :exec toggle-strip-whitespace})
 
-;; Misc
-;; ----
+;; Console
+;; =======
 
 
 ;; open console log so I can search console!
@@ -74,6 +77,22 @@
 (cmd/command {:command :ltfiles.open-console-log-file
               :desc "ltfiles: open current console log as an editable/searchable file"
               :exec open-console-log-file})
+
+;; assumes focus is on editor, not console
+;; ensures focus remains on current editor
+(defn rotate-console []
+  (if (bottombar/active? console/console)
+    (util/exec-commands [:console.hide :ltfiles.ensure-and-focus-second-tabset :console-tab :console.show :tabset.next])
+    ;; assumes console tab is open in second tabset
+    (util/exec-commands [:tabset.next :ltfiles.smart-tab-close :toggle-console :tabset.next])))
+
+(cmd/command {:command :ltfiles.rotate-console
+              :desc "ltfiles: Rotates open console between bottombar and another tabset"
+              :exec rotate-console})
+
+
+;; Plugins
+;; =======
 
 ;; must be configured per user
 (def plugin-name "ltfiles")
@@ -108,6 +127,34 @@
               :exec (fn []
                       (object/raise workspace/current-ws :add.folder! (files/lt-user-dir "plugins")))})
 
+
+;; Tabs
+;; ====
+
+;; This could be done in a behavior but I didn't want to make this a global default yet
+(defn smart-tab-close []
+  (let [ts (lt.objs.context/->obj :tabset)
+        tabs (some-> ts deref :objs count)]
+    (cmd/exec! :tabs.close)
+    (when (= 1 tabs)
+      (cmd/exec! :tabset.close))))
+
+(cmd/command {:command :ltfiles.smart-tab-close
+              :desc "ltfiles: closes a tab and tabset if last tab"
+              :exec smart-tab-close})
+
+(defn ensure-and-focus-second-tabset []
+  (when (< (-> @tabs/multi :tabsets count) 2)
+      (cmd/exec! :tabset.new))
+  (cmd/exec! :tabset.next))
+
+(cmd/command {:command :ltfiles.ensure-and-focus-second-tabset
+              :desc "ltfiles: Ensure second tabset and focus it"
+              :exec ensure-and-focus-second-tabset})
+
+;; Misc
+;; ====
+
 ;; assumes only one instance of current folder is open across workspaces
 (defn refresh-current-folder []
   (if-let [ws-folder (as-> (util/current-folder) folder
@@ -133,27 +180,6 @@
 (cmd/command {:command :ltfiles.print-current-file
               :desc "ltfiles: Print current file path"
               :exec (fn [] (notifos/set-msg! (str "Current path is " (util/current-file))))})
-
-;; This could be done in a behavior but I didn't want to make this a global default yet
-(defn smart-tab-close []
-  (let [ts (lt.objs.context/->obj :tabset)
-        tabs (some-> ts deref :objs count)]
-    (cmd/exec! :tabs.close)
-    (when (= 1 tabs)
-      (cmd/exec! :tabset.close))))
-
-(cmd/command {:command :ltfiles.smart-tab-close
-              :desc "ltfiles: closes a tab and tabset if last tab"
-              :exec smart-tab-close})
-
-(defn ensure-and-focus-second-tabset []
-  (when (< (-> @tabs/multi :tabsets count) 2)
-      (cmd/exec! :tabset.new))
-  (cmd/exec! :tabset.next))
-
-(cmd/command {:command :ltfiles.ensure-and-focus-second-tabset
-              :desc "ltfiles: Ensure second tabset and focus it"
-              :exec ensure-and-focus-second-tabset})
 
 (comment
   (do
