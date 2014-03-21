@@ -23,6 +23,7 @@
                                       "<Space>cs" ":ltexec reset-working"
                                       "<Space>fd" ":ltexec ltfiles.search-current-folder"
                                       "<Space>ff" ":ltexec ltfiles.search-current-file"
+                                      "<Space>fu" ":ltexec ltfiles.search-current-folder-for-fn-usage"
                                       "<Space>fw" ":ltexec ltfiles.search-current-file-with-current-word" ; same as vim's [I
                                       "<Space>fW" ":ltexec ltfiles.search-current-folder-with-current-word"
                                       "<Space>gi" ":ltexec gitbeam.in-with-clipboard"
