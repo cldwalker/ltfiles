@@ -19,6 +19,7 @@
                                       "<Space>cc" ":ltexec clear-console"
                                       "<Space>cC" ":ltexec editor.disconnect-clients"
                                       "<Space>ce" ":ltexec eval.cancel-all!"
+                                      "<Space>ct" ":ltexec_clj [:tabset.next :ltfiles.close-current-tabs :tabset.close]"
                                       "<Space>cw" ":ltexec editor.watch.remove-all"
                                       "<Space>cs" ":ltexec reset-working"
                                       "<Space>fd" ":ltexec ltfiles.search-current-folder"
