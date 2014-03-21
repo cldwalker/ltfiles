@@ -1,4 +1,6 @@
 (ns lt.plugins.ltfiles.vim
+  "Cmds that depend on using vim mode. Commands that implement common vimisms are
+  spread across other namespaces."
   (:require [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
             [lt.plugins.vim :as vim]

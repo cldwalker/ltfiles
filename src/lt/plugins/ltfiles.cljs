@@ -3,10 +3,13 @@
             [lt.objs.workspace :as workspace]
             [lt.objs.notifos :as notifos]
             [lt.objs.settings :as settings]
-            [lt.objs.editor.pool :as pool]
             [lt.objs.bottombar :as bottombar]
             [lt.objs.console :as console]
             [lt.objs.app :as app]
+            [lt.objs.editor :as editor]
+            [lt.objs.editor.pool :as pool]
+            [lt.objs.document :as doc]
+            [lt.objs.metrics :as metrics]
             [lt.objs.files :as files]
             [lt.plugins.ltfiles.util :as util]
             [lt.objs.clients.local :as local]
@@ -155,6 +158,31 @@
 (cmd/command {:command :ltfiles.print-current-file
               :desc "ltfiles: Print current file path"
               :exec (fn [] (notifos/set-msg! (str "Current path is " (util/current-file))))})
+
+
+;; copied from opener's ::open-standard-editor
+;; TODO: PR so I can just reuse it
+(defn open-path [obj path]
+  (doc/open path
+            (fn [doc]
+              (let [type (files/path->type path)
+                    ed (pool/create (merge {:doc doc :line-ending (-> @doc :line-ending)} (lt.objs.opener/path->info path)))]
+                (metrics/capture! :editor.open {:type (or (:name type) (files/ext path))
+                                                :lines (editor/last-line ed)})
+                (object/add-tags ed [:editor.file-backed])
+                (object/raise obj :open ed)
+                (lt.objs.tabs/add! ed)
+                (lt.objs.tabs/active! ed)))))
+
+(defn open-current-file []
+  (let [current-file (util/current-file)]
+    (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
+    (open-path lt.objs.opener/opener current-file)))
+
+(cmd/command {:command :ltfiles.vertical-split-current-file
+              :desc "lltfiles: open current file"
+              :exec open-current-file})
+
 
 (comment
   (do
