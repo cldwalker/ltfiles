@@ -6,6 +6,7 @@
             [lt.plugins.vim :as vim]
             [lt.plugins.ltfiles.util :as util]
             [cljs.reader :as reader]
+            [lt.plugins.ltfiles.popup :as popup]
             [lt.objs.command :as cmd]))
 
 ;; override vim's v
@@ -95,6 +96,19 @@
               :desc "p current yank at current indent"
               :exec vim-indent-paste-below})
 
+(defn show-registers []
+  (popup/info
+   (->> (.-registers (CodeMirror.Vim.getRegisterController))
+        js->clj
+        (remove #(#{"-" "\""} (first %)))
+        (map (fn [[k v]]
+               (str k ": " (pr-str (get v "text"))))))
+   :header "Registers"))
+
+(cmd/command {:command :ltfiles.show-registers
+              :desc "show vim's registers"
+              :exec show-registers})
+
 ;; like :ltexec but execs multiple commands
 (vim/ex-command {:name "ltexec_clj"
                  :func (fn [cm info]
@@ -102,7 +116,6 @@
 
 (comment
   (.-text (.-unamedRegister (CodeMirror.Vim.getRegisterController)))
-  (.-registers (CodeMirror.Vim.getRegisterController))
   (.pushText
    (CodeMirror.Vim.getRegisterController)
    (js-obj "\"") "yank" "some thing" false))

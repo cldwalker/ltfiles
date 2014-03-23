@@ -2,7 +2,7 @@
   "Misc fns related to keybindings"
   (:require [lt.objs.keyboard :as keyboard]
             [lt.objs.command :as cmd]
-            [lt.plugins.ltfiles.input :as input]))
+            [lt.plugins.ltfiles.popup :as popup]))
 
 ;; A more user-friendly keyboard/cmd->current-binding
 ;; This purposely doesn't find all cmds in a vec of fns e.g.
@@ -22,8 +22,8 @@
 
 (defn find-command-keybindings [keymap]
   (println "Searching " (count keymap) "keybindings...")
-  (input/popup
-   input/basic-input
+  (popup/input
+   popup/basic-input
    #(find-command-keybindings* % keymap)
    :placeholder "regex"
    :header "Enter command regex"))

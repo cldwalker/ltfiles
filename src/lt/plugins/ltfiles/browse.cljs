@@ -1,7 +1,7 @@
 (ns lt.plugins.ltfiles.browse
   "Browser related commands"
   (:require [lt.plugins.ltfiles.util :as util]
-            [lt.plugins.ltfiles.input :as input]
+            [lt.plugins.ltfiles.popup :as popup]
             [lt.objs.platform :as platform]
             [lt.objs.app :as app]
             [lt.objs.notifos :as notifos]
@@ -38,7 +38,7 @@
     (notifos/set-msg! (str "Plugin " plugin " not found"))))
 
 (defn system-open-plugin-changelog []
-  (input/popup input/basic-input open-plugin-changelog
+  (popup/input popup/basic-input open-plugin-changelog
                :header "Enter Plugin"
                :placeholder "PLUGIN"))
 
