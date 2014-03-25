@@ -5,6 +5,7 @@
             [lt.objs.platform :as platform]
             [lt.objs.app :as app]
             [lt.objs.notifos :as notifos]
+            [clojure.string :as s]
             [lt.objs.command :as cmd]))
 
 (defn tab-open-current-url []
@@ -37,7 +38,8 @@
 ;; could use github api to see if there's an actual changelog
 (defn system-open-plugin-changelog [plugin]
   (platform/open
-   (str (:source plugin) "/compare/" (:version plugin) "...master")))
+   (str (s/replace-first (:source plugin) #"\.git$" "")
+        "/compare/" (:version plugin) "...master")))
 
 ;; useful to see before upgrading
 (cmd/command {:command :ltfiles.system-open-plugin-changelog

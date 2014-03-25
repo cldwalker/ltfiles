@@ -13,6 +13,9 @@
             [lt.objs.files :as files]
             [lt.plugins.ltfiles.util :as util]
             [lt.objs.clients.local :as local]
+            [lt.objs.tabs :as tabs]
+            [lt.objs.opener :as opener]
+            [clojure.string :as s]
             [lt.objs.command :as cmd]))
 
 
@@ -117,7 +120,7 @@
 
     ;; one property and plugin per line for easier editing and diffing
     (files/save personal-plugins-file
-                (clojure.string/replace plugin-body #"(\"\s*,|\{|\},)" #(str % "\n")))
+                (s/replace plugin-body #"(\"\s*,|\{|\},)" #(str % "\n")))
     (notifos/set-msg! "Plugins saved to " personal-plugins-file)))
 
 (cmd/command {:command :ltfiles.save-plugins
@@ -166,25 +169,24 @@
   (doc/open path
             (fn [doc]
               (let [type (files/path->type path)
-                    ed (pool/create (merge {:doc doc :line-ending (-> @doc :line-ending)} (lt.objs.opener/path->info path)))]
+                    ed (pool/create (merge {:doc doc :line-ending (-> @doc :line-ending)} (opener/path->info path)))]
                 (metrics/capture! :editor.open {:type (or (:name type) (files/ext path))
                                                 :lines (editor/last-line ed)})
                 (object/add-tags ed [:editor.file-backed])
                 (object/raise obj :open ed)
-                (lt.objs.tabs/add! ed)
-                (lt.objs.tabs/active! ed)))))
+                (tabs/add! ed)
+                (tabs/active! ed)))))
 
 (defn open-current-file []
   (let [current-file (util/current-file)]
     (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
-    (open-path lt.objs.opener/opener current-file)))
+    (open-path opener/opener current-file)))
 
 (cmd/command {:command :ltfiles.vertical-split-current-file
-              :desc "ltfiles: open current file"
+              :desc "ltfiles: split current file vertically i.e. open in another tabset"
               :exec open-current-file})
 
 (comment
-  (:open-files @lt.objs.opener/opener)
   (do
     (def win (app/open-window))
     (.on win "focus"
