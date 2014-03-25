@@ -15,7 +15,7 @@
               :desc "ltfiles: Newline before a pair close"
               :exec newline-before-pair-close})
 
-;; modified of paredit-splice-sexp-kill
+;; modified version of paredit-splice-sexp-kill
 (defn paredit-kill-backword [ed l]
   (when-let [[c loc] (first (paredit-plus/find-unbalanced ed l (paredit-plus/pair-chars :close) :forward))]
     (when-let [mloc (paredit-plus/find-match ed loc c)]
