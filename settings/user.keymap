@@ -1,7 +1,8 @@
 {:+ {:app {"alt-tab" [:tabset.next]
            "cmd-k" [:clear-inline-results]
            "alt-d" [:dev-inspector]
-           "alt-x" [:tabset.close]}
+           "alt-x" [:tabset.close]
+           "cmd-b" [:ltfiles.open-buffers]}
 
      :editor {"alt-w" [:editor.watch.watch-selection]
               "alt-shift-w" [:editor.watch.unwatch]

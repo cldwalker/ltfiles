@@ -184,6 +184,7 @@
               :exec open-current-file})
 
 (comment
+  (:open-files @lt.objs.opener/opener)
   (do
     (def win (app/open-window))
     (.on win "focus"
