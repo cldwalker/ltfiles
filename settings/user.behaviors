@@ -65,8 +65,8 @@
                                       "\\d" ":ltexec paredit-plus.delete-pair-contents"
                                       "\\j" ":ltexec paredit-plus.join-sexps"
                                       "\\k" ":ltexec paredit-plus.kill"
-                                      "\\n" ":ltexec paredit-plus.new-line-after-pair-close"
-                                      "\\N" ":ltexec ltfiles.paredit-newline-before-pair-close"
+                                      "\\n" ":ltexec ltfiles.paredit-newline-before-pair-close"
+                                      "\\N" ":ltexec paredit-plus.new-line-after-pair-close"
                                       "\\r" ":ltexec paredit-plus.raise-sexp"
                                       ;; handles top-level case that paredit doesn't
                                       "\\s" ":ltexec paredit-plus.splice-sexp"
