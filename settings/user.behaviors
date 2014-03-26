@@ -45,6 +45,7 @@
                                       "<Space>oU" ":ltexec ltfiles.tab-open-current-url"
                                       "<Space>ov" ":ltexec ltfiles.vertical-split-current-file" ; sams as vim's C-w v
                                       "<Space>ow" ":ltexec workspace.show-recents"
+                                      "<Space>oz" ":ltexec_clj [:tabs.close-others :window.fullscreen]" ; (z)oom
                                       "<Space>pc" ":ltexec ltfiles.system-open-plugin-changelog"
                                       "<Space>pm" ":ltexec plugin-manager.show"
                                       "<Space>r" ":ltexec ltfiles.refresh-current-workspace-folder"
