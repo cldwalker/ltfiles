@@ -23,6 +23,11 @@
                                       "<Space>ct" ":ltexec_clj [:tabset.next :ltfiles.close-current-tabs :tabset.close]"
                                       "<Space>cw" ":ltexec editor.watch.remove-all"
                                       "<Space>cs" ":ltexec reset-working"
+                                      ;; (d)ev
+                                      "<Space>db" ":ltexec ltfiles.behavior-bar"
+                                      "<Space>do" ":ltexec ltfiles.object-bar"
+                                      "<Space>dt" ":ltexec ltfiles.tag-bar"
+                                      ;; (f)ind
                                       "<Space>fd" ":ltexec ltfiles.search-current-folder"
                                       "<Space>ff" ":ltexec ltfiles.search-current-file"
                                       "<Space>fu" ":ltexec ltfiles.search-current-folder-for-fn-usage"

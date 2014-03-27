@@ -16,8 +16,7 @@
             [lt.objs.tabs :as tabs]
             [lt.objs.opener :as opener]
             [clojure.string :as s]
-            [lt.objs.command :as cmd]
-            [lt.plugins.ltfiles.selector :as selector]))
+            [lt.objs.command :as cmd]))
 
 
 ;; Prevent common error when introspecting LT objects: "RangeError: Maximum call stack size exceeded"
@@ -186,24 +185,6 @@
 (cmd/command {:command :ltfiles.vertical-split-current-file
               :desc "ltfiles: split current file vertically i.e. open in another tabset"
               :exec open-current-file})
-
-(def cmd-selector
-  (selector/selector {:items (fn []
-                               (->> (:commands @cmd/manager)
-                                    vals
-                                    (map #(assoc %
-                                            :command-desc
-                                            (str (:command %) ": " (:desc %))))
-                                    (sort-by :command-desc)))
-                      :key :command-desc
-                      :placeholder "command or description"
-                      :transform #(str "<p class='binding'>" %3 "</p>")}))
-
-(cmd/command {:command :ltfiles.commandbar
-              :desc "ltfiles: executes a cmd by its id or desc"
-              :options cmd-selector
-              :exec (fn [cmd]
-                      ((:exec cmd)))})
 
 (comment
   (do
