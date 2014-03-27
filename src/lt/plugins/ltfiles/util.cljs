@@ -41,6 +41,10 @@
 (defn current-file []
   (-> @(pool/last-active) :info :path))
 
+(defn file-folder [file]
+  (some #(when (parent? % file) %)
+          (:folders @workspace/current-ws)))
+
 (defn current-folder []
   (let [file (current-file)]
     (some #(when (parent? % file) %)

@@ -3,7 +3,9 @@
             [lt.object :as object]
             [lt.objs.tabs :as tabs]
             [lt.plugins.ltfiles.selector :as selector]
+            [lt.plugins.ltfiles.util :as util]
             [lt.objs.opener :as opener]
+            [lt.objs.files :as files]
             [lt.objs.command :as cmd])
   (:require-macros [lt.macros :refer [behavior]]))
 
@@ -43,20 +45,25 @@
 
 (def opened-files (atom #{}))
 
+(defn relative-path
+  "Same relative path as navigate/populate-bg"
+  [path]
+  (let [folder-parent (files/parent (util/file-folder path))]
+    (subs path (inc (count folder-parent)))))
+
 (behavior ::track-open-files
           :triggers #{:open}
           :reaction (fn [this ed]
                       (when-let [path (-> @ed :info :path)]
-                        (swap! opened-files conj path))))
+                        (swap! opened-files conj {:full path
+                                                  :rel (relative-path path)}))))
 
 (object/add-behavior! opener/opener ::track-open-files)
 
-;; TODO: format files same as navigate filter-list
 (def file-selector
-  (selector/selector {:items (fn []
-                               (map #(hash-map :name %) @opened-files))
-                      :key :name
-                      :transform #(str "<p>" (lt.objs.files/basename %) "</p><p class='binding'>" %3 "</p>")}))
+  (selector/selector {:items (fn [] @opened-files)
+                      :key :rel
+                      :transform #(str "<p>" (files/basename %) "</p><p class='binding'>" %3 "</p>")}))
 
 ;; Currently only looks at files opened through opener. Could consider workspace files
 ;; This aims to be the same as vim's :buffers command
@@ -64,9 +71,4 @@
               :desc "ltfiles: Opens any file that has been opened since LT started"
               :options file-selector
               :exec (fn [file]
-                      (cmd/exec! :open-path (:name file)))})
-
-(comment
-  (-> (:files @lt.objs.sidebar.navigate/sidebar-navigate)
-      first)
-  (prn opened-files))
+                      (cmd/exec! :open-path (:full file)))})
