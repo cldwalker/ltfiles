@@ -191,13 +191,16 @@
   (selector/selector {:items (fn []
                                (->> (:commands @cmd/manager)
                                     vals
-                                    (map #(update-in % [:command] str))
-                                    (sort-by :command)))
-                      :key :command
-                      :transform #(str "<p>" %3 "</p><p class='binding'>" (:desc %4) "</p>")}))
+                                    (map #(assoc %
+                                            :command-desc
+                                            (str (:command %) ": " (:desc %))))
+                                    (sort-by :command-desc)))
+                      :key :command-desc
+                      :placeholder "command or description"
+                      :transform #(str "<p class='binding'>" %3 "</p>")}))
 
 (cmd/command {:command :ltfiles.commandbar
-              :desc "ltfiles: executes a cmd by its id"
+              :desc "ltfiles: executes a cmd by its id or desc"
               :options cmd-selector
               :exec (fn [cmd]
                       ((:exec cmd)))})
