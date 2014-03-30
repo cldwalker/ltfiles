@@ -2,6 +2,9 @@
   "Misc fns related to keybindings"
   (:require [lt.objs.keyboard :as keyboard]
             [lt.objs.command :as cmd]
+            [lt.plugins.ltfiles.selector :as selector]
+            [lt.objs.settings :as settings]
+            [lt.objs.files :as files]
             [lt.plugins.ltfiles.popup :as popup]))
 
 ;; A more user-friendly keyboard/cmd->current-binding
@@ -30,13 +33,35 @@
 
 ;; consider a separate cmd that pulls result using autocompleted widget
 (cmd/command {:command :ltfiles.find-command-keybindings
-              :desc "ltfiles: Finds keybinds that use a command for the given regex"
+              :desc "ltfiles: Finds keybindings that use a command for the given regex"
               ;; pull out keymap early so it searches a broader set
               ;; reading keymap inside a command or input narrows visible keys
               ;; Note: this may only be pulling the right keys when repl testing
               :exec (partial find-command-keybindings @keyboard/key-map)})
 
+(defn vim-map-keys []
+  (-> (files/open-sync settings/user-behaviors-path)
+      :content
+      (settings/safe-read "user.behaviors")
+      (get-in [:+ :app])
+      (as-> behaviors
+            (some #(when (= (first %) :lt.plugins.vim/map-keys)
+                     (rest %)) behaviors))))
+
+(def key-selector
+  (selector/selector {:items (fn []
+                               (->> (vim-map-keys)
+                                    (merge @keyboard/key-map)
+                                    (map (fn [[k v]]
+                                           {:index (str k ": " v) :key k :commands v}))
+                                    (sort-by :index)))
+                      :key :index
+                      :transform #(str "<p class='binding'>" %3 "</p>")}))
+
+(cmd/command {:command :ltfiles.keybinding-bar
+              :desc "ltfiles: Searcn keybinding or command of keys"
+              :options key-selector
+              :exec prn})
 (comment
-  (find-command-keybindings @keyboard/key-map)
   (keyboard/cmd->current-binding :ltfiles.tab-open-current-url)
   (->> @keyboard/key-map vals (take 5)))

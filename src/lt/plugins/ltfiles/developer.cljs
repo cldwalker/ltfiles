@@ -36,6 +36,7 @@
                       :placeholder "command or description"
                       :transform #(str "<p class='binding'>" %3 "</p>")}))
 
+;; Can't be used to open another command using selector/selector
 (cmd/command {:command :ltfiles.commandbar
               :desc "ltfiles: executes a command by its id or desc"
               :options cmd-selector
