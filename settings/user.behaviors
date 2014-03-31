@@ -8,6 +8,7 @@
                                       "-" ":ltexec ltfiles.find-next-clojure-word",
                                       "j" "gj",
                                       "k" "gk"
+                                      "gJ" ":ltexec ltfiles.smart-join"
                                       ;; assumes running with a CM that has an updated vim.js
                                       ;"gv" ":ltexec ltfiles.vim-reselect-visual"
                                       "[p" ":ltexec ltfiles.vim-indent-paste-above"
