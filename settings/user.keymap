@@ -48,4 +48,5 @@
                    "alt-shift-p" [(:eval.custom "(prn __SELECTION__)" {:result-type :inline :verbatim true})]
                    ;; Sorts a clojure :require statement. Doesn't pretty print it yet
                    "alt-r" [(:eval.custom "(cons (first '__SELECTION__) (sort (rest '__SELECTION__)))" {:result-type :replace :verbatim false})]}}
- }
+
+ :- {:app {"ctrl-x ctrl-f" [:claire-show]}}}
