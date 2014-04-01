@@ -5,6 +5,7 @@
             [lt.plugins.ltfiles.selector :as selector]
             [lt.objs.settings :as settings]
             [lt.objs.files :as files]
+            [goog.string :as gstring]
             [lt.plugins.ltfiles.popup :as popup]))
 
 ;; A more user-friendly keyboard/cmd->current-binding
@@ -46,14 +47,14 @@
       (get-in [:+ :app])
       (as-> behaviors
             (some #(when (= (first %) :lt.plugins.vim/map-keys)
-                     (rest %)) behaviors))))
+                     (second %)) behaviors))))
 
 (def key-selector
   (selector/selector {:items (fn []
                                (->> (vim-map-keys)
                                     (merge @keyboard/key-map)
                                     (map (fn [[k v]]
-                                           {:index (str k ": " v) :key k :commands v}))
+                                           {:index (gstring/htmlEscape (str k ": " v)) :key k :commands v}))
                                     (sort-by :index)))
                       :key :index
                       :transform #(str "<p class='binding'>" %3 "</p>")}))
