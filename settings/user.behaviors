@@ -26,6 +26,7 @@
                                       "<Space>cw" ":ltexec editor.watch.remove-all"
                                       "<Space>cs" ":ltexec reset-working"
                                       ;; (d)ev
+                                      "<Space>dc" ":ltexec ltfiles.jump-to-command"
                                       "<Space>db" ":ltexec ltfiles.behavior-bar"
                                       "<Space>do" ":ltexec ltfiles.object-bar"
                                       "<Space>dt" ":ltexec ltfiles.tag-bar"

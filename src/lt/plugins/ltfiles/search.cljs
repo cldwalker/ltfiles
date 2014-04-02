@@ -24,6 +24,9 @@
 (defn set-location [this v]
   (dom/val (dom/$ :input.loc (object/->content this)) v))
 
+(defn set-replace [this v]
+  (dom/val (dom/$ :input.replace (object/->content this)) v))
+
 (defn search-current-folder []
   (set-location search/searcher "<folder>")
   (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
