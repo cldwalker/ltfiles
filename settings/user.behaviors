@@ -13,6 +13,7 @@
                                       ;"gv" ":ltexec ltfiles.vim-reselect-visual"
                                       "[p" ":ltexec ltfiles.vim-indent-paste-above"
                                       "]p" ":ltexec ltfiles.vim-indent-paste-below"
+                                      "''" ":ltexec lt.plugins.marks/jump-to-last-edit-mark"
 
                                       ;; <Space> is a leader key in normal mode
                                       "<Space>b" ":ltexec behaviors.modify-user"
