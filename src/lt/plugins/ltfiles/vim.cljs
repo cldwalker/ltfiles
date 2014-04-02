@@ -121,8 +121,8 @@
           string (editor/line ed (:line cursor))
           ch (:ch cursor)
           joined-line (str
-                       (s/replace-first (subs string 0 ch) #"\)\s*$" ")")
-                       (s/replace-first (subs string ch) #"^\s*\)" ")"))]
+                       (s/replace-first (subs string 0 ch) #"\s*$" "")
+                       (s/replace-first (subs string ch) #"^\s*" ""))]
       (editor/set-line ed (:line cursor) joined-line))))
 
 (defn smart-join []
