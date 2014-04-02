@@ -54,16 +54,42 @@
                       (object/rem-behavior! search/searcher ::open-first-search-result)
                       (cmd/exec! :searcher.next)))
 
-(defn search-lt-command [command]
+(defn jump-to-first-result [->search selection]
   (object/add-behavior! search/searcher ::open-first-search-result)
   ;; TODO: pass next 3 lines as searcher.search args once that works upstream
-  (lsearch/set-search search/searcher
-                      (str "/:command\\s+" (gs/regExpEscape (:command command)) "(\\s+|$)/"))
+  (lsearch/set-search search/searcher (->search selection))
   (lsearch/set-location search/searcher "<workspace>")
   (lsearch/set-replace search/searcher nil)
   (cmd/exec! :searcher.search))
 
+(def jump-to-command
+  (partial jump-to-first-result
+           #(str "/:command\\s+" (gs/regExpEscape (:command %)) "(\\s+|$)/")))
+
 (cmd/command {:command :ltfiles.jump-to-command
               :desc "ltfiles: jump to chosen command"
               :options cmd-selector
-              :exec search-lt-command})
+              :exec jump-to-command})
+
+
+(def behavior-selector
+  (selector/selector {:items (fn []
+                               (->> (vals @object/behaviors)
+                                    (map #(assoc
+                                            (select-keys % [:name :desc])
+                                            :name-desc
+                                            (str (:name %) ": " (:desc %))))
+                                    (sort-by :name-desc)))
+                      :key :name-desc
+                      :placeholder "name or description"
+                      :transform #(str "<p class='binding'>" %3 "</p>")}))
+
+;; This can't distinguish between behaviors that have same name e.g. a/close! and b/close!
+(def jump-to-behavior
+  (partial jump-to-first-result
+           #(str "/behavior\\s+::" (gs/regExpEscape (name (:name %))) "(\\s+|$)/")))
+
+(cmd/command {:command :ltfiles.jump-to-behavior
+              :desc "ltfiles: jump to chosen behavior"
+              :options behavior-selector
+              :exec jump-to-behavior})
