@@ -93,3 +93,22 @@
               :desc "ltfiles: jump to chosen behavior"
               :options behavior-selector
               :exec jump-to-behavior})
+
+(def object-selector
+  (selector/selector {:items (fn []
+                               (->> (keys @object/object-defs)
+                                    (map #(hash-map :name % :index (str %)))
+                                    (sort-by :index)))
+                      :key :index
+                      :placeholder "object"
+                      :dtransform #(str "<p class='binding'>" %3 "</p>")}))
+
+;; This can't distinguish between objects that have same name e.g. a/navigate and b/navigate
+(def jump-to-object
+  (partial jump-to-first-result
+           #(str "/object\\*\\s+::" (gs/regExpEscape (name (:name %))) "(\\s+|$)/")))
+
+(cmd/command {:command :ltfiles.jump-to-object
+              :desc "ltfiles: jump to chosen object"
+              :options object-selector
+              :exec jump-to-object})

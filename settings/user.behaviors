@@ -27,8 +27,10 @@
                                       "<Space>cs" ":ltexec reset-working"
                                       ;; (d)ev
                                       "<Space>dc" ":ltexec ltfiles.jump-to-command"
-                                      "<Space>db" ":ltexec ltfiles.behavior-bar"
-                                      "<Space>do" ":ltexec ltfiles.object-bar"
+                                      "<Space>db" ":ltexec ltfiles.jump-to-behavior"
+                                      "<Space>dB" ":ltexec ltfiles.behavior-bar"
+                                      "<Space>do" ":ltexec ltfiles.jump-to-object"
+                                      "<Space>dO" ":ltexec ltfiles.object-bar"
                                       "<Space>dt" ":ltexec ltfiles.tag-bar"
                                       ;; (f)ind
                                       "<Space>fd" ":ltexec ltfiles.search-current-folder"
