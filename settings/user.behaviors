@@ -93,7 +93,8 @@
      :editor [:lt.objs.editor/no-wrap
               (:lt.objs.style/set-theme "cobalt")
               (:lt.plugins.vim/activate-vim)
-              :lt.objs.editor/hide-line-numbers]
+              :lt.objs.editor/hide-line-numbers
+              (:lt.plugins.reflow/set-width 80)]
 
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]}
