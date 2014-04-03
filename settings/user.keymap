@@ -22,7 +22,9 @@
                            :eval-editor-form
                            :paredit.select.clear]}
 
-     :editor.keys.vim.normal { ;;Select the parent expression, whether that's [], {}, or ()
+     :editor.keys.vim.normal {;; Satisfied having as a default. Can always make this more specific - https://github.com/LightTable/LightTable/issues/1379
+                              "backspace" [:paredit-plus.backward-delete]
+                              ;;Select the parent expression, whether that's [], {}, or ()
                               "cmd-," [:paredit.select.parent]
                               "cmd-;" [:ltfiles.vim-toggle-comment-selection]}
 
