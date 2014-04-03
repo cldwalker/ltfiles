@@ -1,13 +1,12 @@
 (ns lt.plugins.ltfiles.clojure
-  (:require [lt.plugins.ltfiles.util :as util]
-            [lt.objs.command :as cmd]
+  (:require [lt.objs.command :as cmd]
             [lt.object :as object]
+            [lt.objs.editor.pool :as pool]
+            [lt.plugins.clojure :as clojure]
             [lt.objs.find :as find]))
 
-;; consider passing regex to current-word so regex is cursor aware
-;; e.g. highlight command of cmd/command
 (defn current-word []
-  (re-find #"[a-zA-Z-0-9-!?/_>:\.]+" (util/current-word)))
+  (:string (clojure/find-symbol-at-cursor (pool/last-active))))
 
 (defn find-next-clojure-word []
   (let [word (current-word)]
