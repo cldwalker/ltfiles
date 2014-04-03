@@ -146,7 +146,7 @@
       (object/raise ws-folder :refresh!)
       ;; message may print before refresh has actually happened, hook into raise?
       (notifos/set-msg! "Current workspace folder refreshed."))
-    (notifos/set-msg! "No workspace folder found to refresh!")))
+    (notifos/set-msg! "No workspace folder found to refresh!" {:class "error"})))
 
 ;; handy for adding/removing files - especially when switching between branches
 (cmd/command {:command :ltfiles.refresh-current-workspace-folder
