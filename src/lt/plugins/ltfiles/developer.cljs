@@ -109,6 +109,6 @@
            #(str "/object\\*\\s+::" (gs/regExpEscape (name (:name %))) "(\\s+|$)/")))
 
 (cmd/command {:command :ltfiles.jump-to-object
-              :desc "ltfiles: jump to chosen object"
+              :desc "ltfiles: jump to chosen object definition"
               :options object-selector
               :exec jump-to-object})
