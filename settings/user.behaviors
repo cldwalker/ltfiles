@@ -96,6 +96,10 @@
               :lt.objs.editor/hide-line-numbers
               (:lt.plugins.reflow/set-width 80)]
 
+     ;; Not yet available in Clojure plugin
+     ;; Uncomment to get around slamhound issue - https://github.com/technomancy/slamhound#permgen-memory-pressure
+     ;; :clojure.lang [(:lt.plugins.clojure/java-opts ["-Xmx5g" "-XX:+CMSClassUnloadingEnabled" "-XX:MaxPermSize=128M"])]
+
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]}
 
