@@ -51,6 +51,8 @@
                                       "<Space>of" ":ltexec claire-show"
                                       "<Space>oF" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :editor.open-current-file-in-browser]"
                                       "<Space>ok" ":ltexec ltfiles.keybinding-bar"
+                                      "<Space>op" ":ltexec photon.add-folder"
+                                      "<Space>oP" ":ltexec photon.remove-folder"
                                       "<Space>or" ":ltexec ltfiles.show-registers"
                                       "<Space>ot" ":ltexec tabset.new"
                                       "<Space>ou" ":ltexec ltfiles.system-open-current-url"
@@ -87,7 +89,10 @@
                                       "\\(" ":ltexec paredit-plus.wrap-round"
                                       "\\{" ":ltexec paredit-plus.wrap-curly"
                                       "\\[" ":ltexec paredit-plus.wrap-square"
-                                      "\\'" ":ltexec paredit-plus.wrap-quote"})]
+                                      "\\'" ":ltexec paredit-plus.wrap-quote"})
+           (:lt.plugins.photon/set-directories
+            [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo"
+             "~/.gitbeam" "~/code"])]
 
      ;; The editor tag is applied to all editors
      :editor [:lt.objs.editor/no-wrap
