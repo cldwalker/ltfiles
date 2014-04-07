@@ -7,6 +7,7 @@
             [lt.plugins.ltfiles.search :as lsearch]
             [lt.objs.search :as search]
             [goog.string :as gs]
+            [lt.objs.clients.local :as local]
             [lt.object :as object])
   (:require-macros [lt.macros :refer [behavior]]))
 
@@ -100,8 +101,7 @@
                                     (map #(hash-map :name % :index (str %)))
                                     (sort-by :index)))
                       :key :index
-                      :placeholder "object"
-                      :dtransform #(str "<p class='binding'>" %3 "</p>")}))
+                      :placeholder "object"}))
 
 ;; This can't distinguish between objects that have same name e.g. a/navigate and b/navigate
 (def jump-to-object
@@ -112,3 +112,8 @@
               :desc "ltfiles: jump to chosen object definition"
               :options object-selector
               :exec jump-to-object})
+
+;; Faster than mousing around. Only needs to be done once
+(cmd/command {:command :ltfiles.connect-to-lt-ui
+              :desc "ltfiles: Connect to LT UI via a keystroke"
+              :exec local/init})

@@ -12,7 +12,6 @@
             [lt.objs.metrics :as metrics]
             [lt.objs.files :as files]
             [lt.plugins.ltfiles.util :as util]
-            [lt.objs.clients.local :as local]
             [lt.objs.tabs :as tabs]
             [lt.objs.opener :as opener]
             [clojure.string :as s]
@@ -152,11 +151,6 @@
 (cmd/command {:command :ltfiles.refresh-current-workspace-folder
               :desc "ltfiles: Refreshes current workspace folder"
               :exec refresh-current-folder})
-
-;; Faster than mousing around. Only needs to be done once
-(cmd/command {:command :ltfiles.connect-to-lt-ui
-              :desc "ltfiles: Connect to LT UI via a keystroke"
-              :exec local/init})
 
 (cmd/command {:command :ltfiles.print-current-file
               :desc "ltfiles: Print current file path"

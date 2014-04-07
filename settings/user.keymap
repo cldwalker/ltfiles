@@ -33,8 +33,12 @@
      :filter-list.input { "ctrl-n" [(:filter-list.input.move-selection 1)]
                           "ctrl-p" [(:filter-list.input.move-selection -1)]}
 
+     :workspace.focused {"ctrl-n" [:lt.plugins.workspace-nav/navigate-south]
+                         "ctrl-p" [:lt.plugins.workspace-nav/navigate-north]}
+
      ;; Broken alt combos: i,e
-     ;; thanks to https://github.com/jamii/lt-config/
+
+     ;; Thanks to https://github.com/jamii/lt-config/ for most watches
      :editor.clj {"alt-p" [(:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:result-type :inline :verbatim true})]
                   "alt-shift-p" [(:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:result-type :replace :verbatim true})]
                   "alt-m" [(:eval.custom "(with-out-str (clojure.pprint/write (macroexpand-1 '__SELECTION__) :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:result-type :inline :verbatim true})]
