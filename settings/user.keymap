@@ -3,7 +3,9 @@
            "alt-d" [:dev-inspector]
            "alt-x" [:tabset.close]
            "cmd-b" [:ltfiles.open-buffers]
-           "alt-space" [:ltfiles.commandbar]}
+           "alt-space" [:ltfiles.commandbar]
+           ;; needs to be in :app to print actual context
+           "alt-t" [:ltfiles.print-context]}
 
      :editor {"alt-w" [:editor.watch.watch-selection]
               "alt-shift-w" [:editor.watch.unwatch]

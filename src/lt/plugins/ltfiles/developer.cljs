@@ -8,6 +8,7 @@
             [lt.objs.search :as search]
             [goog.string :as gs]
             [lt.objs.clients.local :as local]
+            [lt.objs.context :as context]
             [lt.object :as object])
   (:require-macros [lt.macros :refer [behavior]]))
 
@@ -113,7 +114,16 @@
               :options object-selector
               :exec jump-to-object})
 
+
+;; Misc
+;; ====
+
 ;; Faster than mousing around. Only needs to be done once
 (cmd/command {:command :ltfiles.connect-to-lt-ui
               :desc "ltfiles: Connect to LT UI via a keystroke"
               :exec local/init})
+
+(cmd/command {:command :ltfiles.print-context
+              :desc "ltfiles: Print context"
+              :exec (fn [] (prn (context/current)))})
+

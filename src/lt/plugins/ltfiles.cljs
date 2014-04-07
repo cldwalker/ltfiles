@@ -156,7 +156,6 @@
               :desc "ltfiles: Print current file path"
               :exec (fn [] (notifos/set-msg! (str "Current path is " (util/current-file))))})
 
-
 ;; copied from opener's ::open-standard-editor
 ;; TODO: PR so I can just reuse it
 (defn open-path [obj path]
