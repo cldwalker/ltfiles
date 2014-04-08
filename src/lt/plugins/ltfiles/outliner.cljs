@@ -1,6 +1,7 @@
 (ns lt.plugins.ltfiles.outliner
   (:require [lt.objs.command :as cmd]
             [lt.objs.editor.pool :as pool]
+            [lt.objs.notifos :as notifos]
             [lt.objs.editor :as editor]))
 
 (defn fold-code
@@ -31,6 +32,17 @@
                                    #js {:rangeFinder js/CodeMirror.fold.indent}
                                    "unfold"))))))
 
+;; getIndent fn embedded in fold.indent
+(defn line-level [ed line]
+  (js/CodeMirror.countColumn
+   (editor/line ed line) nil (editor/option ed "tabSize")))
+
+;; Assume forward for now
+(defn find-line-with-level [current-line level]
+  (let [ed (pool/last-active)]
+    (some #(when (= level (line-level ed %)) %)
+          (range current-line (inc (editor/last-line ed))))))
+
 (cmd/command {:command :ltfiles.fold-all
               :desc "ltfiles: fold the whole file"
               :exec fold-all})
@@ -48,3 +60,17 @@
                                    (editor/cursor ed)
                                    #js {:rangeFinder js/CodeMirror.fold.indent}
                                    nil)))})
+
+
+(defn jump-forward-on-same-level []
+  (let [ed (pool/last-active)
+        line (.-line (editor/cursor ed))
+        level (line-level ed line)]
+    (if-let [next-line (find-line-with-level (inc line) level)]
+      ;; TODO: cursor off when lines are mixes of tabs and spaces
+      (editor/move-cursor ed {:line next-line :ch level})
+      (notifos/set-msg! "No next line found" {:class "error"}))))
+
+(cmd/command {:command :ltfiles.jump-forward-on-same-level
+              :desc "ltfiles: jump to next line on same level"
+              :exec jump-forward-on-same-level})
