@@ -113,4 +113,6 @@
      ;; turn off aggressive autocomplete
      :editor [:lt.plugins.auto-complete/auto-show-on-input]
      ;; turn off annoying info boxes while editing any behavior
-     :editor.behaviors [:lt.objs.langs.behaviors/show-info-on-move]}}
+     :editor.behaviors [:lt.objs.langs.behaviors/show-info-on-move]
+     ;; allow transient files to close without prompt
+     :editor.transient [:lt.objs.editor.file/dirty-on-change]}}}
