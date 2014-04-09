@@ -32,17 +32,6 @@
                                    #js {:rangeFinder js/CodeMirror.fold.indent}
                                    "unfold"))))))
 
-;; getIndent fn embedded in fold.indent
-(defn line-level [ed line]
-  (js/CodeMirror.countColumn
-   (editor/line ed line) nil (editor/option ed "tabSize")))
-
-;; Assume forward for now
-(defn find-first-line-with-level [lines level]
-  (let [ed (pool/last-active)]
-    (some #(when (= level (line-level ed %)) %)
-          lines)))
-
 (cmd/command {:command :ltfiles.fold-all
               :desc "ltfiles: fold the whole file"
               :exec fold-all})
@@ -61,12 +50,26 @@
                                    #js {:rangeFinder js/CodeMirror.fold.indent}
                                    nil)))})
 
+;; same as getIndent() embedded in fold.indent
+(defn line-level [ed line]
+  (js/CodeMirror.countColumn
+   (editor/line ed line) nil (editor/option ed "tabSize")))
+
+(defn find-first-sibling [lines level]
+  (let [ed (pool/last-active)]
+    (some #(when (= level (line-level ed %)) %)
+          lines)))
+
+(defn find-first-non-child [lines level]
+  (let [ed (pool/last-active)]
+    (some #(when (>= level (line-level ed %)) %)
+          lines)))
 
 (defn jump-forward-on-same-level []
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
         level (line-level ed line)]
-    (if-let [next-line (find-first-line-with-level
+    (if-let [next-line (find-first-sibling
                         (range (inc line) (inc (editor/last-line ed))) level)]
       ;; cursor off when lines are mixes of tabs and spaces
       (editor/move-cursor ed {:line next-line :ch level})
@@ -80,7 +83,7 @@
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
         level (line-level ed line)]
-    (if-let [prev-line (find-first-line-with-level
+    (if-let [prev-line (find-first-sibling
                         (range (dec line) -1 -1) level)]
       ;; cursor off when lines are mixes of tabs and spaces
       (editor/move-cursor ed {:line prev-line :ch level})
@@ -89,3 +92,20 @@
 (cmd/command {:command :ltfiles.jump-backward-on-same-level
               :desc "ltfiles: jump to previous line on same level"
               :exec jump-backward-on-same-level})
+
+(defn select-current-tree []
+  (let [ed (pool/last-active)
+        line (.-line (editor/cursor ed))
+        level (line-level ed line)
+        non-child-line (find-first-non-child
+                        (range (inc line) (inc (editor/last-line ed)))
+                        level)]
+    (editor/set-selection
+     ed
+     {:line line :ch 0}
+     {:line (dec non-child-line) :ch 1000})))
+
+;; handy for deleting, yanking, indent, outdenting
+(cmd/command {:command :ltfiles.select-current-tree
+              :desc "ltfiles: select current tree"
+              :exec select-current-tree})
