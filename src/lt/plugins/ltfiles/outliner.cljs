@@ -38,10 +38,10 @@
    (editor/line ed line) nil (editor/option ed "tabSize")))
 
 ;; Assume forward for now
-(defn find-line-with-level [current-line level]
+(defn find-first-line-with-level [lines level]
   (let [ed (pool/last-active)]
     (some #(when (= level (line-level ed %)) %)
-          (range current-line (inc (editor/last-line ed))))))
+          lines)))
 
 (cmd/command {:command :ltfiles.fold-all
               :desc "ltfiles: fold the whole file"
@@ -66,11 +66,26 @@
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
         level (line-level ed line)]
-    (if-let [next-line (find-line-with-level (inc line) level)]
-      ;; TODO: cursor off when lines are mixes of tabs and spaces
+    (if-let [next-line (find-first-line-with-level
+                        (range (inc line) (inc (editor/last-line ed))) level)]
+      ;; cursor off when lines are mixes of tabs and spaces
       (editor/move-cursor ed {:line next-line :ch level})
       (notifos/set-msg! "No next line found" {:class "error"}))))
 
 (cmd/command {:command :ltfiles.jump-forward-on-same-level
               :desc "ltfiles: jump to next line on same level"
               :exec jump-forward-on-same-level})
+
+(defn jump-backward-on-same-level []
+  (let [ed (pool/last-active)
+        line (.-line (editor/cursor ed))
+        level (line-level ed line)]
+    (if-let [prev-line (find-first-line-with-level
+                        (range (dec line) -1 -1) level)]
+      ;; cursor off when lines are mixes of tabs and spaces
+      (editor/move-cursor ed {:line prev-line :ch level})
+      (notifos/set-msg! "No previous line found" {:class "error"}))))
+
+(cmd/command {:command :ltfiles.jump-backward-on-same-level
+              :desc "ltfiles: jump to previous line on same level"
+              :exec jump-backward-on-same-level})
