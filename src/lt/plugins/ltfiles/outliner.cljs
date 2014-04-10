@@ -43,19 +43,14 @@
               :desc "ltfiles: unfold the whole file"
               :exec (partial unfold-all (constantly true))})
 
-
-(cmd/command {:command :ltfiles.fold-level-1
-              :desc "ltfiles: fold level 1 nodes"
-              :exec (partial fold-all #(= 0 %))})
-
-
-(cmd/command {:command :ltfiles.fold-level-2
-              :desc "ltfiles: fold level 2 nodes"
-              :exec (fn []
-                      (let [tabsize (editor/option (pool/last-active) "tabSize")
-                            level (* 1 tabsize)]
-                        (unfold-all #(< % level))
-                        (fold-all #(= % level))))})
+(doseq [num (range 1 10)]
+  (cmd/command {:command (keyword (str "ltfiles.fold-level-" num))
+                :desc (str "ltfiles: fold level " num " nodes")
+                :exec (fn []
+                        (let [tabsize (editor/option (pool/last-active) "tabSize")
+                              level (* (dec num) tabsize)]
+                          (unfold-all #(< % level))
+                          (fold-all #(= % level))))}))
 
 
 (cmd/command {:command :ltfiles.indent-fold

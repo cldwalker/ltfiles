@@ -31,7 +31,14 @@
                   "cmd-a" [:ltfiles.unfold-all]
                   "cmd-x" [:ltfiles.fold-all]
                   "alt-1" [:ltfiles.fold-level-1]
-                  "alt-2" [:ltfiles.fold-level-2]}
+                  "alt-2" [:ltfiles.fold-level-2]
+                  "alt-3" [:ltfiles.fold-level-3]
+                  "alt-4" [:ltfiles.fold-level-4]
+                  "alt-5" [:ltfiles.fold-level-5]
+                  "alt-6" [:ltfiles.fold-level-6]
+                  "alt-7" [:ltfiles.fold-level-7]
+                  "alt-8" [:ltfiles.fold-level-8]
+                  "alt-9" [:ltfiles.fold-level-9]}
 
      :editor.keys.vim.normal {;; Satisfied having as a default. Can always make this more specific - https://github.com/LightTable/LightTable/issues/1379
                               "backspace" [:paredit-plus.backward-delete]
