@@ -11,35 +11,52 @@
 
 ;; from https://groups.google.com/forum/#!searchin/codemirror/foldall/codemirror/u3IYL-5g0t4/4YGdXEBFgZoJ
 ;; consider just writing this in JS
-(defn fold-all []
+(defn fold-all [condition]
   (let [ed (pool/last-active)]
     (editor/operation ed
                     (fn []
                       (doseq [line (range (editor/first-line ed) (inc (editor/last-line ed)))]
-                        (fold-code ed
-                                   #js {:line line :ch 0}
-                                   #js {:rangeFinder js/CodeMirror.fold.indent}
-                                   "fold"))))))
+                        (when (condition (line-level ed line))
+                          (fold-code ed
+                                     #js {:line line :ch 0}
+                                     #js {:rangeFinder js/CodeMirror.fold.indent}
+                                     "fold")))))))
 
 
-(defn unfold-all []
+(defn unfold-all [condition]
   (let [ed (pool/last-active)]
     (editor/operation ed
                     (fn []
                       (doseq [line (range (editor/first-line ed) (inc (editor/last-line ed)))]
-                        (fold-code ed
-                                   #js {:line line :ch 0}
-                                   #js {:rangeFinder js/CodeMirror.fold.indent}
-                                   "unfold"))))))
+                        (when (condition (line-level ed line))
+                          (fold-code ed
+                                     #js {:line line :ch 0}
+                                     #js {:rangeFinder js/CodeMirror.fold.indent}
+                                     "unfold")))))))
 
 (cmd/command {:command :ltfiles.fold-all
               :desc "ltfiles: fold the whole file"
-              :exec fold-all})
+              :exec (partial fold-all (constantly true))})
 
 
 (cmd/command {:command :ltfiles.unfold-all
               :desc "ltfiles: unfold the whole file"
-              :exec unfold-all})
+              :exec (partial unfold-all (constantly true))})
+
+
+(cmd/command {:command :ltfiles.fold-level-1
+              :desc "ltfiles: fold level 1 nodes"
+              :exec (partial fold-all #(= 0 %))})
+
+
+(cmd/command {:command :ltfiles.fold-level-2
+              :desc "ltfiles: fold level 2 nodes"
+              :exec (fn []
+                      (let [tabsize (editor/option (pool/last-active) "tabSize")
+                            level (* 1 tabsize)]
+                        (unfold-all #(< % level))
+                        (fold-all #(= % level))))})
+
 
 (cmd/command {:command :ltfiles.indent-fold
               :desc "ltfiles: fold by indent"
@@ -109,3 +126,6 @@
 (cmd/command {:command :ltfiles.select-current-tree
               :desc "ltfiles: select current tree"
               :exec select-current-tree})
+
+(comment
+  (line-level (pool/last-active) 1))

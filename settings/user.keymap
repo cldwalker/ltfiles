@@ -27,7 +27,11 @@
      :editor.otl {"shift-enter" [:ltfiles.indent-fold]
                   "cmd-j" [:ltfiles.jump-forward-on-same-level]
                   "cmd-k" [:ltfiles.jump-backward-on-same-level]
-                  "cmd-." [:ltfiles.select-current-tree]}
+                  "cmd-." [:ltfiles.select-current-tree]
+                  "cmd-a" [:ltfiles.unfold-all]
+                  "cmd-x" [:ltfiles.fold-all]
+                  "alt-1" [:ltfiles.fold-level-1]
+                  "alt-2" [:ltfiles.fold-level-2]}
 
      :editor.keys.vim.normal {;; Satisfied having as a default. Can always make this more specific - https://github.com/LightTable/LightTable/issues/1379
                               "backspace" [:paredit-plus.backward-delete]
