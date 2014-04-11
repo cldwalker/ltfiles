@@ -30,6 +30,8 @@
                   "cmd-." [:ltfiles.select-current-tree]
                   "cmd-a" [:ltfiles.unfold-all]
                   "cmd-x" [:ltfiles.fold-all]
+                  "alt-a" [:ltfiles.unfold-all-for-current-tree]
+                  "alt-x" [:ltfiles.fold-all-for-current-tree]
                   "alt-1" [:ltfiles.fold-level-1]
                   "alt-2" [:ltfiles.fold-level-2]
                   "alt-3" [:ltfiles.fold-level-3]

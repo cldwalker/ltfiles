@@ -11,28 +11,36 @@
 
 ;; from https://groups.google.com/forum/#!searchin/codemirror/foldall/codemirror/u3IYL-5g0t4/4YGdXEBFgZoJ
 ;; consider just writing this in JS
-(defn fold-all [condition]
-  (let [ed (pool/last-active)]
-    (editor/operation ed
-                    (fn []
-                      (doseq [line (range (editor/first-line ed) (inc (editor/last-line ed)))]
-                        (when (condition (line-level ed line))
-                          (fold-code ed
-                                     #js {:line line :ch 0}
-                                     #js {:rangeFinder js/CodeMirror.fold.indent}
-                                     "fold")))))))
+(defn fold-all
+  ([condition]
+   (let [ed (pool/last-active)]
+     (fold-all condition (range (editor/first-line ed) (inc (editor/last-line ed))))))
+  ([condition lines]
+   (let [ed (pool/last-active)]
+     (editor/operation ed
+                       (fn []
+                         (doseq [line lines]
+                           (when (condition (line-level ed line))
+                             (fold-code ed
+                                        #js {:line line :ch 0}
+                                        #js {:rangeFinder js/CodeMirror.fold.indent}
+                                        "fold"))))))))
 
 
-(defn unfold-all [condition]
-  (let [ed (pool/last-active)]
-    (editor/operation ed
-                    (fn []
-                      (doseq [line (range (editor/first-line ed) (inc (editor/last-line ed)))]
-                        (when (condition (line-level ed line))
-                          (fold-code ed
-                                     #js {:line line :ch 0}
-                                     #js {:rangeFinder js/CodeMirror.fold.indent}
-                                     "unfold")))))))
+(defn unfold-all
+  ([condition]
+   (let [ed (pool/last-active)]
+     (unfold-all condition (range (editor/first-line ed) (inc (editor/last-line ed))))))
+  ([condition lines]
+   (let [ed (pool/last-active)]
+     (editor/operation ed
+                       (fn []
+                         (doseq [line lines]
+                           (when (condition (line-level ed line))
+                             (fold-code ed
+                                        #js {:line line :ch 0}
+                                        #js {:rangeFinder js/CodeMirror.fold.indent}
+                                        "unfold"))))))))
 
 (cmd/command {:command :ltfiles.fold-all
               :desc "ltfiles: fold the whole file"
@@ -121,6 +129,25 @@
 (cmd/command {:command :ltfiles.select-current-tree
               :desc "ltfiles: select current tree"
               :exec select-current-tree})
+
+(defn fold-fn-for-current-tree [fold-fn]
+  (let [ed (pool/last-active)
+        line (.-line (editor/cursor ed))
+        level (line-level ed line)
+        non-child-line (find-first-non-child
+                        (range (inc line) (inc (editor/last-line ed)))
+                        level)]
+    (fold-fn (constantly true)
+             (range line non-child-line))))
+
+(cmd/command {:command :ltfiles.fold-all-for-current-tree
+              :desc "ltfiles: fold all for current tree"
+              :exec (partial fold-fn-for-current-tree fold-all)})
+
+(cmd/command {:command :ltfiles.unfold-all-for-current-tree
+              :desc "ltfiles: unfold all for current tree"
+              :exec (partial fold-fn-for-current-tree unfold-all)})
+
 
 (comment
   (line-level (pool/last-active) 1))
