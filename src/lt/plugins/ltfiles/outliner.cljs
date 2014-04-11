@@ -171,6 +171,12 @@
               :desc "ltfiles: unfold all for current tree"
               :exec (partial fold-fn-for-current-tree unfold-all)})
 
+(cmd/command {:command :ltfiles.outdent
+              :desc "ltfiles: Outdent by one level"
+              :exec (fn []
+                      (let [ed (pool/last-active)]
+                        (editor/indent-line ed (.-line (editor/cursor ed)) "subtract")))})
+
 
 (comment
   (line-level (pool/last-active) 1))
