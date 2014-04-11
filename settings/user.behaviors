@@ -92,7 +92,7 @@
                                       "\\'" ":ltexec paredit-plus.wrap-quote"})
            (:lt.plugins.photon/set-directories
             [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo"
-             "~/.gitbeam" "~/code"])]
+             "~/.gitbeam" "~/code" "/Volumes/relevance"])]
 
      ;; The editor tag is applied to all editors
      :editor [:lt.objs.editor/no-wrap
