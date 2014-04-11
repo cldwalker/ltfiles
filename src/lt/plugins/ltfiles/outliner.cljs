@@ -75,15 +75,38 @@
   (js/CodeMirror.countColumn
    (editor/line ed line) nil (editor/option ed "tabSize")))
 
+;; doesn't assume direction
 (defn find-first-sibling [lines level]
   (let [ed (pool/last-active)]
     (some #(when (= level (line-level ed %)) %)
           lines)))
 
+;; assumes downward direction
 (defn find-first-non-child [lines level]
   (let [ed (pool/last-active)]
     (some #(when (>= level (line-level ed %)) %)
           lines)))
+
+;; assumes upward direction
+(defn find-parent [lines level]
+  (let [ed (pool/last-active)]
+    (some #(when (> level (line-level ed %)) %)
+          lines)))
+
+(defn jump-to-parent []
+  (let [ed (pool/last-active)
+        line (.-line (editor/cursor ed))
+        level (line-level ed line)]
+    (if-let [parent-line (find-parent
+                          (range (dec line) -1 -1) level)]
+      ;; assume parent is one level less though this isn't true for disjointed outlines
+      (editor/move-cursor ed {:line parent-line
+                              :ch (- level (editor/option ed "tabSize"))})
+      (notifos/set-msg! "No parent found" {:class "error"}))))
+
+(cmd/command {:command :ltfiles.jump-to-parent
+              :desc "ltfiles: jump to parent"
+              :exec jump-to-parent})
 
 (defn jump-forward-on-same-level []
   (let [ed (pool/last-active)
