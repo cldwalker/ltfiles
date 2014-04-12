@@ -177,6 +177,23 @@
                       (let [ed (pool/last-active)]
                         (editor/indent-line ed (.-line (editor/cursor ed)) "subtract")))})
 
+(defn find-disjointed-lines []
+  (let [ed (pool/last-active)
+        tabsize (editor/option ed "tabSize")]
+    (->> (range (editor/first-line ed) (inc (editor/last-line ed)))
+         (map #(hash-map :line % :level (line-level ed %)))
+         (partition 2 1)
+         (map (fn [[line1 line2]]
+                {:lines [(:line line1) (:line line2)]
+                 :difference (- (:level line2) (:level line1))}))
+         (remove #(or (neg? (:difference %))
+                      (#{0 tabsize} (:difference %)))))))
+
+
+;; useful for detecting if converting a messy outline went well i.e. mix of tabs + spaces
+(cmd/command {:command :ltfiles.find-disjointed-lines
+              :desc "ltfiles: find lines with incorrect levels between other lines"
+              :exec (comp prn find-disjointed-lines)})
 
 (comment
   (line-level (pool/last-active) 1))
