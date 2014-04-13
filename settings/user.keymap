@@ -28,6 +28,7 @@
                   "shift-tab" [:ltfiles.outdent]
                   "cmd-j" [:ltfiles.jump-forward-on-same-level]
                   "cmd-k" [:ltfiles.jump-backward-on-same-level]
+                  "alt-j" [:ltfiles.move-current-tree-down]
                   "cmd-u" [:ltfiles.jump-to-parent]
                   "cmd-shift-u" [:ltfiles.jump-to-parent :ltfiles.indent-fold] ; fold parent
                   "cmd-." [:ltfiles.select-current-tree]

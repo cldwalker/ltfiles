@@ -183,6 +183,7 @@
   (.replaceRange (editor/->cm-ed (pool/last-active))
                  "" #js {:line from :ch 0} #js {:line (inc to) :ch 0}))
 
+;; TODO: reuse and handle nil for other non-child-lines
 (defn next-non-child-line [ed line]
   (find-first-non-child
    (range (inc line) (inc (editor/last-line ed)))
@@ -191,24 +192,33 @@
 (defn move-current-tree []
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
+        level (line-level ed line)
         sibling-line (find-first-sibling
                       (range (inc line) (inc (editor/last-line ed)))
-                      (line-level ed line))
-        current-line-ends (next-non-child-line ed line)
-        next-node-in-new-tree? (neg? (- (line-level ed current-line-ends)
-                                       (line-level ed line)))
-        ;; TODO: handle nil for all non-child-lines
-        copied-lines (editor/range ed {:line line :ch 0} {:line current-line-ends :ch 0})
-        sibling-line-ends (next-non-child-line ed sibling-line)]
-    (prn "L" sibling-line sibling-line-ends)
-    (editor/operation ed
+                      level)]
+    (if-not sibling-line
+      (notifos/set-msg! "Next line not found" {:class "error"})
+      (editor/operation ed
                       (fn []
-                        (editor/move-cursor ed {:line (if next-node-in-new-tree? sibling-line sibling-line-ends)
-                                                :ch 0})
-                        (delete-lines line (dec current-line-ends))
-                        (editor/insert-at-cursor ed copied-lines)))))
+                        (let [current-line-ends (next-non-child-line ed line)
+                              next-node-in-new-tree? (neg? (- (line-level ed current-line-ends)
+                                                              level))
+                              copied-lines (editor/range ed {:line line :ch 0} {:line current-line-ends :ch 0})
+                              sibling-line-ends (next-non-child-line ed sibling-line)
+                              ;; account for nil end line for sibling i.e. EOF
+                              copied-lines (if sibling-line-ends copied-lines (str "\n" copied-lines))
+                              sibling-line-ends (or sibling-line-ends
+                                                    (inc (editor/last-line ed)))]
+                          ;; must be at beginning of line to paste copied whitespace correctly
+                          (editor/move-cursor ed {:line (if next-node-in-new-tree? sibling-line sibling-line-ends)
+                                                  :ch 0})
+                          (delete-lines line (dec current-line-ends))
+                          (editor/insert-at-cursor ed copied-lines)
+                          (editor/move-cursor ed {:line (-> ed editor/cursor .-line
+                                                            (- (- current-line-ends line)))
+                                                  :ch level})))))))
 
-(cmd/command {:command :ltfiles.move-current-tree
+(cmd/command {:command :ltfiles.move-current-tree-down
               :desc "ltfiles: Move current tree down"
               :exec move-current-tree})
 
@@ -231,6 +241,7 @@
               :exec (comp prn find-disjointed-lines)})
 
 (comment
+  (next-non-child-line (pool/last-active) 232)
   (editor/range (pool/last-active) {:line 217 :ch 0} {:line 219 :ch 0})
   (editor/insert-at-cursor (pool/last-active) "WOW")
   (line-level (pool/last-active) 1))
