@@ -177,6 +177,41 @@
                       (let [ed (pool/last-active)]
                         (editor/indent-line ed (.-line (editor/cursor ed)) "subtract")))})
 
+(defn delete-lines
+  "Deletes multiple lines starting on from and including to."
+  [from to]
+  (.replaceRange (editor/->cm-ed (pool/last-active))
+                 "" #js {:line from :ch 0} #js {:line (inc to) :ch 0}))
+
+(defn next-non-child-line [ed line]
+  (find-first-non-child
+   (range (inc line) (inc (editor/last-line ed)))
+   (line-level ed line)))
+
+(defn move-current-tree []
+  (let [ed (pool/last-active)
+        line (.-line (editor/cursor ed))
+        sibling-line (find-first-sibling
+                      (range (inc line) (inc (editor/last-line ed)))
+                      (line-level ed line))
+        current-line-ends (next-non-child-line ed line)
+        next-node-in-new-tree? (neg? (- (line-level ed current-line-ends)
+                                       (line-level ed line)))
+        ;; TODO: handle nil for all non-child-lines
+        copied-lines (editor/range ed {:line line :ch 0} {:line current-line-ends :ch 0})
+        sibling-line-ends (next-non-child-line ed sibling-line)]
+    (prn "L" sibling-line sibling-line-ends)
+    (editor/operation ed
+                      (fn []
+                        (editor/move-cursor ed {:line (if next-node-in-new-tree? sibling-line sibling-line-ends)
+                                                :ch 0})
+                        (delete-lines line (dec current-line-ends))
+                        (editor/insert-at-cursor ed copied-lines)))))
+
+(cmd/command {:command :ltfiles.move-current-tree
+              :desc "ltfiles: Move current tree down"
+              :exec move-current-tree})
+
 (defn find-disjointed-lines []
   (let [ed (pool/last-active)
         tabsize (editor/option ed "tabSize")]
@@ -196,4 +231,6 @@
               :exec (comp prn find-disjointed-lines)})
 
 (comment
+  (editor/range (pool/last-active) {:line 217 :ch 0} {:line 219 :ch 0})
+  (editor/insert-at-cursor (pool/last-active) "WOW")
   (line-level (pool/last-active) 1))
