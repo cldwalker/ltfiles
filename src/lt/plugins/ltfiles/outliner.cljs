@@ -189,38 +189,53 @@
    (range (inc line) (inc (editor/last-line ed)))
    (line-level ed line)))
 
-(defn move-current-tree []
+;; Limitation going :up - when moving a child node between trees, child node
+;; will move up an extra line. This is fixable by fixing next-non-child-line and
+;; next-node-in-new-tree?. Don't do this until it's worth the effort
+;; Note: better abstractions are needed here. Current code is hard to reason about and
+;; too entangled
+(defn move-current-tree [direction]
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
         level (line-level ed line)
-        sibling-line (find-first-sibling
-                      (range (inc line) (inc (editor/last-line ed)))
-                      level)]
+        lines-to-search (if (= direction :down)
+                          (range (inc line) (inc (editor/last-line ed)))
+                          (range (dec line) -1 -1))
+        sibling-line (find-first-sibling lines-to-search level)]
     (if-not sibling-line
-      (notifos/set-msg! "Next line not found" {:class "error"})
+      (notifos/set-msg! (if (= direction :down)
+                          "Next line not found" "Previous line not found")
+                        {:class "error"})
       (editor/operation ed
-                      (fn []
-                        (let [current-line-ends (next-non-child-line ed line)
-                              next-node-in-new-tree? (neg? (- (line-level ed current-line-ends)
-                                                              level))
-                              copied-lines (editor/range ed {:line line :ch 0} {:line current-line-ends :ch 0})
-                              sibling-line-ends (next-non-child-line ed sibling-line)
-                              ;; account for nil end line for sibling i.e. EOF
-                              copied-lines (if sibling-line-ends copied-lines (str "\n" copied-lines))
-                              sibling-line-ends (or sibling-line-ends
-                                                    (inc (editor/last-line ed)))]
-                          ;; must be at beginning of line to paste copied whitespace correctly
-                          (editor/move-cursor ed {:line (if next-node-in-new-tree? sibling-line sibling-line-ends)
-                                                  :ch 0})
-                          (delete-lines line (dec current-line-ends))
-                          (editor/insert-at-cursor ed copied-lines)
-                          (editor/move-cursor ed {:line (-> ed editor/cursor .-line
-                                                            (- (- current-line-ends line)))
-                                                  :ch level})))))))
+                        (fn []
+                          (let [current-line-ends (next-non-child-line ed line)
+                                next-node-in-new-tree? (neg? (- (line-level ed current-line-ends)
+                                                                level))
+                                copied-lines (editor/range ed {:line line :ch 0} {:line current-line-ends :ch 0})
+                                sibling-line-ends (next-non-child-line ed sibling-line)
+                                ;; account for nil end line for sibling i.e. EOF
+                                copied-lines (if sibling-line-ends copied-lines (str "\n" copied-lines))
+                                sibling-line-ends (or sibling-line-ends
+                                                      (inc (editor/last-line ed)))
+                                cursor-line (if (= direction :down)
+                                              (if next-node-in-new-tree? sibling-line sibling-line-ends)
+                                              sibling-line)]
+                            ;; must be at beginning of line to paste copied whitespace correctly
+                            (editor/move-cursor ed {:line cursor-line :ch 0})
+                            (delete-lines line (dec current-line-ends))
+                            (editor/insert-at-cursor ed copied-lines)
+                            (editor/move-cursor ed {:line (-> ed editor/cursor .-line
+                                                              (- (- current-line-ends line)))
+                                                    :ch level})))))))
 
 (cmd/command {:command :ltfiles.move-current-tree-down
               :desc "ltfiles: Move current tree down"
-              :exec move-current-tree})
+              :exec (partial move-current-tree :down)})
+
+
+(cmd/command {:command :ltfiles.move-current-tree-up
+              :desc "ltfiles: Move current tree up"
+              :exec (partial move-current-tree :up)})
 
 (defn find-disjointed-lines []
   (let [ed (pool/last-active)
