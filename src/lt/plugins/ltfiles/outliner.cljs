@@ -311,8 +311,8 @@
 
 
 ;; useful for detecting if converting a messy outline went well i.e. mix of tabs + spaces
-(cmd/command {:command :ltfiles.find-disjointed-lines
-              :desc "ltfiles: find lines with incorrect indents between other lines"
+(cmd/command {:command :ltfiles.find-malformed-lines
+              :desc "ltfiles: find lines with malformed levels caused by incorrect indents"
               :exec (comp prn find-disjointed-lines)})
 
 (comment
