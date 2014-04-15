@@ -60,28 +60,53 @@
                           (unfold-all #(< % level))
                           (fold-all #(= % level))))}))
 
-(defn unfold-next-level-for-current-tree []
+(defn find-first-folded-line [ed lines]
+  (->> lines
+       (map #(hash-map :line %
+                       :marks (.findMarksAt (editor/->cm-ed ed) #js {:line % :ch 0})))
+       (drop-while #(-> % :marks js->clj empty?))
+       ;; this check is not as thorough as isFolded() in fold.js
+       (some (fn [m]
+               (when (some #(.-__isFold %) (js->clj (:marks m)))
+                 (:line m))))))
+
+(defn unfold-one-level-for-current-tree []
   (let [ed (pool/last-active)
         current-line (.-line (editor/cursor ed))
         ;; TODO: handle nil
         next-tree-line (next-non-child-line ed current-line)
-        first-folded-line (->> (range current-line next-tree-line)
-                               (map #(hash-map :line %
-                                               :marks (.findMarksAt (editor/->cm-ed ed) #js {:line % :ch 0})))
-                               (drop-while #(-> % :marks js->clj empty?))
-                               ;; this check is not as thorough as isFolded() in fold.js
-                               (some (fn [m]
-                                       (when (some #(.-__isFold %) (js->clj (:marks m)))
-                                         (:line m)))))
+        first-folded-line (find-first-folded-line ed (range current-line next-tree-line))
         ;; line with fold seems to be one line below, hence dec
         next-level (when first-folded-line (line-level ed (dec first-folded-line)))]
     (when first-folded-line
       (unfold-all #(<= % next-level)
                   (range current-line next-tree-line)))))
 
-(cmd/command {:command :ltfiles.unfold-next-level-for-current-tree
-              :desc "ltfiles: unfolds current tree one additional level"
-              :exec unfold-next-level-for-current-tree})
+(cmd/command {:command :ltfiles.unfold-one-level-for-current-tree
+              :desc "ltfiles: unfolds current tree one level"
+              :exec unfold-one-level-for-current-tree})
+
+(defn fold-one-level-for-current-tree []
+  (let [ed (pool/last-active)
+        current-line (.-line (editor/cursor ed))
+        ;; TODO: handle nil
+        next-tree-line (next-non-child-line ed current-line)
+        first-folded-line (find-first-folded-line ed (range current-line next-tree-line))
+        folded-level (if first-folded-line
+                       ;; line with fold seems to be one line below, hence dec
+                       (line-level ed (dec first-folded-line))
+                       ;; Since there are no folds, find deepest indent
+                       (apply max (map
+                                   #(line-level ed %)
+                                   (range current-line next-tree-line))))
+                    ;; fold back one level
+        next-level (- folded-level (editor/option ed "tabSize"))]
+    (fold-all #(>= % next-level)
+              (range current-line next-tree-line))))
+
+(cmd/command {:command :ltfiles.fold-one-level-for-current-tree
+              :desc "ltfiles: folds current tree one level"
+              :exec fold-one-level-for-current-tree})
 
 (cmd/command {:command :ltfiles.indent-fold
               :desc "ltfiles: fold by indent"
@@ -92,6 +117,7 @@
                                    #js {:rangeFinder js/CodeMirror.fold.indent}
                                    nil)))})
 
+;; TODO: rename to line-indent and vars that use it
 ;; same as getIndent() embedded in fold.indent
 (defn line-level [ed line]
   (js/CodeMirror.countColumn
