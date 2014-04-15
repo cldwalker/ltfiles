@@ -60,6 +60,28 @@
                           (unfold-all #(< % level))
                           (fold-all #(= % level))))}))
 
+(defn unfold-next-level-for-current-tree []
+  (let [ed (pool/last-active)
+        current-line (.-line (editor/cursor ed))
+        ;; TODO: handle nil
+        next-tree-line (next-non-child-line ed current-line)
+        first-folded-line (->> (range current-line next-tree-line)
+                               (map #(hash-map :line %
+                                               :marks (.findMarksAt (editor/->cm-ed ed) #js {:line % :ch 0})))
+                               (drop-while #(-> % :marks js->clj empty?))
+                               ;; this check is not as thorough as isFolded() in fold.js
+                               (some (fn [m]
+                                       (when (some #(.-__isFold %) (js->clj (:marks m)))
+                                         (:line m)))))
+        ;; line with fold seems to be one line below, hence dec
+        next-level (when first-folded-line (line-level ed (dec first-folded-line)))]
+    (when first-folded-line
+      (unfold-all #(<= % next-level)
+                  (range current-line next-tree-line)))))
+
+(cmd/command {:command :ltfiles.unfold-next-level-for-current-tree
+              :desc "ltfiles: unfolds current tree one additional level"
+              :exec unfold-next-level-for-current-tree})
 
 (cmd/command {:command :ltfiles.indent-fold
               :desc "ltfiles: fold by indent"
