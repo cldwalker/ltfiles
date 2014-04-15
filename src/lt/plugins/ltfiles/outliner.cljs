@@ -43,7 +43,6 @@
   (some #(when (>= level (line-level ed %)) %)
         lines))
 
-;; TODO: reuse and handle nil for other non-child-lines
 (defn next-non-child-line [ed line]
   (find-first-non-child
    ed
@@ -202,14 +201,12 @@
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
         level (line-level ed line)
-        non-child-line (find-first-non-child
-                        ed
-                        (range (inc line) (inc (editor/last-line ed)))
-                        level)]
+        last-line (dec (safe-next-non-child-line ed line))]
     (editor/set-selection
      ed
      {:line line :ch 0}
-     {:line (dec non-child-line) :ch 1000})))
+     {:line last-line
+      :ch (editor/line-length ed last-line)})))
 
 ;; handy for deleting, yanking, indent, outdenting
 (cmd/command {:command :ltfiles.select-current-tree
@@ -219,13 +216,9 @@
 (defn fold-fn-for-current-tree [fold-fn]
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
-        level (line-level ed line)
-        non-child-line (find-first-non-child
-                        ed
-                        (range (inc line) (inc (editor/last-line ed)))
-                        level)]
+        level (line-level ed line)]
     (fold-fn (constantly true)
-             (range line non-child-line))))
+             (range line (safe-next-non-child-line ed line)))))
 
 (cmd/command {:command :ltfiles.fold-all-for-current-tree
               :desc "ltfiles: fold all for current tree"
