@@ -4,10 +4,60 @@
             [lt.objs.notifos :as notifos]
             [lt.objs.editor :as editor]))
 
+;; CodeMirror helpers - must take an editor object
+;; ==================
+
 (defn fold-code
   "Like editor/fold-code but handles all args to .foldCode and doesn't assume current cursor"
   [ed pos opts force]
   (.foldCode (editor/->cm-ed ed) pos opts force))
+
+;; TODO: rename to line-indent and vars that use it
+;; same as getIndent() embedded in fold.indent
+(defn line-level [ed line]
+  (js/CodeMirror.countColumn
+   (editor/line ed line) nil (editor/option ed "tabSize")))
+
+(defn find-first-folded-line [ed lines]
+  (->> lines
+       (map #(hash-map :line %
+                       :marks (.findMarksAt (editor/->cm-ed ed) #js {:line % :ch 0})))
+       (drop-while #(-> % :marks js->clj empty?))
+       ;; this check is not as thorough as isFolded() in fold.js
+       (some (fn [m]
+               (when (some #(.-__isFold %) (js->clj (:marks m)))
+                 (:line m))))))
+
+;; doesn't assume direction
+(defn find-first-sibling [ed lines level]
+  (some #(when (= level (line-level ed %)) %)
+        lines))
+
+;; assumes upward direction
+(defn find-parent [ed lines level]
+  (some #(when (> level (line-level ed %)) %)
+        lines))
+
+;; assumes downward direction
+(defn find-first-non-child [ed lines level]
+  (some #(when (>= level (line-level ed %)) %)
+        lines))
+
+;; TODO: reuse and handle nil for other non-child-lines
+(defn next-non-child-line [ed line]
+  (find-first-non-child
+   ed
+   (range (inc line) (inc (editor/last-line ed)))
+   (line-level ed line)))
+
+(defn safe-next-non-child-line
+  "Ensure a line is returned i.e. return line past end-line if on last tree"
+  [ed current-line]
+  (or (next-non-child-line ed current-line)
+      (inc (editor/last-line ed))))
+
+;; Commands
+;; ========
 
 ;; from https://groups.google.com/forum/#!searchin/codemirror/foldall/codemirror/u3IYL-5g0t4/4YGdXEBFgZoJ
 ;; consider just writing this in JS
@@ -60,22 +110,6 @@
                           (unfold-all #(< % level))
                           (fold-all #(= % level))))}))
 
-(defn find-first-folded-line [ed lines]
-  (->> lines
-       (map #(hash-map :line %
-                       :marks (.findMarksAt (editor/->cm-ed ed) #js {:line % :ch 0})))
-       (drop-while #(-> % :marks js->clj empty?))
-       ;; this check is not as thorough as isFolded() in fold.js
-       (some (fn [m]
-               (when (some #(.-__isFold %) (js->clj (:marks m)))
-                 (:line m))))))
-
-(defn safe-next-non-child-line
-  "Ensure a line is returned i.e. return line past end-line if on last tree"
-  [ed current-line]
-  (or (next-non-child-line ed current-line)
-      (inc (editor/last-line ed))))
-
 (defn unfold-one-level-for-current-tree []
   (let [ed (pool/last-active)
         current-line (.-line (editor/cursor ed))
@@ -121,36 +155,12 @@
                                    #js {:rangeFinder js/CodeMirror.fold.indent}
                                    nil)))})
 
-;; TODO: rename to line-indent and vars that use it
-;; same as getIndent() embedded in fold.indent
-(defn line-level [ed line]
-  (js/CodeMirror.countColumn
-   (editor/line ed line) nil (editor/option ed "tabSize")))
-
-;; doesn't assume direction
-(defn find-first-sibling [lines level]
-  (let [ed (pool/last-active)]
-    (some #(when (= level (line-level ed %)) %)
-          lines)))
-
-;; assumes downward direction
-(defn find-first-non-child [lines level]
-  (let [ed (pool/last-active)]
-    (some #(when (>= level (line-level ed %)) %)
-          lines)))
-
-;; assumes upward direction
-(defn find-parent [lines level]
-  (let [ed (pool/last-active)]
-    (some #(when (> level (line-level ed %)) %)
-          lines)))
-
 (defn jump-to-parent []
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
         level (line-level ed line)]
     (if-let [parent-line (find-parent
-                          (range (dec line) -1 -1) level)]
+                          ed (range (dec line) -1 -1) level)]
       ;; assume parent is one level less though this isn't true for disjointed outlines
       (editor/move-cursor ed {:line parent-line
                               :ch (- level (editor/option ed "tabSize"))})
@@ -165,7 +175,7 @@
         line (.-line (editor/cursor ed))
         level (line-level ed line)]
     (if-let [next-line (find-first-sibling
-                        (range (inc line) (inc (editor/last-line ed))) level)]
+                        ed (range (inc line) (inc (editor/last-line ed))) level)]
       ;; cursor off when lines are mixes of tabs and spaces
       (editor/move-cursor ed {:line next-line :ch level})
       (notifos/set-msg! "No next line found" {:class "error"}))))
@@ -179,7 +189,7 @@
         line (.-line (editor/cursor ed))
         level (line-level ed line)]
     (if-let [prev-line (find-first-sibling
-                        (range (dec line) -1 -1) level)]
+                        ed (range (dec line) -1 -1) level)]
       ;; cursor off when lines are mixes of tabs and spaces
       (editor/move-cursor ed {:line prev-line :ch level})
       (notifos/set-msg! "No previous line found" {:class "error"}))))
@@ -193,6 +203,7 @@
         line (.-line (editor/cursor ed))
         level (line-level ed line)
         non-child-line (find-first-non-child
+                        ed
                         (range (inc line) (inc (editor/last-line ed)))
                         level)]
     (editor/set-selection
@@ -210,6 +221,7 @@
         line (.-line (editor/cursor ed))
         level (line-level ed line)
         non-child-line (find-first-non-child
+                        ed
                         (range (inc line) (inc (editor/last-line ed)))
                         level)]
     (fold-fn (constantly true)
@@ -235,12 +247,6 @@
   (.replaceRange (editor/->cm-ed (pool/last-active))
                  "" #js {:line from :ch 0} #js {:line (inc to) :ch 0}))
 
-;; TODO: reuse and handle nil for other non-child-lines
-(defn next-non-child-line [ed line]
-  (find-first-non-child
-   (range (inc line) (inc (editor/last-line ed)))
-   (line-level ed line)))
-
 ;; Limitation going :up - when moving a child node between trees, child node
 ;; will move up an extra line. This is fixable by fixing next-non-child-line and
 ;; next-node-in-new-tree?. Don't do this until it's worth the effort
@@ -253,7 +259,7 @@
         lines-to-search (if (= direction :down)
                           (range (inc line) (inc (editor/last-line ed)))
                           (range (dec line) -1 -1))
-        sibling-line (find-first-sibling lines-to-search level)]
+        sibling-line (find-first-sibling ed lines-to-search level)]
     (if-not sibling-line
       (notifos/set-msg! (if (= direction :down)
                           "Next line not found" "Previous line not found")
