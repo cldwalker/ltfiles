@@ -4,6 +4,11 @@
             [lt.objs.notifos :as notifos]
             [lt.objs.editor :as editor]))
 
+;; Terminology
+;; indent - whitespace at beginning of each line
+;; level - outline level. Non-indented levels are level 1. Subsequent levels are
+;; one more tabSize indent than the previous line.
+
 ;; CodeMirror helpers - must take an editor object
 ;; ==================
 
@@ -20,7 +25,7 @@
    (editor/operation ed
                      (fn []
                        (doseq [line lines]
-                         (when (condition (line-level ed line))
+                         (when (condition (line-indent ed line))
                            (fold-code ed
                                       #js {:line line :ch 0}
                                       #js {:rangeFinder js/CodeMirror.fold.indent}
@@ -33,7 +38,7 @@
    (editor/operation ed
                      (fn []
                        (doseq [line lines]
-                         (when (condition (line-level ed line))
+                         (when (condition (line-indent ed line))
                            (fold-code ed
                                       #js {:line line :ch 0}
                                       #js {:rangeFinder js/CodeMirror.fold.indent}
@@ -42,7 +47,7 @@
 
 ;; TODO: rename to line-indent and vars that use it
 ;; same as getIndent() embedded in fold.indent
-(defn line-level [ed line]
+(defn line-indent [ed line]
   (js/CodeMirror.countColumn
    (editor/line ed line) nil (editor/option ed "tabSize")))
 
@@ -57,26 +62,26 @@
                  (:line m))))))
 
 ;; doesn't assume direction
-(defn find-first-sibling [ed lines level]
-  (some #(when (= level (line-level ed %)) %)
+(defn find-first-sibling [ed lines indent]
+  (some #(when (= indent (line-indent ed %)) %)
         lines))
 
 ;; assumes upward direction
-(defn find-parent [ed lines level]
-  (some #(when (> level (line-level ed %)) %)
+(defn find-parent [ed lines indent]
+  (some #(when (> indent (line-indent ed %)) %)
         lines))
 
 ;; assumes downward direction
 ;; useful for finding current tree
-(defn find-first-non-child [ed lines level]
-  (some #(when (>= level (line-level ed %)) %)
+(defn find-first-non-child [ed lines indent]
+  (some #(when (>= indent (line-indent ed %)) %)
         lines))
 
 (defn next-non-child-line [ed line]
   (find-first-non-child
    ed
    (range (inc line) (inc (editor/last-line ed)))
-   (line-level ed line)))
+   (line-indent ed line)))
 
 (defn safe-next-non-child-line
   "Ensure a line is returned i.e. return line past end-line if on last tree"
@@ -103,10 +108,10 @@
                 :desc (str "ltfiles: fold level " num " nodes")
                 :exec (fn []
                         (let [tabsize (editor/option (pool/last-active) "tabSize")
-                              level (* (dec num) tabsize)
+                              indent (* (dec num) tabsize)
                               ed (pool/last-active)]
-                          (unfold-all ed #(< % level))
-                          (fold-all ed #(= % level))))}))
+                          (unfold-all ed #(< % indent))
+                          (fold-all ed #(= % indent))))}))
 
 (defn unfold-one-level-for-current-tree []
   (let [ed (pool/last-active)
@@ -114,10 +119,10 @@
         next-tree-line (safe-next-non-child-line ed current-line)
         first-folded-line (find-first-folded-line ed (range current-line next-tree-line))
         ;; line with fold seems to be one line below, hence dec
-        next-level (when first-folded-line (line-level ed (dec first-folded-line)))]
+        next-indent (when first-folded-line (line-indent ed (dec first-folded-line)))]
     (when first-folded-line
       (unfold-all ed
-                  #(<= % next-level)
+                  #(<= % next-indent)
                   (range current-line next-tree-line)))))
 
 (cmd/command {:command :ltfiles.unfold-one-level-for-current-tree
@@ -129,18 +134,18 @@
         current-line (.-line (editor/cursor ed))
         next-tree-line (safe-next-non-child-line ed current-line)
         first-folded-line (find-first-folded-line ed (range current-line next-tree-line))
-        folded-level (if first-folded-line
+        folded-indent (if first-folded-line
                        ;; line with fold seems to be one line below, hence dec
-                       (line-level ed (dec first-folded-line))
+                       (line-indent ed (dec first-folded-line))
                        ;; Since there are no folds, find deepest indent
                        (apply max (map
-                                   #(line-level ed %)
+                                   #(line-indent ed %)
                                    (range current-line next-tree-line))))
-                    ;; fold back one level
-        next-level (- folded-level (editor/option ed "tabSize"))]
+                    ;; fold back one indent
+        next-indent (- folded-indent (editor/option ed "tabSize"))]
     (fold-all
      ed
-     #(>= % next-level)
+     #(>= % next-indent)
      (range current-line next-tree-line))))
 
 (cmd/command {:command :ltfiles.fold-one-level-for-current-tree
@@ -159,12 +164,12 @@
 (defn jump-to-parent []
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
-        level (line-level ed line)]
+        indent (line-indent ed line)]
     (if-let [parent-line (find-parent
-                          ed (range (dec line) -1 -1) level)]
+                          ed (range (dec line) -1 -1) indent)]
       ;; assume parent is one level less though this isn't true for disjointed outlines
       (editor/move-cursor ed {:line parent-line
-                              :ch (- level (editor/option ed "tabSize"))})
+                              :ch (- indent (editor/option ed "tabSize"))})
       (notifos/set-msg! "No parent found" {:class "error"}))))
 
 (cmd/command {:command :ltfiles.jump-to-parent
@@ -174,11 +179,11 @@
 (defn jump-forward-on-same-level []
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
-        level (line-level ed line)]
+        indent (line-indent ed line)]
     (if-let [next-line (find-first-sibling
-                        ed (range (inc line) (inc (editor/last-line ed))) level)]
+                        ed (range (inc line) (inc (editor/last-line ed))) indent)]
       ;; cursor off when lines are mixes of tabs and spaces
-      (editor/move-cursor ed {:line next-line :ch level})
+      (editor/move-cursor ed {:line next-line :ch indent})
       (notifos/set-msg! "No next line found" {:class "error"}))))
 
 (cmd/command {:command :ltfiles.jump-forward-on-same-level
@@ -188,11 +193,11 @@
 (defn jump-backward-on-same-level []
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
-        level (line-level ed line)]
+        indent (line-indent ed line)]
     (if-let [prev-line (find-first-sibling
-                        ed (range (dec line) -1 -1) level)]
+                        ed (range (dec line) -1 -1) indent)]
       ;; cursor off when lines are mixes of tabs and spaces
-      (editor/move-cursor ed {:line prev-line :ch level})
+      (editor/move-cursor ed {:line prev-line :ch indent})
       (notifos/set-msg! "No previous line found" {:class "error"}))))
 
 (cmd/command {:command :ltfiles.jump-backward-on-same-level
@@ -202,7 +207,7 @@
 (defn select-current-tree []
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
-        level (line-level ed line)
+        indent (line-indent ed line)
         last-line (dec (safe-next-non-child-line ed line))]
     (editor/set-selection
      ed
@@ -218,7 +223,7 @@
 (defn fold-fn-for-current-tree [fold-fn]
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
-        level (line-level ed line)]
+        indent (line-indent ed line)]
     (fold-fn
      ed
      (constantly true)
@@ -252,11 +257,11 @@
 (defn move-current-tree [direction]
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
-        level (line-level ed line)
+        indent (line-indent ed line)
         lines-to-search (if (= direction :down)
                           (range (inc line) (inc (editor/last-line ed)))
                           (range (dec line) -1 -1))
-        sibling-line (find-first-sibling ed lines-to-search level)]
+        sibling-line (find-first-sibling ed lines-to-search indent)]
     (if-not sibling-line
       (notifos/set-msg! (if (= direction :down)
                           "Next line not found" "Previous line not found")
@@ -264,8 +269,8 @@
       (editor/operation ed
                         (fn []
                           (let [current-line-ends (next-non-child-line ed line)
-                                next-node-in-new-tree? (neg? (- (line-level ed current-line-ends)
-                                                                level))
+                                next-node-in-new-tree? (neg? (- (line-indent ed current-line-ends)
+                                                                indent))
                                 copied-lines (editor/range ed {:line line :ch 0} {:line current-line-ends :ch 0})
                                 sibling-line-ends (next-non-child-line ed sibling-line)
                                 ;; account for nil end line for sibling i.e. EOF
@@ -281,7 +286,7 @@
                             (editor/insert-at-cursor ed copied-lines)
                             (editor/move-cursor ed {:line (-> ed editor/cursor .-line
                                                               (- (- current-line-ends line)))
-                                                    :ch level})))))))
+                                                    :ch indent})))))))
 
 (cmd/command {:command :ltfiles.move-current-tree-down
               :desc "ltfiles: Move current tree down"
@@ -296,22 +301,22 @@
   (let [ed (pool/last-active)
         tabsize (editor/option ed "tabSize")]
     (->> (range (editor/first-line ed) (inc (editor/last-line ed)))
-         (map #(hash-map :line % :level (line-level ed %)))
+         (map #(hash-map :line % :indent (line-indent ed %)))
          (partition 2 1)
          (map (fn [[line1 line2]]
                 {:lines [(:line line1) (:line line2)]
-                 :difference (- (:level line2) (:level line1))}))
+                 :difference (- (:indent line2) (:indent line1))}))
          (remove #(or (neg? (:difference %))
                       (#{0 tabsize} (:difference %)))))))
 
 
 ;; useful for detecting if converting a messy outline went well i.e. mix of tabs + spaces
 (cmd/command {:command :ltfiles.find-disjointed-lines
-              :desc "ltfiles: find lines with incorrect levels between other lines"
+              :desc "ltfiles: find lines with incorrect indents between other lines"
               :exec (comp prn find-disjointed-lines)})
 
 (comment
   (next-non-child-line (pool/last-active) 232)
   (editor/range (pool/last-active) {:line 217 :ch 0} {:line 219 :ch 0})
   (editor/insert-at-cursor (pool/last-active) "WOW")
-  (line-level (pool/last-active) 1))
+  (line-indent (pool/last-active) 1))
