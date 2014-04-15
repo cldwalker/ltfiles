@@ -70,11 +70,16 @@
                (when (some #(.-__isFold %) (js->clj (:marks m)))
                  (:line m))))))
 
+(defn safe-next-non-child-line
+  "Ensure a line is returned i.e. return line past end-line if on last tree"
+  [ed current-line]
+  (or (next-non-child-line ed current-line)
+      (inc (editor/last-line ed))))
+
 (defn unfold-one-level-for-current-tree []
   (let [ed (pool/last-active)
         current-line (.-line (editor/cursor ed))
-        ;; TODO: handle nil
-        next-tree-line (next-non-child-line ed current-line)
+        next-tree-line (safe-next-non-child-line ed current-line)
         first-folded-line (find-first-folded-line ed (range current-line next-tree-line))
         ;; line with fold seems to be one line below, hence dec
         next-level (when first-folded-line (line-level ed (dec first-folded-line)))]
@@ -89,8 +94,7 @@
 (defn fold-one-level-for-current-tree []
   (let [ed (pool/last-active)
         current-line (.-line (editor/cursor ed))
-        ;; TODO: handle nil
-        next-tree-line (next-non-child-line ed current-line)
+        next-tree-line (safe-next-non-child-line ed current-line)
         first-folded-line (find-first-folded-line ed (range current-line next-tree-line))
         folded-level (if first-folded-line
                        ;; line with fold seems to be one line below, hence dec
