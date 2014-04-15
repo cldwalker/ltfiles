@@ -12,6 +12,34 @@
   [ed pos opts force]
   (.foldCode (editor/->cm-ed ed) pos opts force))
 
+;; from https://groups.google.com/forum/#!searchin/codemirror/foldall/codemirror/u3IYL-5g0t4/4YGdXEBFgZoJ
+(defn fold-all
+  ([ed condition]
+   (fold-all ed condition (range (editor/first-line ed) (inc (editor/last-line ed)))))
+  ([ed condition lines]
+   (editor/operation ed
+                     (fn []
+                       (doseq [line lines]
+                         (when (condition (line-level ed line))
+                           (fold-code ed
+                                      #js {:line line :ch 0}
+                                      #js {:rangeFinder js/CodeMirror.fold.indent}
+                                      "fold")))))))
+
+(defn unfold-all
+  ([ed condition]
+   (unfold-all ed condition (range (editor/first-line ed) (inc (editor/last-line ed)))))
+  ([ed condition lines]
+   (editor/operation ed
+                     (fn []
+                       (doseq [line lines]
+                         (when (condition (line-level ed line))
+                           (fold-code ed
+                                      #js {:line line :ch 0}
+                                      #js {:rangeFinder js/CodeMirror.fold.indent}
+                                      "unfold")))))))
+
+
 ;; TODO: rename to line-indent and vars that use it
 ;; same as getIndent() embedded in fold.indent
 (defn line-level [ed line]
@@ -39,6 +67,7 @@
         lines))
 
 ;; assumes downward direction
+;; useful for finding current tree
 (defn find-first-non-child [ed lines level]
   (some #(when (>= level (line-level ed %)) %)
         lines))
@@ -58,56 +87,26 @@
 ;; Commands
 ;; ========
 
-;; from https://groups.google.com/forum/#!searchin/codemirror/foldall/codemirror/u3IYL-5g0t4/4YGdXEBFgZoJ
-;; consider just writing this in JS
-(defn fold-all
-  ([condition]
-   (let [ed (pool/last-active)]
-     (fold-all condition (range (editor/first-line ed) (inc (editor/last-line ed))))))
-  ([condition lines]
-   (let [ed (pool/last-active)]
-     (editor/operation ed
-                       (fn []
-                         (doseq [line lines]
-                           (when (condition (line-level ed line))
-                             (fold-code ed
-                                        #js {:line line :ch 0}
-                                        #js {:rangeFinder js/CodeMirror.fold.indent}
-                                        "fold"))))))))
-
-
-(defn unfold-all
-  ([condition]
-   (let [ed (pool/last-active)]
-     (unfold-all condition (range (editor/first-line ed) (inc (editor/last-line ed))))))
-  ([condition lines]
-   (let [ed (pool/last-active)]
-     (editor/operation ed
-                       (fn []
-                         (doseq [line lines]
-                           (when (condition (line-level ed line))
-                             (fold-code ed
-                                        #js {:line line :ch 0}
-                                        #js {:rangeFinder js/CodeMirror.fold.indent}
-                                        "unfold"))))))))
-
 (cmd/command {:command :ltfiles.fold-all
               :desc "ltfiles: fold the whole file"
-              :exec (partial fold-all (constantly true))})
+              :exec (fn []
+                      (fold-all (pool/last-active) (constantly true)))})
 
 
 (cmd/command {:command :ltfiles.unfold-all
               :desc "ltfiles: unfold the whole file"
-              :exec (partial unfold-all (constantly true))})
+              :exec (fn []
+                      (unfold-all (pool/last-active) (constantly true)))})
 
 (doseq [num (range 1 10)]
   (cmd/command {:command (keyword (str "ltfiles.fold-level-" num))
                 :desc (str "ltfiles: fold level " num " nodes")
                 :exec (fn []
                         (let [tabsize (editor/option (pool/last-active) "tabSize")
-                              level (* (dec num) tabsize)]
-                          (unfold-all #(< % level))
-                          (fold-all #(= % level))))}))
+                              level (* (dec num) tabsize)
+                              ed (pool/last-active)]
+                          (unfold-all ed #(< % level))
+                          (fold-all ed #(= % level))))}))
 
 (defn unfold-one-level-for-current-tree []
   (let [ed (pool/last-active)
@@ -117,7 +116,8 @@
         ;; line with fold seems to be one line below, hence dec
         next-level (when first-folded-line (line-level ed (dec first-folded-line)))]
     (when first-folded-line
-      (unfold-all #(<= % next-level)
+      (unfold-all ed
+                  #(<= % next-level)
                   (range current-line next-tree-line)))))
 
 (cmd/command {:command :ltfiles.unfold-one-level-for-current-tree
@@ -138,8 +138,10 @@
                                    (range current-line next-tree-line))))
                     ;; fold back one level
         next-level (- folded-level (editor/option ed "tabSize"))]
-    (fold-all #(>= % next-level)
-              (range current-line next-tree-line))))
+    (fold-all
+     ed
+     #(>= % next-level)
+     (range current-line next-tree-line))))
 
 (cmd/command {:command :ltfiles.fold-one-level-for-current-tree
               :desc "ltfiles: folds current tree one level"
@@ -217,8 +219,10 @@
   (let [ed (pool/last-active)
         line (.-line (editor/cursor ed))
         level (line-level ed line)]
-    (fold-fn (constantly true)
-             (range line (safe-next-non-child-line ed line)))))
+    (fold-fn
+     ed
+     (constantly true)
+     (range line (safe-next-non-child-line ed line)))))
 
 (cmd/command {:command :ltfiles.fold-all-for-current-tree
               :desc "ltfiles: fold all for current tree"
