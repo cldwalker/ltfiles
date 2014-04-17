@@ -89,6 +89,9 @@
   (or (next-non-child-line ed current-line)
       (inc (editor/last-line ed))))
 
+(defn clear-selection [ed]
+  (.setCursor (editor/->cm-ed ed) (editor/cursor ed "anchor")))
+
 ;; Commands
 ;; ========
 
@@ -296,6 +299,20 @@
 (cmd/command {:command :ltfiles.move-current-tree-up
               :desc "ltfiles: Move current tree up"
               :exec (partial move-current-tree :up)})
+
+(defn indent-current-tree [direction]
+  (let [ed (pool/last-active)]
+    (select-current-tree)
+    (editor/indent-selection ed direction)
+    (clear-selection ed)))
+
+(cmd/command {:command :ltfiles.indent-selection
+              :desc "ltfiles: indents current selection"
+              :exec (partial indent-current-tree "add")})
+
+(cmd/command {:command :ltfiles.unindent-selection
+              :desc "ltfiles: unindents current selection"
+              :exec (partial indent-current-tree "subtract")})
 
 (defn find-disjointed-lines []
   (let [ed (pool/last-active)
