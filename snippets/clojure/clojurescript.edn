@@ -1,0 +1,8 @@
+;; This can also be used from clojure with "Select snippet" dropdown
+{:mode "editor.clojurescript"
+ :snippets [{:name "defn"
+             :key "defn"
+             :snippet-file "defn.snip"}
+            {:name "ns"
+             :key "ns"
+             :snippet-file "ns.snip"}]}

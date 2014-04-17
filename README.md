@@ -14,6 +14,8 @@ $ cd ~/Library/Application\ Support/LightTable/plugins/ltfiles
 # If you have existing settings, back them up
 $ mv ../../settings{,.bak}
 $ ln -s $PWD/settings $PWD/../../settings
+# just for snippets plugin
+ln -s $PWD/snippets $PWD/../../snippets
 ```
 
 ## Usage

@@ -1,0 +1,10 @@
+{:mode "editor.clojurescript"
+ :snippets [
+  {:name "Light Table: Behavior"
+   :key "ltb"
+   :snippet-file "behavior.snip"
+   }
+  {:name "Light Table: Command"
+   :key "ltc"
+   :snippet-file "command.snip"
+   }]}

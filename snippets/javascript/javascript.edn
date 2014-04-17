@@ -1,0 +1,11 @@
+{:mode "editor.javascript"
+ :snippets [
+ {:name "JavaScript function"
+  :key "fn"
+  :snippet
+"function $1 ($2) {
+  return $0;
+}"
+  }
+
+]}

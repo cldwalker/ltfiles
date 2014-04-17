@@ -65,6 +65,8 @@
      :workspace.focused {"ctrl-n" [:lt.plugins.workspace-nav/navigate-south]
                          "ctrl-p" [:lt.plugins.workspace-nav/navigate-north]}
 
+     :tabs {"ctrl-tab" [:snippet.select]}
+
      ;; Broken alt combos: i,e
 
      ;; Thanks to https://github.com/jamii/lt-config/ for most watches
