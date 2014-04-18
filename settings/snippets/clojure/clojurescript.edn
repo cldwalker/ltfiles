@@ -1,5 +1,4 @@
-;; This can also be used from clojure with "Select snippet" dropdown
-{:mode "editor.clojurescript"
+{:modes {:+ #{:editor.clojurescript :editor.clojure}}
  :snippets [{:name "defn"
              :key "defn"
              :snippet-file "defn.snip"}

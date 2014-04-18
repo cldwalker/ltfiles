@@ -1,4 +1,4 @@
-{:mode "editor.clojurescript"
+{:modes {:+ #{:editor.clojurescript}}
  :snippets [
   {:name "Light Table: Behavior"
    :key "ltb"

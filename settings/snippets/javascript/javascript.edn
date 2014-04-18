@@ -1,4 +1,4 @@
-{:mode "editor.javascript"
+{:modes {:+ #{:editor.javascript}}
  :snippets [
  {:name "JavaScript function"
   :key "fn"
