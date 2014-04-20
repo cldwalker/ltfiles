@@ -101,12 +101,9 @@
               :lt.objs.editor/hide-line-numbers
               (:lt.plugins.reflow/set-width 80)]
 
-     :editor.otl [:lt.objs.editor/fold-gutter]
-
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]
-     :files [(:lt.objs.files/file-types [{:name "otl" :exts [:otl] :mime "text/x-otl" :tags [:editor.otl]}
-                                         {:name "hoplon" :exts [:cljs.hl] :mime "text/x-clojurescript" :tags [:editor.cljs]}])]}
+     :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl] :mime "text/x-clojurescript" :tags [:editor.cljs]}])]}
 
  ;; You can use the subtract key to remove behavior that may get added by
  ;; another diff

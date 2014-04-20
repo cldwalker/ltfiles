@@ -27,33 +27,6 @@
                            :eval-editor-form
                            :paredit.select.clear]}
 
-     :editor.otl {"shift-enter" [:ltfiles.indent-fold]
-                  "shift-tab" [:ltfiles.outdent]
-                  "cmd-j" [:ltfiles.jump-forward-on-same-level]
-                  "cmd-k" [:ltfiles.jump-backward-on-same-level]
-                  "alt-j" [:ltfiles.move-current-tree-down]
-                  "alt-k" [:ltfiles.move-current-tree-up]
-                  "alt-h" [:ltfiles.unindent-selection]
-                  "alt-l" [:ltfiles.indent-selection]
-                  "cmd-u" [:ltfiles.jump-to-parent]
-                  "cmd-shift-u" [:ltfiles.jump-to-parent :ltfiles.indent-fold] ; fold parent
-                  "cmd-." [:ltfiles.select-current-tree]
-                  "cmd-a" [:ltfiles.unfold-all]
-                  "cmd-x" [:ltfiles.fold-all]
-                  "alt-a" [:ltfiles.unfold-all-for-current-tree]
-                  "alt-x" [:ltfiles.fold-all-for-current-tree]
-                  "alt-o" [:ltfiles.unfold-one-level-for-current-tree]
-                  "alt-p" [:ltfiles.fold-one-level-for-current-tree]
-                  "alt-1" [:ltfiles.fold-level-1]
-                  "alt-2" [:ltfiles.fold-level-2]
-                  "alt-3" [:ltfiles.fold-level-3]
-                  "alt-4" [:ltfiles.fold-level-4]
-                  "alt-5" [:ltfiles.fold-level-5]
-                  "alt-6" [:ltfiles.fold-level-6]
-                  "alt-7" [:ltfiles.fold-level-7]
-                  "alt-8" [:ltfiles.fold-level-8]
-                  "alt-9" [:ltfiles.fold-level-9]}
-
      :editor.keys.vim.normal {;; Satisfied having as a default. Can always make this more specific - https://github.com/LightTable/LightTable/issues/1379
                               "backspace" [:paredit-plus.backward-delete]
                               "alt-q" [:lt.plugins.reflow/reflow] ; alt-q since gq doesn't work
