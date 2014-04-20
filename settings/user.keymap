@@ -3,6 +3,9 @@
            "alt-d" [:dev-inspector]
            "alt-x" [:tabset.close]
            "cmd-b" [:ltfiles.open-buffers]
+           ;; There's a PR for this upstream
+           "pmeta-shift-=" [:window.zoom-in]
+           "pmeta--" [:window.zoom-out]
            "alt-space" [:ltfiles.commandbar]
            ;; needs to be in :app to print actual context
            "alt-t" [:ltfiles.print-context]}
