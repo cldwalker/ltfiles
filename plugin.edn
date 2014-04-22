@@ -6,7 +6,7 @@
  :dependencies {
 "Aleph" "0.0.1",
  "CSS" "0.0.4",
- "Claire" "0.1.7",
+ "Claire" "0.1.8",
  "Clojure" "0.0.10",
  "Describe Key" "0.0.5",
  "GBlame" "0.0.7",
@@ -27,6 +27,7 @@
  "gitbeam" "0.2.0",
  "lt_snippets" "0.0.3",
  "photon" "0.1.0",
+ "sacha" "0.1.0",
  "smart-ignore" "0.1.2"},
  :author "Gabriel Horner",
  :name "ltfiles"}
