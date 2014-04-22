@@ -82,6 +82,7 @@
                                       "\\k" ":ltexec paredit-plus.kill"
                                       "\\n" ":ltexec ltfiles.paredit-newline-before-pair-close"
                                       "\\N" ":ltexec paredit-plus.new-line-after-pair-close"
+                                      "\\u" ":ltexec paredit.move.up.backward"
                                       "\\r" ":ltexec paredit-plus.raise-sexp"
                                       ;; handles top-level case that paredit doesn't
                                       "\\s" ":ltexec paredit-plus.splice-sexp"
