@@ -62,9 +62,27 @@
         {:tags #{} :nodes []})
        :nodes))
 
+(defn ->tagged-counts
+  "For given lines, returns map of tags and how many nodes have that tag."
+  [ed lines]
+  (->> (->tagged-nodes ed lines)
+       (mapcat :tags)
+       frequencies))
+
+(cmd/command {:command :ltfiles.tag-counts
+              :desc "ltfiles: tag counts in current branch's nodes"
+              :exec (fn []
+                      (let [ed (pool/last-active)
+                            line (.-line (editor/cursor ed))]
+                        (prn (->tagged-counts
+                         ed
+                         (range line (c/safe-next-non-child-line ed line))))))})
+
+
 (comment
 
   (let [ed (pool/last-active)]
-    (->tagged-nodes ed (range 9 19)))
+    (->tagged-counts ed (range 9 19))
+    #_(->tagged-nodes ed (range 9 19)))
 
   (editor/line-handle (pool/last-active) 5))
