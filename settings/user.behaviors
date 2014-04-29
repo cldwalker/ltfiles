@@ -78,6 +78,7 @@
                                       "\\>" ":ltexec paredit.shrink.left"
                                       "\\b" ":ltexec ltfiles.paredit-kill-backword"
                                       "\\d" ":ltexec paredit-plus.delete-pair-contents"
+                                      "\\f" ":ltexec paredit.move.down.forward"
                                       "\\j" ":ltexec paredit-plus.join-sexps"
                                       "\\k" ":ltexec paredit-plus.kill"
                                       "\\n" ":ltexec ltfiles.paredit-newline-before-pair-close"
