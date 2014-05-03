@@ -3,6 +3,7 @@
   (:require [lt.objs.command :as cmd]
             [lt.objs.editor.pool :as pool]
             [lt.objs.editor :as editor]
+            [clojure.set :as cset]
             [lt.plugins.sacha.codemirror :as c]))
 
 ;; An example outline to practice on
@@ -77,6 +78,42 @@
                         (prn (->tagged-counts
                          ed
                          (range line (c/safe-next-non-child-line ed line))))))})
+
+
+;; TODO: make this dynamic per branch
+(def config
+  {:types {:priority {:names ["p0" "p1" "p2" "p9" "p?" "later"]
+                      :default "p?"}
+           :duration {:names ["small" "big"]
+                      :default "small"}
+           ;; TODO: dynamically build this from remaining tags
+           :misc {:names ["cm" "cmd" "tags"]}}})
+
+(defn type-counts [type-config nodes]
+  (let [default-tag (or (:default type-config) "leftover")]
+    (reduce
+     (fn [accum node]
+       (let [type-tags (cset/intersection (set (:tags node))
+                                          (set (:names type-config)))
+             ;; assume just one type tag per node for now
+             type-tag (if (empty? type-tags) default-tag (first type-tags))]
+         #_(prn type-tag node)
+         (update-in accum [type-tag] inc)))
+     {}
+     nodes)))
+
+(cmd/command {:command :ltfiles.type-counts
+              :desc "ltfiles: tag counts for current branch by type"
+              :exec (fn []
+                      (let [ed (pool/last-active)
+                            line (.-line (editor/cursor ed))
+                            nodes (->tagged-nodes
+                                   ed
+                                   #_(range 10 20)
+                                   (range line (c/safe-next-non-child-line ed line)))
+                            type :duration
+                            type-config (get-in config [:types type])                   ]
+                        (prn (type-counts type-config nodes))))})
 
 
 (comment
