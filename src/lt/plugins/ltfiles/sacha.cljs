@@ -97,23 +97,24 @@
                                           (set (:names type-config)))
              ;; assume just one type tag per node for now
              type-tag (if (empty? type-tags) default-tag (first type-tags))]
-         #_(prn type-tag node)
          (update-in accum [type-tag] inc)))
      {}
      nodes)))
 
 (cmd/command {:command :ltfiles.type-counts
-              :desc "ltfiles: tag counts for current branch by type"
+              :desc "ltfiles: tag counts of each type for current branch"
               :exec (fn []
                       (let [ed (pool/last-active)
                             line (.-line (editor/cursor ed))
                             nodes (->tagged-nodes
                                    ed
                                    #_(range 10 20)
-                                   (range line (c/safe-next-non-child-line ed line)))
-                            type :duration
-                            type-config (get-in config [:types type])                   ]
-                        (prn (type-counts type-config nodes))))})
+                                   (range line (c/safe-next-non-child-line ed line)))]
+                        (prn
+                         (map
+                          #(vector %
+                                   (type-counts (get-in config [:types %]) nodes))
+                          (keys (:types config))))))})
 
 
 (comment
