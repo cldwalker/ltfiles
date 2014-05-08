@@ -85,9 +85,7 @@
   {:types {:priority {:names ["p0" "p1" "p2" "p9" "p?" "later"]
                       :default "p?"}
            :duration {:names ["small" "big"]
-                      :default "small"}
-           ;; TODO: dynamically build this from remaining tags
-           :misc {:names ["cm" "cmd" "tags"]}}})
+                      :default "small"}}})
 
 (defn type-counts [type-config nodes]
   (let [default-tag (or (:default type-config) "leftover")]
@@ -109,12 +107,15 @@
                             nodes (->tagged-nodes
                                    ed
                                    #_(range 10 20)
-                                   (range line (c/safe-next-non-child-line ed line)))]
+                                   (range line (c/safe-next-non-child-line ed line)))
+                            unaccounted-tags (cset/difference (set (mapcat :tags nodes))
+                                                              (set (->> config :types vals (mapcat :names))))
+                            types-config (assoc-in config [:types :unknown :names] unaccounted-tags)]
                         (prn
                          (map
                           #(vector %
-                                   (type-counts (get-in config [:types %]) nodes))
-                          (keys (:types config))))))})
+                                   (type-counts (get-in types-config [:types %]) nodes))
+                          (keys (:types types-config))))))})
 
 
 (comment
