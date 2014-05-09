@@ -25,6 +25,7 @@
 (defn parent-node? [curr next]
   (when next
     (and (> (:indent next) (:indent curr))
+         (not (desc-node? curr))
          (not (desc-node? next)))))
 
 (defn text->tags [text]
