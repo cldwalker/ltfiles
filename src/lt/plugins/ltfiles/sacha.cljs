@@ -48,18 +48,19 @@
        (map #(hash-map :line %
                        :indent (c/line-indent ed %)
                        :text (editor/line ed %)))
-       (partition 2 1)
+       ;; [] needed to include last element
+       (partition 2 1 [])
        (reduce
         (fn [accum [curr next]]
-          (cond-> accum
-                  (parent-node? curr next)
-                  (update-in [:tags] update-tags curr)
+          (cond
+           (parent-node? curr next)
+           (update-in accum [:tags] update-tags curr)
 
-                  (and (not (parent-node? curr next))
-                       (not (desc-node? curr)))
-                  (update-in [:nodes] conj (assoc curr
-                                             :tags (into (map :tag-text (:tags accum))
-                                                         (text->tags (:text curr)))))))
+           (not (desc-node? curr))
+           (update-in accum [:nodes] conj (assoc curr
+                                            :tags (into (map :tag-text (:tags accum))
+                                                        (text->tags (:text curr)))))
+           :else accum))
         {:tags #{} :nodes []})
        :nodes))
 
@@ -95,6 +96,7 @@
                                           (set (:names type-config)))
              ;; assume just one type tag per node for now
              type-tag (if (empty? type-tags) default-tag (first type-tags))]
+         #_(prn node type-tag)
          (update-in accum [type-tag] inc)))
      {}
      nodes)))
