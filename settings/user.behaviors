@@ -105,7 +105,7 @@
 
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]
-     :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl] :mime "text/x-clojurescript" :tags [:editor.cljs]}])]}
+     :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}])]}
 
  ;; You can use the subtract key to remove behavior that may get added by
  ;; another diff
