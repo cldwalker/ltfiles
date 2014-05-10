@@ -107,10 +107,12 @@
               :exec (fn []
                       (let [ed (pool/last-active)
                             line (.-line (editor/cursor ed))
-                            nodes (->tagged-nodes
-                                   ed
-                                   #_(range 10 20)
-                                   (range line (c/safe-next-non-child-line ed line)))
+                            lines (if-let [selection (editor/selection-bounds ed)]
+                                    (range (get-in selection [:from :line])
+                                           (inc (get-in selection [:to :line])))
+                                    (range line (c/safe-next-non-child-line ed line)))
+                            ;; lines (range 10 20)
+                            nodes (->tagged-nodes ed lines)
                             unaccounted-tags (cset/difference (set (mapcat :tags nodes))
                                                               (set (->> config :types vals (mapcat :names))))
                             types-config (assoc-in config [:types :unknown :names] unaccounted-tags)]
