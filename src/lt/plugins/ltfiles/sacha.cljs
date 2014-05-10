@@ -144,15 +144,17 @@
      nodes)))
 
 
-(defn indent-nodes [nodes indent]
-  (map
-   #(if (:type-tag %)
-      (str (apply str (repeat indent " "))
-           (:text %))
-      ;; TODO: proper indents
-      (s/replace-first (:text %) #"^\s*"
-                       (apply str (repeat (+ indent 2) " "))))
-   nodes))
+(defn indent-nodes [nodes indent tab-size]
+  (let [top-level-indent (->> nodes (map :indent) (remove nil?) (apply min))
+        tag-indent (+ indent tab-size)
+        node-indent (+ indent tab-size tab-size)]
+    (map
+     #(if (:type-tag %)
+        (str (apply str (repeat tag-indent " "))
+             (:text %))
+        (s/replace-first (:text %) #"^\s*"
+                         (apply str (repeat (+ node-indent (- (:indent %) top-level-indent)) " "))))
+     nodes)))
 
 (cmd/command {:command :ltfiles.switch-view-type
               :desc "ltfiles: switches current branch to view by a chosen type"
@@ -170,10 +172,10 @@
                                          (into [{:type-tag true :text (name tag)}] children))
                                        view)
                             indented-nodes (indent-nodes new-nodes
-                                                         (+ (c/line-indent ed line)
-                                                            (editor/option ed "tabSize")))]
+                                                         (c/line-indent ed line)
+                                                         (editor/option ed "tabSize"))]
                         #_(prn indented-nodes)
-                        (util/insert-at-next-line ed (s/join "\n" indented-nodes))))})
+                        (util/insert-at-next-line ed (str (s/join "\n" indented-nodes) "\n"))))})
 
 (comment
 
