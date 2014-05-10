@@ -166,11 +166,11 @@
                             nodes (->tagged-nodes ed lines)
                             type :duration
                             types-config (dynamic-config nodes)
-                            view (type-map (get-in types-config [:types type]) nodes)
+                            tags-nodes (type-map (get-in types-config [:types type]) nodes)
                             new-nodes (mapcat
-                                       (fn [[tag children]]
-                                         (into [{:type-tag true :text (name tag)}] children))
-                                       view)
+                                       (fn [tag]
+                                         (into [{:type-tag true :text (name tag)}] (get tags-nodes tag)))
+                                       (get-in types-config [:types type :names]))
                             indented-nodes (indent-nodes new-nodes
                                                          (c/line-indent ed line)
                                                          (editor/option ed "tabSize"))]
