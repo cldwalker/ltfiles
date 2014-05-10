@@ -4,6 +4,8 @@
             [lt.objs.editor.pool :as pool]
             [lt.objs.editor :as editor]
             [clojure.set :as cset]
+            [clojure.string :as s]
+            [lt.plugins.ltfiles.util :as util]
             [lt.plugins.sacha.codemirror :as c]))
 
 ;; An example outline to practice on
@@ -102,8 +104,16 @@
      {}
      nodes)))
 
+(defn dynamic-config
+  "Types config which calculates certain types based on nodes e.g. unknown type
+  which accounts for typeless tags."
+  [nodes]
+  (let [unaccounted-tags (cset/difference (set (mapcat :tags nodes))
+                                          (set (->> config :types vals (mapcat :names))))]
+    (assoc-in config [:types :unknown :names] unaccounted-tags)))
+
 (cmd/command {:command :ltfiles.type-counts
-              :desc "ltfiles: tag counts of each type for current branch"
+              :desc "ltfiles: tag counts of each type for current branch or selection"
               :exec (fn []
                       (let [ed (pool/last-active)
                             line (.-line (editor/cursor ed))
@@ -113,15 +123,57 @@
                                     (range line (c/safe-next-non-child-line ed line)))
                             ;; lines (range 10 20)
                             nodes (->tagged-nodes ed lines)
-                            unaccounted-tags (cset/difference (set (mapcat :tags nodes))
-                                                              (set (->> config :types vals (mapcat :names))))
-                            types-config (assoc-in config [:types :unknown :names] unaccounted-tags)]
+                            types-config (dynamic-config nodes)]
                         (prn
                          (map
                           #(vector %
                                    (type-counts (get-in types-config [:types %]) nodes))
                           (keys (:types types-config))))))})
 
+;; consider reuse with type-counts
+(defn type-map [type-config nodes]
+  (let [default-tag (or (:default type-config) "leftover")]
+    (reduce
+     (fn [accum node]
+       (let [type-tags (cset/intersection (set (:tags node))
+                                          (set (:names type-config)))
+             ;; assume just one type tag per node for now
+             type-tag (if (empty? type-tags) default-tag (first type-tags))]
+         (update-in accum [type-tag] (fnil conj []) node)))
+     {}
+     nodes)))
+
+
+(defn indent-nodes [nodes indent]
+  (map
+   #(if (:type-tag %)
+      (str (apply str (repeat indent " "))
+           (:text %))
+      ;; TODO: proper indents
+      (s/replace-first (:text %) #"^\s*"
+                       (apply str (repeat (+ indent 2) " "))))
+   nodes))
+
+(cmd/command {:command :ltfiles.switch-view-type
+              :desc "ltfiles: switches current branch to view by a chosen type"
+              :exec (fn []
+                      (let [ed (pool/last-active)
+                            line (.-line (editor/cursor ed))
+                            lines (range line (c/safe-next-non-child-line ed line))
+                            ;; lines (range 10 20)
+                            nodes (->tagged-nodes ed lines)
+                            type :duration
+                            types-config (dynamic-config nodes)
+                            view (type-map (get-in types-config [:types type]) nodes)
+                            new-nodes (mapcat
+                                       (fn [[tag children]]
+                                         (into [{:type-tag true :text (name tag)}] children))
+                                       view)
+                            indented-nodes (indent-nodes new-nodes
+                                                         (+ (c/line-indent ed line)
+                                                            (editor/option ed "tabSize")))]
+                        #_(prn indented-nodes)
+                        (util/insert-at-next-line ed (s/join "\n" indented-nodes))))})
 
 (comment
 

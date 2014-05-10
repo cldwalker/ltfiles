@@ -71,6 +71,15 @@
         (apply cmd/exec! c)
         (cmd/exec! c))))
 
+(defn insert-at-next-line
+  "Insert string at the beginning of the next line"
+  [ed s]
+  (editor/replace (editor/->cm-ed ed)
+                  {:line (inc (:line (editor/->cursor ed))) :ch 0}
+                  s)
+  ed)
+
+
 (comment
  (assert (= "this" (current-word* "this is a test" 3)))
  (assert (= "this" (current-word* "this is a test" 4)))
