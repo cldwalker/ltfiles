@@ -63,13 +63,14 @@
                                       "<Space>pc" ":ltexec ltfiles.system-open-plugin-changelog"
                                       "<Space>pm" ":ltexec plugin-manager.show"
                                       "<Space>r" ":ltexec ltfiles.refresh-current-workspace-folder"
+                                      ; (s)acha
+                                      "<Space>sc" ":ltexec ltfiles.type-counts"
+                                      "<Space>si" ":ltexec ltfiles.insert-type-branch"
+                                      "<Space>sr" ":ltexec ltfiles.replace-type-branch"
                                       ; (t)oggle
                                       "<Space>tc" ":ltexec toggle-console"
                                       "<Space>tl" ":ltexec ltfiles.toggle-line-numbers"
                                       "<Space>tw" ":ltexec ltfiles.toggle-strip-whitespace"
-                                      "<Space>vc" ":ltexec ltfiles.type-counts"
-                                      "<Space>vi" ":ltexec ltfiles.insert-type-branch"
-                                      "<Space>vr" ":ltexec ltfiles.replace-type-branch"
                                       "<Space>w" ":ltexec workspace.show"
                                       "<Space>x" ":ltexec ltfiles.smart-tab-close"
 
