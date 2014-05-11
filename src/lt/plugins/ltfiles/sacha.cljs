@@ -88,12 +88,16 @@
                          (range line (c/safe-next-non-child-line ed line))))))})
 
 
+(def unknown-type :unknown)
+
 ;; TODO: make this dynamic per branch
 (def config
   {:types {:priority {:names ["p0" "p1" "p2" "p9" "p?" "later"]
                       :default "p?"}
            :duration {:names ["small" "big"]
-                      :default "small"}}})
+                      :default "small"}
+           unknown-type {:names ["leftover"]
+                         :default "leftover"}}})
 
 (defn type-counts [type-config nodes]
   (let [default-tag (or (:default type-config) "leftover")]
@@ -108,15 +112,13 @@
      {}
      nodes)))
 
-(def unknown-tag :unknown)
-
 (defn dynamic-config
   "Types config which calculates certain types based on nodes e.g. unknown type
   which accounts for typeless tags."
   [nodes]
   (let [unaccounted-tags (cset/difference (set (mapcat :tags nodes))
                                           (set (->> config :types vals (mapcat :names))))]
-    (assoc-in config [:types unknown-tag :names] unaccounted-tags)))
+    (update-in config [:types unknown-type :names] #(into unaccounted-tags %))))
 
 (cmd/command {:command :ltfiles.type-counts
               :desc "ltfiles: tag counts of each type for current branch or selection"
@@ -210,8 +212,7 @@
 
 (def type-selector
   (selector/selector {:items (fn []
-                               (map #(hash-map :name %)
-                                    (conj (keys (:types config)) unknown-tag)))
+                               (map #(hash-map :name %) (keys (:types config))))
                       :key :name}))
 
 (cmd/command {:command :ltfiles.replace-type-branch
