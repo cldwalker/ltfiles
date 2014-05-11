@@ -196,7 +196,8 @@
                             tags-nodes (save-tags tags-nodes)
                             new-nodes (mapcat
                                        (fn [tag]
-                                         (into [{:type-tag true :text (name tag)}] (get tags-nodes tag)))
+                                         (when-let [children (get tags-nodes tag)]
+                                           (into [{:type-tag true :text (name tag)}] children)))
                                        (get-in types-config [:types type :names]))
                             indented-nodes (indent-nodes new-nodes
                                                          (c/line-indent ed line)
