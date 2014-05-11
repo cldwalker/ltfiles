@@ -182,27 +182,43 @@
    {}
    tags-nodes))
 
-(cmd/command {:command :ltfiles.switch-view-type
-              :desc "ltfiles: switches current branch to view by a chosen type"
+(defn ->type-view
+  "Creates a type view given a type and the editor (branch) to use. A type view
+  pivots a current branch by changing the top-level parents of a branch to the new type."
+  [ed type]
+  (let [line (.-line (editor/cursor ed))
+        end-line (c/safe-next-non-child-line ed line)
+        lines (range line end-line)
+        ;; lines (range 12 22)
+        nodes (->tagged-nodes ed lines)
+        types-config (dynamic-config nodes)
+        tags-nodes (type-map (get-in types-config [:types type]) nodes)
+        tags-nodes (save-tags tags-nodes)
+        new-nodes (mapcat
+                   (fn [tag]
+                     (when-let [children (get tags-nodes tag)]
+                       (into [{:type-tag true :text (name tag)}] children)))
+                   (get-in types-config [:types type :names]))
+        indented-nodes (indent-nodes new-nodes
+                                     (c/line-indent ed line)
+                                     (editor/option ed "tabSize"))]
+    (str (s/join "\n" indented-nodes) "\n")))
+
+(cmd/command {:command :ltfiles.replace-type-branch
+              :desc "ltfiles: replaces current branch with new type view"
               :exec (fn []
                       (let [ed (pool/last-active)
-                            line (.-line (editor/cursor ed))
-                            lines (range line (c/safe-next-non-child-line ed line))
-                            ;; lines (range 12 22)
-                            nodes (->tagged-nodes ed lines)
-                            type :duration
-                            types-config (dynamic-config nodes)
-                            tags-nodes (type-map (get-in types-config [:types type]) nodes)
-                            tags-nodes (save-tags tags-nodes)
-                            new-nodes (mapcat
-                                       (fn [tag]
-                                         (when-let [children (get tags-nodes tag)]
-                                           (into [{:type-tag true :text (name tag)}] children)))
-                                       (get-in types-config [:types type :names]))
-                            indented-nodes (indent-nodes new-nodes
-                                                         (c/line-indent ed line)
-                                                         (editor/option ed "tabSize"))]
-                        (util/insert-at-next-line ed (str (s/join "\n" indented-nodes) "\n"))))})
+                            end-line (c/safe-next-non-child-line ed (.-line (editor/cursor ed)))]
+                        (editor/replace (editor/->cm-ed ed)
+                                        {:line (inc (:line (editor/->cursor ed))) :ch 0}
+                                        {:line end-line :ch 0}
+                                        (->type-view ed :duration))))})
+
+(cmd/command {:command :ltfiles.insert-type-branch
+              :desc "ltfiles: inserts new type view for current branch"
+              :exec (fn []
+                      (let [ed (pool/last-active)]
+                        (util/insert-at-next-line ed (->type-view ed :duration))))})
 
 (comment
 
