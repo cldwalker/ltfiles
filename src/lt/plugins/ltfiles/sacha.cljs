@@ -31,10 +31,13 @@
          (not (desc-node? curr))
          (not (desc-node? next)))))
 
+(def tag-prefix "#")
+(def tag-pattern (re-pattern (str tag-prefix "[^ \\t\\n:.,?]+")))
+
 (defn text->tags [text]
   (map
    #(subs % 1)
-   (re-seq #"#\S+" text)))
+   (re-seq tag-pattern text)))
 
 (defn parent->tag [text]
   (re-find #"\S+" text))
@@ -183,7 +186,7 @@
                                                  #{tag}
                                                  (set (text->tags (:text node))))]
                 (update-in node [:text] str
-                           (s/join (map #(str " #" %) tags-to-add)))))
+                           (s/join (map #(str " " tag-prefix %) tags-to-add)))))
             nodes)))
    {}
    tags-nodes))
