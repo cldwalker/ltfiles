@@ -28,7 +28,6 @@
 (defn parent-node? [curr next]
   (when next
     (and (> (:indent next) (:indent curr))
-         (not (desc-node? curr))
          (not (desc-node? next)))))
 
 (def tag-prefix "#")
@@ -39,13 +38,10 @@
    #(subs % 1)
    (re-seq tag-pattern text)))
 
-(defn parent->tag [text]
-  (re-find #"\S+" text))
-
 (defn update-tags [tags new-tag]
   (-> (filter #(< (:indent %) (:indent new-tag)) tags)
       (conj (assoc new-tag
-              :tag-text (parent->tag (:text new-tag))))))
+              :tags (text->tags (:text new-tag))))))
 
 (defn ->tagged-nodes
   "Returns nodes with :line, :indent, :text and :tags properties.
@@ -70,7 +66,7 @@
                       curr)
            :else
            (update-in accum [:nodes] conj (assoc curr
-                                            :tags (into (map :tag-text (:tags accum))
+                                            :tags (into (mapcat :tags (:tags accum))
                                                         (text->tags (:text curr)))))))
         {:tags #{} :nodes []})
        :nodes))
@@ -205,7 +201,7 @@
         new-nodes (mapcat
                    (fn [tag]
                      (when-let [children (get tags-nodes tag)]
-                       (into [{:type-tag true :text (name tag)}] children)))
+                       (into [{:type-tag true :text (str tag-prefix (name tag))}] children)))
                    (get-in types-config [:types type :names]))
         indented-nodes (indent-nodes new-nodes
                                      (c/line-indent ed line)
