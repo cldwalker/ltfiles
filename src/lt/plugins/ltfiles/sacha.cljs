@@ -59,11 +59,15 @@
            (parent-node? curr next)
            (update-in accum [:tags] update-tags curr)
 
-           (not (desc-node? curr))
+           (desc-node? curr)
+           (update-in accum
+                      [:nodes (dec (count (:nodes accum))) :desc]
+                      (fnil conj [])
+                      curr)
+           :else
            (update-in accum [:nodes] conj (assoc curr
                                             :tags (into (map :tag-text (:tags accum))
-                                                        (text->tags (:text curr)))))
-           :else accum))
+                                                        (text->tags (:text curr)))))))
         {:tags #{} :nodes []})
        :nodes))
 
@@ -143,17 +147,23 @@
      {}
      nodes)))
 
+(defn indent-node [node node-indent top-level-indent]
+  (s/replace-first
+   (:text node)
+   #"^\s*"
+   (apply str (repeat (+ node-indent (- (:indent node) top-level-indent)) " "))))
 
 (defn indent-nodes [nodes indent tab-size]
   (let [top-level-indent (->> nodes (map :indent) (remove nil?) (apply min))
         tag-indent (+ indent tab-size)
         node-indent (+ indent tab-size tab-size)]
-    (map
+    (mapcat
      #(if (:type-tag %)
-        (str (apply str (repeat tag-indent " "))
-             (:text %))
-        (s/replace-first (:text %) #"^\s*"
-                         (apply str (repeat (+ node-indent (- (:indent %) top-level-indent)) " "))))
+        [(str (apply str (repeat tag-indent " "))
+             (:text %))]
+        (into [(indent-node % node-indent top-level-indent)]
+              (map (fn [x] (indent-node x node-indent top-level-indent))
+                   (:desc %))))
      nodes)))
 
 (cmd/command {:command :ltfiles.switch-view-type
