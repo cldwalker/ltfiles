@@ -154,22 +154,22 @@
      {}
      nodes)))
 
-(defn indent-node [node node-indent top-level-indent]
+(defn indent-node [node indent]
   (s/replace-first
    (:text node)
    #"^\s*"
-   (apply str (repeat (+ node-indent (- (:indent node) top-level-indent)) " "))))
+   (apply str (repeat indent " "))))
 
 (defn indent-nodes [nodes indent tab-size]
-  (let [top-level-indent (->> nodes (map :indent) (remove nil?) (apply min))
-        tag-indent (+ indent tab-size)
-        node-indent (+ indent tab-size tab-size)]
+  (let [tag-indent (+ indent tab-size)
+        node-indent (+ indent tab-size tab-size)
+        desc-indent (+ indent tab-size tab-size tab-size)]
     (mapcat
      #(if (:type-tag %)
         [(str (apply str (repeat tag-indent " "))
-             (:text %))]
-        (into [(indent-node % node-indent top-level-indent)]
-              (map (fn [x] (indent-node x node-indent top-level-indent))
+              (:text %))]
+        (into [(indent-node % node-indent)]
+              (map (fn [x] (indent-node x desc-indent))
                    (:desc %))))
      nodes)))
 
