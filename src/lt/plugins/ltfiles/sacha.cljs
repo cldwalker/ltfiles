@@ -166,17 +166,34 @@
                    (:desc %))))
      nodes)))
 
+(defn save-tags
+  "Saves tags to node's text in order to not lose tags when switching views."
+  [tags-nodes]
+  (reduce-kv
+   (fn [accum tag nodes]
+     (assoc accum tag
+       (map (fn [node]
+              (let [tags-to-add (cset/difference (set (:tags node))
+                                                 #{tag}
+                                                 (set (text->tags (:text node))))]
+                (update-in node [:text] str
+                           (s/join (map #(str " #" %) tags-to-add)))))
+            nodes)))
+   {}
+   tags-nodes))
+
 (cmd/command {:command :ltfiles.switch-view-type
               :desc "ltfiles: switches current branch to view by a chosen type"
               :exec (fn []
                       (let [ed (pool/last-active)
                             line (.-line (editor/cursor ed))
                             lines (range line (c/safe-next-non-child-line ed line))
-                            ;; lines (range 10 20)
+                            ;; lines (range 12 22)
                             nodes (->tagged-nodes ed lines)
                             type :duration
                             types-config (dynamic-config nodes)
                             tags-nodes (type-map (get-in types-config [:types type]) nodes)
+                            tags-nodes (save-tags tags-nodes)
                             new-nodes (mapcat
                                        (fn [tag]
                                          (into [{:type-tag true :text (name tag)}] (get tags-nodes tag)))
@@ -184,7 +201,6 @@
                             indented-nodes (indent-nodes new-nodes
                                                          (c/line-indent ed line)
                                                          (editor/option ed "tabSize"))]
-                        #_(prn indented-nodes)
                         (util/insert-at-next-line ed (str (s/join "\n" indented-nodes) "\n"))))})
 
 (comment
