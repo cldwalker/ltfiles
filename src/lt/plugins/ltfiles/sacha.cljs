@@ -5,6 +5,7 @@
             [lt.objs.editor :as editor]
             [clojure.set :as cset]
             [clojure.string :as s]
+            [lt.plugins.ltfiles.selector :as selector]
             [lt.plugins.ltfiles.util :as util]
             [lt.plugins.sacha.codemirror :as c]))
 
@@ -108,13 +109,15 @@
      {}
      nodes)))
 
+(def unknown-tag :unknown)
+
 (defn dynamic-config
   "Types config which calculates certain types based on nodes e.g. unknown type
   which accounts for typeless tags."
   [nodes]
   (let [unaccounted-tags (cset/difference (set (mapcat :tags nodes))
                                           (set (->> config :types vals (mapcat :names))))]
-    (assoc-in config [:types :unknown :names] unaccounted-tags)))
+    (assoc-in config [:types unknown-tag :names] unaccounted-tags)))
 
 (cmd/command {:command :ltfiles.type-counts
               :desc "ltfiles: tag counts of each type for current branch or selection"
@@ -133,6 +136,9 @@
                           #(vector %
                                    (type-counts (get-in types-config [:types %]) nodes))
                           (keys (:types types-config))))))})
+
+;; Type view commands
+;; ==================
 
 ;; consider reuse with type-counts
 (defn type-map [type-config nodes]
@@ -189,7 +195,6 @@
   (let [line (.-line (editor/cursor ed))
         end-line (c/safe-next-non-child-line ed line)
         lines (range line end-line)
-        ;; lines (range 12 22)
         nodes (->tagged-nodes ed lines)
         types-config (dynamic-config nodes)
         tags-nodes (type-map (get-in types-config [:types type]) nodes)
@@ -204,21 +209,29 @@
                                      (editor/option ed "tabSize"))]
     (str (s/join "\n" indented-nodes) "\n")))
 
+(def type-selector
+  (selector/selector {:items (fn []
+                               (map #(hash-map :name %)
+                                    (conj (keys (:types config)) unknown-tag)))
+                      :key :name}))
+
 (cmd/command {:command :ltfiles.replace-type-branch
               :desc "ltfiles: replaces current branch with new type view"
-              :exec (fn []
+              :options type-selector
+              :exec (fn [type]
                       (let [ed (pool/last-active)
                             end-line (c/safe-next-non-child-line ed (.-line (editor/cursor ed)))]
                         (editor/replace (editor/->cm-ed ed)
                                         {:line (inc (:line (editor/->cursor ed))) :ch 0}
                                         {:line end-line :ch 0}
-                                        (->type-view ed :duration))))})
+                                        (->type-view ed (:name type)))))})
 
 (cmd/command {:command :ltfiles.insert-type-branch
               :desc "ltfiles: inserts new type view for current branch"
-              :exec (fn []
+              :options type-selector
+              :exec (fn [type]
                       (let [ed (pool/last-active)]
-                        (util/insert-at-next-line ed (->type-view ed :duration))))})
+                        (util/insert-at-next-line ed (->type-view ed (:name type)))))})
 
 (comment
 
