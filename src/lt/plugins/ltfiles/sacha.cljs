@@ -120,13 +120,16 @@
                                           (set (->> config :types vals (mapcat :names))))]
     (update-in config [:types unknown-type :names] #(into unaccounted-tags %))))
 
-(defn types-counts [ed]
+(defn ed->nodes [ed]
   (let [line (.-line (editor/cursor ed))
         lines (if-let [selection (editor/selection-bounds ed)]
                 (range (get-in selection [:from :line])
                        (inc (get-in selection [:to :line])))
-                (range line (c/safe-next-non-child-line ed line)))
-        nodes (->tagged-nodes ed lines)
+                (range line (c/safe-next-non-child-line ed line)))]
+    (->tagged-nodes ed lines)))
+
+(defn types-counts [ed]
+  (let [nodes (ed->nodes ed)
         types-config (dynamic-config nodes)]
     (map
      #(vector %
@@ -137,6 +140,11 @@
               :desc "ltfiles: tag counts of each type for current branch or selection"
               :exec (fn []
                       (prn (types-counts (pool/last-active))))})
+
+(cmd/command {:command :ltfiles.debug-nodes
+              :desc "ltfiles: prints nodes for current branch or selection"
+              :exec (fn []
+                      (println (s/join "\n" (ed->nodes (pool/last-active)))))})
 
 ;; Type view commands
 ;; ==================
@@ -193,10 +201,7 @@
   "Creates a type view given a type and the editor (branch) to use. A type view
   pivots a current branch by changing the top-level parents of a branch to the new type."
   [ed type]
-  (let [line (.-line (editor/cursor ed))
-        end-line (c/safe-next-non-child-line ed line)
-        lines (range line end-line)
-        nodes (->tagged-nodes ed lines)
+  (let [nodes (ed->nodes ed)
         types-config (dynamic-config nodes)
         tags-nodes (type-map (get-in types-config [:types type]) nodes)
         tags-nodes (save-tags tags-nodes)
@@ -206,7 +211,7 @@
                        (into [{:type-tag true :text (str tag-prefix (name tag))}] children)))
                    (get-in types-config [:types type :names]))
         indented-nodes (indent-nodes new-nodes
-                                     (c/line-indent ed line)
+                                     (c/line-indent ed (.-line (editor/cursor ed)))
                                      (editor/option ed "tabSize"))]
     (str (s/join "\n" indented-nodes) "\n")))
 
