@@ -120,23 +120,23 @@
                                           (set (->> config :types vals (mapcat :names))))]
     (update-in config [:types unknown-type :names] #(into unaccounted-tags %))))
 
-(cmd/command {:command :ltfiles.type-counts
+(defn types-counts [ed]
+  (let [line (.-line (editor/cursor ed))
+        lines (if-let [selection (editor/selection-bounds ed)]
+                (range (get-in selection [:from :line])
+                       (inc (get-in selection [:to :line])))
+                (range line (c/safe-next-non-child-line ed line)))
+        nodes (->tagged-nodes ed lines)
+        types-config (dynamic-config nodes)]
+    (map
+     #(vector %
+              (type-counts (get-in types-config [:types %]) nodes))
+     (keys (:types types-config)))))
+
+(cmd/command {:command :ltfiles.types-counts
               :desc "ltfiles: tag counts of each type for current branch or selection"
               :exec (fn []
-                      (let [ed (pool/last-active)
-                            line (.-line (editor/cursor ed))
-                            lines (if-let [selection (editor/selection-bounds ed)]
-                                    (range (get-in selection [:from :line])
-                                           (inc (get-in selection [:to :line])))
-                                    (range line (c/safe-next-non-child-line ed line)))
-                            ;; lines (range 10 20)
-                            nodes (->tagged-nodes ed lines)
-                            types-config (dynamic-config nodes)]
-                        (prn
-                         (map
-                          #(vector %
-                                   (type-counts (get-in types-config [:types %]) nodes))
-                          (keys (:types types-config))))))})
+                      (prn (types-counts (pool/last-active))))})
 
 ;; Type view commands
 ;; ==================
@@ -215,16 +215,29 @@
                                (map #(hash-map :name %) (keys (:types config))))
                       :key :name}))
 
+(defn check-types-counts [ed editor-fn]
+  (let [before-replace-counts (types-counts ed)]
+    (prn before-replace-counts)
+    (editor-fn)
+    (let [after-replace-counts (types-counts ed)]
+      (prn after-replace-counts)
+      (when-not (= before-replace-counts after-replace-counts)
+        (println "Types counts not equal. Please submit your outline as an issue.")
+        (println "BEFORE: " before-replace-counts "\nAFTER: " after-replace-counts)))))
+
 (cmd/command {:command :ltfiles.replace-type-branch
               :desc "ltfiles: replaces current branch with new type view"
               :options type-selector
               :exec (fn [type]
                       (let [ed (pool/last-active)
                             end-line (c/safe-next-non-child-line ed (.-line (editor/cursor ed)))]
-                        (editor/replace (editor/->cm-ed ed)
-                                        {:line (inc (:line (editor/->cursor ed))) :ch 0}
-                                        {:line end-line :ch 0}
-                                        (->type-view ed (:name type)))))})
+                        (check-types-counts
+                         ed
+                         (fn []
+                           (editor/replace (editor/->cm-ed ed)
+                                           {:line (inc (:line (editor/->cursor ed))) :ch 0}
+                                           {:line end-line :ch 0}
+                                           (->type-view ed (:name type)))))))})
 
 (cmd/command {:command :ltfiles.insert-type-branch
               :desc "ltfiles: inserts new type view for current branch"

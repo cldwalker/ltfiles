@@ -64,7 +64,7 @@
                                       "<Space>pm" ":ltexec plugin-manager.show"
                                       "<Space>r" ":ltexec ltfiles.refresh-current-workspace-folder"
                                       ; (s)acha
-                                      "<Space>sc" ":ltexec ltfiles.type-counts"
+                                      "<Space>sc" ":ltexec ltfiles.types-counts"
                                       "<Space>si" ":ltexec ltfiles.insert-type-branch"
                                       "<Space>sr" ":ltexec ltfiles.replace-type-branch"
                                       ; (t)oggle
