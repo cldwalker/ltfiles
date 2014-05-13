@@ -38,10 +38,8 @@
    #(subs % 1)
    (re-seq tag-pattern text)))
 
-(defn update-tags [tags new-tag]
-  (-> (filter #(< (:indent %) (:indent new-tag)) tags)
-      (conj (assoc new-tag
-              :tags (text->tags (:text new-tag))))))
+(defn add-node-with-tags [nodes node tags]
+  (conj nodes (assoc node :tags tags)))
 
 (defn ->tagged-nodes
   "Returns nodes with :line, :indent, :text and :tags properties.
@@ -57,7 +55,8 @@
         (fn [accum [curr next]]
           (cond
            (parent-node? curr next)
-           (update-in accum [:tags] update-tags curr)
+           (update-in accum [:tags]
+                      #(add-node-with-tags % curr (text->tags (:text curr))))
 
            (desc-node? curr)
            (update-in accum
@@ -65,9 +64,13 @@
                       (fnil conj [])
                       curr)
            :else
-           (update-in accum [:nodes] conj (assoc curr
-                                            :tags (into (mapcat :tags (:tags accum))
-                                                        (text->tags (:text curr)))))))
+           (update-in accum [:nodes]
+                      (fn [nodes]
+                        (add-node-with-tags
+                         nodes
+                         curr
+                         (into (mapcat :tags (filter #(< (:indent %) (:indent curr)) (:tags accum)))
+                               (text->tags (:text curr))))))))
         {:tags #{} :nodes []})
        :nodes))
 
