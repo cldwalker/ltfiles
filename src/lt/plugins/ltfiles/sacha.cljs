@@ -102,18 +102,20 @@
            unknown-type {:names ["leftover"]
                          :default "leftover"}}})
 
-(defn type-counts [type-config nodes]
+(defn type-nodes->tag-map
+  "Reduces a type's nodes to a tag map with a reducer fn."
+  [f type-config nodes]
   (let [default-tag (or (:default type-config) "leftover")]
     (reduce
      (fn [accum node]
        (let [type-tags (cset/intersection (set (:tags node))
                                           (set (:names type-config)))
-             ;; assume just one type tag per node for now
-             type-tag (if (empty? type-tags) default-tag (first type-tags))]
-         #_(prn node type-tag)
-         (update-in accum [type-tag] inc)))
+             type-tags (if (empty? type-tags) [default-tag] type-tags)]
+         (reduce #(f %1 %2 node) accum type-tags)))
      {}
      nodes)))
+
+(def type-counts (partial type-nodes->tag-map #(update-in %1 [%2] inc)))
 
 (defn dynamic-config
   "Types config which calculates certain types based on nodes e.g. unknown type
@@ -152,18 +154,7 @@
 ;; Type view commands
 ;; ==================
 
-;; consider reuse with type-counts
-(defn type-map [type-config nodes]
-  (let [default-tag (or (:default type-config) "leftover")]
-    (reduce
-     (fn [accum node]
-       (let [type-tags (cset/intersection (set (:tags node))
-                                          (set (:names type-config)))
-             ;; assume just one type tag per node for now
-             type-tag (if (empty? type-tags) default-tag (first type-tags))]
-         (update-in accum [type-tag] (fnil conj []) node)))
-     {}
-     nodes)))
+(def type-map (partial type-nodes->tag-map #(update-in %1 [%2] (fnil conj []) %3)))
 
 (defn indent-node [node indent]
   (s/replace-first
@@ -225,10 +216,8 @@
 
 (defn check-types-counts [ed editor-fn]
   (let [before-replace-counts (types-counts ed)]
-    (prn before-replace-counts)
     (editor-fn)
     (let [after-replace-counts (types-counts ed)]
-      (prn after-replace-counts)
       (when-not (= before-replace-counts after-replace-counts)
         (println "Types counts not equal. Please submit your outline as an issue.")
         (println "BEFORE: " before-replace-counts "\nAFTER: " after-replace-counts)))))

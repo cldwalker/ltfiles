@@ -943,7 +943,7 @@ lt.plugins.ltfiles.sacha.parent_node_QMARK_ = (function parent_node_QMARK_(curr,
 });
 lt.plugins.ltfiles.sacha.tag_prefix = "#";
 lt.plugins.ltfiles.sacha.tag_pattern = cljs.core.re_pattern.call(null,[cljs.core.str(lt.plugins.ltfiles.sacha.tag_prefix),cljs.core.str("[^ \\t\\n:.,?]+")].join(''));
-lt.plugins.ltfiles.sacha.text__GT_tags = (function text__GT_tags(text){return cljs.core.map.call(null,(function (p1__11388_SHARP_){return cljs.core.subs.call(null,p1__11388_SHARP_,1);
+lt.plugins.ltfiles.sacha.text__GT_tags = (function text__GT_tags(text){return cljs.core.map.call(null,(function (p1__11795_SHARP_){return cljs.core.subs.call(null,p1__11795_SHARP_,1);
 }),cljs.core.re_seq.call(null,lt.plugins.ltfiles.sacha.tag_pattern,text));
 });
 lt.plugins.ltfiles.sacha.add_node_with_tags = (function add_node_with_tags(nodes,node,tags){return cljs.core.conj.call(null,nodes,cljs.core.assoc.call(null,node,new cljs.core.Keyword(null,"tags","tags",1017456523),tags));
@@ -952,15 +952,15 @@ lt.plugins.ltfiles.sacha.add_node_with_tags = (function add_node_with_tags(nodes
 * Returns nodes with :line, :indent, :text and :tags properties.
 * Tags are picked up from parents and any words starting with '#'.
 */
-lt.plugins.ltfiles.sacha.__GT_tagged_nodes = (function __GT_tagged_nodes(ed,lines){return new cljs.core.Keyword(null,"nodes","nodes",1118897699).cljs$core$IFn$_invoke$arity$1(cljs.core.reduce.call(null,(function (accum,p__11394){var vec__11395 = p__11394;var curr = cljs.core.nth.call(null,vec__11395,0,null);var next = cljs.core.nth.call(null,vec__11395,1,null);if(cljs.core.truth_(lt.plugins.ltfiles.sacha.parent_node_QMARK_.call(null,curr,next)))
-{return cljs.core.update_in.call(null,accum,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"tags","tags",1017456523)], null),(function (p1__11390_SHARP_){return lt.plugins.ltfiles.sacha.add_node_with_tags.call(null,p1__11390_SHARP_,curr,lt.plugins.ltfiles.sacha.text__GT_tags.call(null,new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(curr)));
+lt.plugins.ltfiles.sacha.__GT_tagged_nodes = (function __GT_tagged_nodes(ed,lines){return new cljs.core.Keyword(null,"nodes","nodes",1118897699).cljs$core$IFn$_invoke$arity$1(cljs.core.reduce.call(null,(function (accum,p__11801){var vec__11802 = p__11801;var curr = cljs.core.nth.call(null,vec__11802,0,null);var next = cljs.core.nth.call(null,vec__11802,1,null);if(cljs.core.truth_(lt.plugins.ltfiles.sacha.parent_node_QMARK_.call(null,curr,next)))
+{return cljs.core.update_in.call(null,accum,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"tags","tags",1017456523)], null),(function (p1__11797_SHARP_){return lt.plugins.ltfiles.sacha.add_node_with_tags.call(null,p1__11797_SHARP_,curr,lt.plugins.ltfiles.sacha.text__GT_tags.call(null,new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(curr)));
 }));
 } else
 {if(cljs.core.truth_(lt.plugins.ltfiles.sacha.desc_node_QMARK_.call(null,curr)))
 {return cljs.core.update_in.call(null,accum,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"nodes","nodes",1118897699),(cljs.core.count.call(null,new cljs.core.Keyword(null,"nodes","nodes",1118897699).cljs$core$IFn$_invoke$arity$1(accum)) - 1),new cljs.core.Keyword(null,"desc","desc",1016984067)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentVector.EMPTY),curr);
 } else
 {if(new cljs.core.Keyword(null,"else","else",1017020587))
-{return cljs.core.update_in.call(null,accum,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"nodes","nodes",1118897699)], null),(function (nodes){return lt.plugins.ltfiles.sacha.add_node_with_tags.call(null,nodes,curr,cljs.core.into.call(null,cljs.core.mapcat.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523),cljs.core.filter.call(null,(function (p1__11391_SHARP_){return (new cljs.core.Keyword(null,"indent","indent",4124632094).cljs$core$IFn$_invoke$arity$1(p1__11391_SHARP_) < new cljs.core.Keyword(null,"indent","indent",4124632094).cljs$core$IFn$_invoke$arity$1(curr));
+{return cljs.core.update_in.call(null,accum,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"nodes","nodes",1118897699)], null),(function (nodes){return lt.plugins.ltfiles.sacha.add_node_with_tags.call(null,nodes,curr,cljs.core.into.call(null,cljs.core.mapcat.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523),cljs.core.filter.call(null,(function (p1__11798_SHARP_){return (new cljs.core.Keyword(null,"indent","indent",4124632094).cljs$core$IFn$_invoke$arity$1(p1__11798_SHARP_) < new cljs.core.Keyword(null,"indent","indent",4124632094).cljs$core$IFn$_invoke$arity$1(curr));
 }),new cljs.core.Keyword(null,"tags","tags",1017456523).cljs$core$IFn$_invoke$arity$1(accum))),lt.plugins.ltfiles.sacha.text__GT_tags.call(null,new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(curr))));
 }));
 } else
@@ -968,7 +968,7 @@ lt.plugins.ltfiles.sacha.__GT_tagged_nodes = (function __GT_tagged_nodes(ed,line
 }
 }
 }
-}),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"tags","tags",1017456523),cljs.core.PersistentHashSet.EMPTY,new cljs.core.Keyword(null,"nodes","nodes",1118897699),cljs.core.PersistentVector.EMPTY], null),cljs.core.partition.call(null,2,1,cljs.core.PersistentVector.EMPTY,cljs.core.map.call(null,(function (p1__11389_SHARP_){return cljs.core.PersistentHashMap.fromArrays.call(null,[new cljs.core.Keyword(null,"line","line",1017226086),new cljs.core.Keyword(null,"indent","indent",4124632094),new cljs.core.Keyword(null,"text","text",1017460895)],[p1__11389_SHARP_,lt.plugins.sacha.codemirror.line_indent.call(null,ed,p1__11389_SHARP_),lt.objs.editor.line.call(null,ed,p1__11389_SHARP_)]);
+}),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"tags","tags",1017456523),cljs.core.PersistentHashSet.EMPTY,new cljs.core.Keyword(null,"nodes","nodes",1118897699),cljs.core.PersistentVector.EMPTY], null),cljs.core.partition.call(null,2,1,cljs.core.PersistentVector.EMPTY,cljs.core.map.call(null,(function (p1__11796_SHARP_){return cljs.core.PersistentHashMap.fromArrays.call(null,[new cljs.core.Keyword(null,"line","line",1017226086),new cljs.core.Keyword(null,"indent","indent",4124632094),new cljs.core.Keyword(null,"text","text",1017460895)],[p1__11796_SHARP_,lt.plugins.sacha.codemirror.line_indent.call(null,ed,p1__11796_SHARP_),lt.objs.editor.line.call(null,ed,p1__11796_SHARP_)]);
 }),lines))));
 });
 /**
@@ -980,19 +980,25 @@ lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new
 })], null));
 lt.plugins.ltfiles.sacha.unknown_type = new cljs.core.Keyword(null,"unknown","unknown",729063356);
 lt.plugins.ltfiles.sacha.config = new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"types","types",1124748267),new cljs.core.PersistentArrayMap.fromArray([new cljs.core.Keyword(null,"priority","priority",4143410454),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"names","names",1118489274),new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, ["p0","p1","p2","p9","p?","later"], null),new cljs.core.Keyword(null,"default","default",2558708147),"p?"], null),new cljs.core.Keyword(null,"duration","duration",3316859142),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"names","names",1118489274),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, ["small","big"], null),new cljs.core.Keyword(null,"default","default",2558708147),"small"], null),lt.plugins.ltfiles.sacha.unknown_type,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"names","names",1118489274),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["leftover"], null),new cljs.core.Keyword(null,"default","default",2558708147),"leftover"], null)], true, false)], null);
-lt.plugins.ltfiles.sacha.type_counts = (function type_counts(type_config,nodes){var default_tag = (function (){var or__6813__auto__ = new cljs.core.Keyword(null,"default","default",2558708147).cljs$core$IFn$_invoke$arity$1(type_config);if(cljs.core.truth_(or__6813__auto__))
+/**
+* Reduces a type's nodes to a tag map with a reducer fn.
+*/
+lt.plugins.ltfiles.sacha.type_nodes__GT_tag_map = (function type_nodes__GT_tag_map(f,type_config,nodes){var default_tag = (function (){var or__6813__auto__ = new cljs.core.Keyword(null,"default","default",2558708147).cljs$core$IFn$_invoke$arity$1(type_config);if(cljs.core.truth_(or__6813__auto__))
 {return or__6813__auto__;
 } else
 {return "leftover";
 }
-})();return cljs.core.reduce.call(null,(function (accum,node){var type_tags = clojure.set.intersection.call(null,cljs.core.set.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523).cljs$core$IFn$_invoke$arity$1(node)),cljs.core.set.call(null,new cljs.core.Keyword(null,"names","names",1118489274).cljs$core$IFn$_invoke$arity$1(type_config)));var type_tag = ((cljs.core.empty_QMARK_.call(null,type_tags))?default_tag:cljs.core.first.call(null,type_tags));return cljs.core.update_in.call(null,accum,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [type_tag], null),cljs.core.inc);
+})();return cljs.core.reduce.call(null,(function (accum,node){var type_tags = clojure.set.intersection.call(null,cljs.core.set.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523).cljs$core$IFn$_invoke$arity$1(node)),cljs.core.set.call(null,new cljs.core.Keyword(null,"names","names",1118489274).cljs$core$IFn$_invoke$arity$1(type_config)));var type_tags__$1 = ((cljs.core.empty_QMARK_.call(null,type_tags))?new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [default_tag], null):type_tags);return cljs.core.reduce.call(null,(function (p1__11803_SHARP_,p2__11804_SHARP_){return f.call(null,p1__11803_SHARP_,p2__11804_SHARP_,node);
+}),accum,type_tags__$1);
 }),cljs.core.PersistentArrayMap.EMPTY,nodes);
 });
+lt.plugins.ltfiles.sacha.type_counts = cljs.core.partial.call(null,lt.plugins.ltfiles.sacha.type_nodes__GT_tag_map,(function (p1__11805_SHARP_,p2__11806_SHARP_){return cljs.core.update_in.call(null,p1__11805_SHARP_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [p2__11806_SHARP_], null),cljs.core.inc);
+}));
 /**
 * Types config which calculates certain types based on nodes e.g. unknown type
 * which accounts for typeless tags.
 */
-lt.plugins.ltfiles.sacha.dynamic_config = (function dynamic_config(nodes){var unaccounted_tags = clojure.set.difference.call(null,cljs.core.set.call(null,cljs.core.mapcat.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523),nodes)),cljs.core.set.call(null,cljs.core.mapcat.call(null,new cljs.core.Keyword(null,"names","names",1118489274),cljs.core.vals.call(null,new cljs.core.Keyword(null,"types","types",1124748267).cljs$core$IFn$_invoke$arity$1(lt.plugins.ltfiles.sacha.config)))));return cljs.core.update_in.call(null,lt.plugins.ltfiles.sacha.config,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"types","types",1124748267),lt.plugins.ltfiles.sacha.unknown_type,new cljs.core.Keyword(null,"names","names",1118489274)], null),(function (p1__11396_SHARP_){return cljs.core.into.call(null,unaccounted_tags,p1__11396_SHARP_);
+lt.plugins.ltfiles.sacha.dynamic_config = (function dynamic_config(nodes){var unaccounted_tags = clojure.set.difference.call(null,cljs.core.set.call(null,cljs.core.mapcat.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523),nodes)),cljs.core.set.call(null,cljs.core.mapcat.call(null,new cljs.core.Keyword(null,"names","names",1118489274),cljs.core.vals.call(null,new cljs.core.Keyword(null,"types","types",1124748267).cljs$core$IFn$_invoke$arity$1(lt.plugins.ltfiles.sacha.config)))));return cljs.core.update_in.call(null,lt.plugins.ltfiles.sacha.config,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"types","types",1124748267),lt.plugins.ltfiles.sacha.unknown_type,new cljs.core.Keyword(null,"names","names",1118489274)], null),(function (p1__11807_SHARP_){return cljs.core.into.call(null,unaccounted_tags,p1__11807_SHARP_);
 }));
 });
 lt.plugins.ltfiles.sacha.ed__GT_nodes = (function ed__GT_nodes(ed){var line = lt.objs.editor.cursor.call(null,ed).line;var lines = (function (){var temp__4090__auto__ = lt.objs.editor.selection_bounds.call(null,ed);if(cljs.core.truth_(temp__4090__auto__))
@@ -1002,35 +1008,29 @@ lt.plugins.ltfiles.sacha.ed__GT_nodes = (function ed__GT_nodes(ed){var line = lt
 }
 })();return lt.plugins.ltfiles.sacha.__GT_tagged_nodes.call(null,ed,lines);
 });
-lt.plugins.ltfiles.sacha.types_counts = (function types_counts(ed){var nodes = lt.plugins.ltfiles.sacha.ed__GT_nodes.call(null,ed);var types_config = lt.plugins.ltfiles.sacha.dynamic_config.call(null,nodes);return cljs.core.map.call(null,(function (p1__11397_SHARP_){return (new cljs.core.PersistentVector(null,2,5,cljs.core.PersistentVector.EMPTY_NODE,[p1__11397_SHARP_,lt.plugins.ltfiles.sacha.type_counts.call(null,cljs.core.get_in.call(null,types_config,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"types","types",1124748267),p1__11397_SHARP_], null)),nodes)],null));
+lt.plugins.ltfiles.sacha.types_counts = (function types_counts(ed){var nodes = lt.plugins.ltfiles.sacha.ed__GT_nodes.call(null,ed);var types_config = lt.plugins.ltfiles.sacha.dynamic_config.call(null,nodes);return cljs.core.map.call(null,(function (p1__11808_SHARP_){return (new cljs.core.PersistentVector(null,2,5,cljs.core.PersistentVector.EMPTY_NODE,[p1__11808_SHARP_,lt.plugins.ltfiles.sacha.type_counts.call(null,cljs.core.get_in.call(null,types_config,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"types","types",1124748267),p1__11808_SHARP_], null)),nodes)],null));
 }),cljs.core.keys.call(null,new cljs.core.Keyword(null,"types","types",1124748267).cljs$core$IFn$_invoke$arity$1(types_config)));
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.types-counts","ltfiles.types-counts",1587032617),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: tag counts of each type for current branch or selection",new cljs.core.Keyword(null,"exec","exec",1017031683),(function (){return cljs.core.prn.call(null,lt.plugins.ltfiles.sacha.types_counts.call(null,lt.objs.editor.pool.last_active.call(null)));
 })], null));
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.debug-nodes","ltfiles.debug-nodes",2833223850),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: prints nodes for current branch or selection",new cljs.core.Keyword(null,"exec","exec",1017031683),(function (){return cljs.core.println.call(null,clojure.string.join.call(null,"\n",lt.plugins.ltfiles.sacha.ed__GT_nodes.call(null,lt.objs.editor.pool.last_active.call(null))));
 })], null));
-lt.plugins.ltfiles.sacha.type_map = (function type_map(type_config,nodes){var default_tag = (function (){var or__6813__auto__ = new cljs.core.Keyword(null,"default","default",2558708147).cljs$core$IFn$_invoke$arity$1(type_config);if(cljs.core.truth_(or__6813__auto__))
-{return or__6813__auto__;
-} else
-{return "leftover";
-}
-})();return cljs.core.reduce.call(null,(function (accum,node){var type_tags = clojure.set.intersection.call(null,cljs.core.set.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523).cljs$core$IFn$_invoke$arity$1(node)),cljs.core.set.call(null,new cljs.core.Keyword(null,"names","names",1118489274).cljs$core$IFn$_invoke$arity$1(type_config)));var type_tag = ((cljs.core.empty_QMARK_.call(null,type_tags))?default_tag:cljs.core.first.call(null,type_tags));return cljs.core.update_in.call(null,accum,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [type_tag], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentVector.EMPTY),node);
-}),cljs.core.PersistentArrayMap.EMPTY,nodes);
-});
+lt.plugins.ltfiles.sacha.type_map = cljs.core.partial.call(null,lt.plugins.ltfiles.sacha.type_nodes__GT_tag_map,(function (p1__11809_SHARP_,p2__11810_SHARP_,p3__11811_SHARP_){return cljs.core.update_in.call(null,p1__11809_SHARP_,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [p2__11810_SHARP_], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentVector.EMPTY),p3__11811_SHARP_);
+}));
 lt.plugins.ltfiles.sacha.indent_node = (function indent_node(node,indent){return clojure.string.replace_first.call(null,new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(node),/^\s*/,cljs.core.apply.call(null,cljs.core.str,cljs.core.repeat.call(null,indent," ")));
 });
-lt.plugins.ltfiles.sacha.indent_nodes = (function indent_nodes(nodes,indent,tab_size){var tag_indent = (indent + tab_size);var node_indent = ((indent + tab_size) + tab_size);var desc_indent = (((indent + tab_size) + tab_size) + tab_size);return cljs.core.mapcat.call(null,(function (p1__11398_SHARP_){if(cljs.core.truth_(new cljs.core.Keyword(null,"type-tag","type-tag",4631398905).cljs$core$IFn$_invoke$arity$1(p1__11398_SHARP_)))
-{return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [[cljs.core.str(cljs.core.apply.call(null,cljs.core.str,cljs.core.repeat.call(null,tag_indent," "))),cljs.core.str(new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(p1__11398_SHARP_))].join('')], null);
+lt.plugins.ltfiles.sacha.indent_nodes = (function indent_nodes(nodes,indent,tab_size){var tag_indent = (indent + tab_size);var node_indent = ((indent + tab_size) + tab_size);var desc_indent = (((indent + tab_size) + tab_size) + tab_size);return cljs.core.mapcat.call(null,(function (p1__11812_SHARP_){if(cljs.core.truth_(new cljs.core.Keyword(null,"type-tag","type-tag",4631398905).cljs$core$IFn$_invoke$arity$1(p1__11812_SHARP_)))
+{return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [[cljs.core.str(cljs.core.apply.call(null,cljs.core.str,cljs.core.repeat.call(null,tag_indent," "))),cljs.core.str(new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(p1__11812_SHARP_))].join('')], null);
 } else
-{return cljs.core.into.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [lt.plugins.ltfiles.sacha.indent_node.call(null,p1__11398_SHARP_,node_indent)], null),cljs.core.map.call(null,(function (x){return lt.plugins.ltfiles.sacha.indent_node.call(null,x,desc_indent);
-}),new cljs.core.Keyword(null,"desc","desc",1016984067).cljs$core$IFn$_invoke$arity$1(p1__11398_SHARP_)));
+{return cljs.core.into.call(null,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [lt.plugins.ltfiles.sacha.indent_node.call(null,p1__11812_SHARP_,node_indent)], null),cljs.core.map.call(null,(function (x){return lt.plugins.ltfiles.sacha.indent_node.call(null,x,desc_indent);
+}),new cljs.core.Keyword(null,"desc","desc",1016984067).cljs$core$IFn$_invoke$arity$1(p1__11812_SHARP_)));
 }
 }),nodes);
 });
 /**
 * Saves tags to node's text in order to not lose tags when switching views.
 */
-lt.plugins.ltfiles.sacha.save_tags = (function save_tags(tags_nodes){return cljs.core.reduce_kv.call(null,(function (accum,tag,nodes){return cljs.core.assoc.call(null,accum,tag,cljs.core.map.call(null,(function (node){var tags_to_add = clojure.set.difference.call(null,cljs.core.set.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523).cljs$core$IFn$_invoke$arity$1(node)),cljs.core.PersistentHashSet.fromArray([tag], true),cljs.core.set.call(null,lt.plugins.ltfiles.sacha.text__GT_tags.call(null,new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(node))));return cljs.core.update_in.call(null,node,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"text","text",1017460895)], null),cljs.core.str,clojure.string.join.call(null,cljs.core.map.call(null,(function (p1__11399_SHARP_){return [cljs.core.str(" "),cljs.core.str(lt.plugins.ltfiles.sacha.tag_prefix),cljs.core.str(p1__11399_SHARP_)].join('');
+lt.plugins.ltfiles.sacha.save_tags = (function save_tags(tags_nodes){return cljs.core.reduce_kv.call(null,(function (accum,tag,nodes){return cljs.core.assoc.call(null,accum,tag,cljs.core.map.call(null,(function (node){var tags_to_add = clojure.set.difference.call(null,cljs.core.set.call(null,new cljs.core.Keyword(null,"tags","tags",1017456523).cljs$core$IFn$_invoke$arity$1(node)),cljs.core.PersistentHashSet.fromArray([tag], true),cljs.core.set.call(null,lt.plugins.ltfiles.sacha.text__GT_tags.call(null,new cljs.core.Keyword(null,"text","text",1017460895).cljs$core$IFn$_invoke$arity$1(node))));return cljs.core.update_in.call(null,node,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"text","text",1017460895)], null),cljs.core.str,clojure.string.join.call(null,cljs.core.map.call(null,(function (p1__11813_SHARP_){return [cljs.core.str(" "),cljs.core.str(lt.plugins.ltfiles.sacha.tag_prefix),cljs.core.str(p1__11813_SHARP_)].join('');
 }),tags_to_add)));
 }),nodes));
 }),cljs.core.PersistentArrayMap.EMPTY,tags_nodes);
@@ -1048,13 +1048,11 @@ return (function (tag){var temp__4092__auto__ = cljs.core.get.call(null,tags_nod
 });})(nodes,types_config,tags_nodes,tags_nodes__$1))
 ,cljs.core.get_in.call(null,types_config,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"types","types",1124748267),type,new cljs.core.Keyword(null,"names","names",1118489274)], null)));var indented_nodes = lt.plugins.ltfiles.sacha.indent_nodes.call(null,new_nodes,lt.plugins.sacha.codemirror.line_indent.call(null,ed,lt.objs.editor.cursor.call(null,ed).line),lt.objs.editor.option.call(null,ed,"tabSize"));return [cljs.core.str(clojure.string.join.call(null,"\n",indented_nodes)),cljs.core.str("\n")].join('');
 });
-lt.plugins.ltfiles.sacha.type_selector = lt.plugins.ltfiles.selector.selector.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"items","items",1114430258),(function (){return cljs.core.map.call(null,(function (p1__11400_SHARP_){return cljs.core.PersistentHashMap.fromArrays.call(null,[new cljs.core.Keyword(null,"name","name",1017277949)],[p1__11400_SHARP_]);
+lt.plugins.ltfiles.sacha.type_selector = lt.plugins.ltfiles.selector.selector.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"items","items",1114430258),(function (){return cljs.core.map.call(null,(function (p1__11814_SHARP_){return cljs.core.PersistentHashMap.fromArrays.call(null,[new cljs.core.Keyword(null,"name","name",1017277949)],[p1__11814_SHARP_]);
 }),cljs.core.keys.call(null,new cljs.core.Keyword(null,"types","types",1124748267).cljs$core$IFn$_invoke$arity$1(lt.plugins.ltfiles.sacha.config)));
 }),new cljs.core.Keyword(null,"key","key",1014010321),new cljs.core.Keyword(null,"name","name",1017277949)], null));
-lt.plugins.ltfiles.sacha.check_types_counts = (function check_types_counts(ed,editor_fn){var before_replace_counts = lt.plugins.ltfiles.sacha.types_counts.call(null,ed);cljs.core.prn.call(null,before_replace_counts);
-editor_fn.call(null);
-var after_replace_counts = lt.plugins.ltfiles.sacha.types_counts.call(null,ed);cljs.core.prn.call(null,after_replace_counts);
-if(cljs.core._EQ_.call(null,before_replace_counts,after_replace_counts))
+lt.plugins.ltfiles.sacha.check_types_counts = (function check_types_counts(ed,editor_fn){var before_replace_counts = lt.plugins.ltfiles.sacha.types_counts.call(null,ed);editor_fn.call(null);
+var after_replace_counts = lt.plugins.ltfiles.sacha.types_counts.call(null,ed);if(cljs.core._EQ_.call(null,before_replace_counts,after_replace_counts))
 {return null;
 } else
 {cljs.core.println.call(null,"Types counts not equal. Please submit your outline as an issue.");
