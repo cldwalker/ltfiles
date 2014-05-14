@@ -216,7 +216,7 @@
 
 (def type-selector
   (selector/selector {:items (fn []
-                               (map #(hash-map :name (str %)) (keys (:types config))))
+                               (map #(hash-map :name (name %)) (keys (:types config))))
                       :key :name}))
 
 (defn check-types-counts [ed editor-fn]
@@ -236,17 +236,17 @@
                         (check-types-counts
                          ed
                          (fn []
-                           (editor/replace (editor/->cm-ed ed)
+                           (do #_editor/replace (editor/->cm-ed ed)
                                            {:line (inc (:line (editor/->cursor ed))) :ch 0}
                                            {:line end-line :ch 0}
-                                           (->type-view ed (:name type)))))))})
+                                           (->type-view ed (keyword (:name type))))))))})
 
 (cmd/command {:command :ltfiles.insert-type-branch
               :desc "ltfiles: inserts new type view for current branch"
               :options type-selector
               :exec (fn [type]
                       (let [ed (pool/last-active)]
-                        (util/insert-at-next-line ed (->type-view ed (:name type)))))})
+                        (util/insert-at-next-line ed (->type-view ed (keyword (:name type))))))})
 
 (comment
 
