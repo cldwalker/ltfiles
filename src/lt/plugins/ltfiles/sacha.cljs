@@ -216,7 +216,7 @@
 
 (def type-selector
   (selector/selector {:items (fn []
-                               (map #(hash-map :name %) (keys (:types config))))
+                               (map #(hash-map :name (str %)) (keys (:types config))))
                       :key :name}))
 
 (defn check-types-counts [ed editor-fn]
