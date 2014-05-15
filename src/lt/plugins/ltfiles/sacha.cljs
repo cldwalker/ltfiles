@@ -3,6 +3,7 @@
   (:require [lt.objs.command :as cmd]
             [lt.objs.editor.pool :as pool]
             [lt.objs.editor :as editor]
+            [lt.objs.notifos :as notifos]
             [clojure.set :as cset]
             [clojure.string :as s]
             [lt.plugins.ltfiles.selector :as selector]
@@ -252,7 +253,8 @@
     (editor-fn)
     (let [after-replace-counts (types-counts ed)]
       (when-not (= before-replace-counts after-replace-counts)
-        (println "Types counts not equal. Please submit your outline as an issue.")
+        (cmd/exec! :editor.undo)
+        (notifos/set-msg! "Before and after type counts not equal. Please submit your outline as an issue." {:class "error"})
         (println "BEFORE: " before-replace-counts "\nAFTER: " after-replace-counts)))))
 
 (cmd/command {:command :ltfiles.replace-type-branch
