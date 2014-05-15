@@ -175,10 +175,11 @@
    #"^\s*"
    (apply str (repeat indent " "))))
 
-(defn indent-nodes [nodes indent tab-size]
-  (let [tag-indent (+ indent tab-size)
-        node-indent (+ indent tab-size tab-size)
-        desc-indent (+ indent tab-size tab-size tab-size)]
+(defn indent-nodes [nodes indent tab-size offset-level]
+  (let [offset (* offset-level tab-size)
+        tag-indent (+ indent offset)
+        node-indent (+ indent offset tab-size)
+        desc-indent (+ indent offset tab-size tab-size)]
     (mapcat
      #(if (:type-tag %)
         [(str (apply str (repeat tag-indent " "))
@@ -234,21 +235,23 @@
 (defn ->type-view
   "Creates a type view given a type and the editor (branch) to use. A type view
   pivots a current branch by changing the top-level parents of a branch to the new type."
-  [ed type]
-  (let [nodes (ed->nodes ed)
-        types-config (dynamic-config nodes)
-        tags-nodes (type-map (get-in types-config [:types type]) nodes)
-        tags-nodes (ensure-unique-nodes tags-nodes)
-        tags-nodes (save-tags tags-nodes)
-        new-nodes (mapcat
-                   (fn [tag]
-                     (when-let [children (get tags-nodes tag)]
-                       (into [{:type-tag true :text (str tag-prefix (name tag))}] children)))
-                   (get-in types-config [:types type :names]))
-        indented-nodes (indent-nodes new-nodes
-                                     (c/line-indent ed (.-line (editor/cursor ed)))
-                                     (editor/option ed "tabSize"))]
-    (str (s/join "\n" indented-nodes) "\n")))
+  ([ed type] (->type-view ed type 1))
+  ([ed type indent-level]
+   (let [nodes (ed->nodes ed)
+         types-config (dynamic-config nodes)
+         tags-nodes (type-map (get-in types-config [:types type]) nodes)
+         tags-nodes (ensure-unique-nodes tags-nodes)
+         tags-nodes (save-tags tags-nodes)
+         new-nodes (mapcat
+                    (fn [tag]
+                      (when-let [children (get tags-nodes tag)]
+                        (into [{:type-tag true :text (str tag-prefix (name tag))}] children)))
+                    (get-in types-config [:types type :names]))
+         indented-nodes (indent-nodes new-nodes
+                                      (c/line-indent ed (.-line (editor/cursor ed)))
+                                      (editor/option ed "tabSize")
+                                      indent-level)]
+     (str (s/join "\n" indented-nodes) "\n"))))
 
 (def type-selector
   (selector/selector {:items (fn []
@@ -264,8 +267,8 @@
         (notifos/set-msg! "Before and after type counts not equal. Please submit your outline as an issue." {:class "error"})
         (println "BEFORE: " before-replace-counts "\nAFTER: " after-replace-counts)))))
 
-(cmd/command {:command :ltfiles.replace-type-branch
-              :desc "ltfiles: replaces current branch with new type view"
+(cmd/command {:command :ltfiles.type-replace-children
+              :desc "ltfiles: replaces current children with new type view"
               :options type-selector
               :exec (fn [type]
                       (let [ed (pool/last-active)
@@ -277,6 +280,17 @@
                                            {:line (inc (:line (editor/->cursor ed))) :ch 0}
                                            {:line end-line :ch 0}
                                            (->type-view ed (keyword (:name type))))))))})
+
+(cmd/command {:command :ltfiles.type-replace-branch
+              :desc "ltfiles: replaces current branch with new type view"
+              :options type-selector
+              :exec (fn [type]
+                      (let [ed (pool/last-active)
+                            end-line (c/safe-next-non-child-line ed (.-line (editor/cursor ed)))]
+                        (editor/replace (editor/->cm-ed ed)
+                                        {:line (:line (editor/->cursor ed)) :ch 0}
+                                        {:line end-line :ch 0}
+                                        (->type-view ed (keyword (:name type)) 0))))})
 
 (cmd/command {:command :ltfiles.insert-type-branch
               :desc "ltfiles: inserts new type view for current branch"
