@@ -213,6 +213,8 @@
                            (some (fn [[allowed-tag dup-node]]
                                    (and (= dup-node node) (not= allowed-tag tag)))
                                  tag-dups))]
+    (doseq [[tag node] tag-dups]
+      (println (str "Line '" (:text node) "' has overlapping tags. Put line under " tag-prefix tag)))
     (into {}
           (keep
            (fn [[tag nodes]]
