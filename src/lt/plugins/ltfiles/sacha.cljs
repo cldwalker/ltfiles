@@ -196,6 +196,31 @@
    {}
    tags-nodes))
 
+(defn ensure-unique-nodes
+  "Ensures duplicate nodes are removed from least popular tags, leaving
+  a duplicate node in its most popular tag."
+  [tags-nodes]
+  (let [freqs (frequencies (mapcat second tags-nodes))
+        dups (keep (fn [[node c]]
+                     (when (> c 1) node)) freqs)
+        most-popular-tag #(first (apply max-key
+                                        (fn [[tag nodes]]
+                                          (when ((set %) tag)
+                                            (count nodes))) tags-nodes))
+        ;; pairs of allowed tag and dup nodes
+        tag-dups (map #(vector (most-popular-tag (:tags %)) %) dups)
+        disallowed-node? (fn [node tag]
+                           (some (fn [[allowed-tag dup-node]]
+                                   (and (= dup-node node) (not= allowed-tag tag)))
+                                 tag-dups))]
+    (into {}
+          (keep
+           (fn [[tag nodes]]
+             (let [new-nodes (remove #(disallowed-node? % tag) nodes)]
+               (when (seq new-nodes)
+                 [tag (vec new-nodes)])))
+           tags-nodes))))
+
 (defn ->type-view
   "Creates a type view given a type and the editor (branch) to use. A type view
   pivots a current branch by changing the top-level parents of a branch to the new type."
@@ -203,6 +228,7 @@
   (let [nodes (ed->nodes ed)
         types-config (dynamic-config nodes)
         tags-nodes (type-map (get-in types-config [:types type]) nodes)
+        tags-nodes (ensure-unique-nodes tags-nodes)
         tags-nodes (save-tags tags-nodes)
         new-nodes (mapcat
                    (fn [tag]
@@ -236,7 +262,7 @@
                         (check-types-counts
                          ed
                          (fn []
-                           (do #_editor/replace (editor/->cm-ed ed)
+                           (editor/replace (editor/->cm-ed ed)
                                            {:line (inc (:line (editor/->cursor ed))) :ch 0}
                                            {:line end-line :ch 0}
                                            (->type-view ed (keyword (:name type))))))))})
