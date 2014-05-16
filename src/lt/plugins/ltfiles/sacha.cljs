@@ -124,6 +124,7 @@
        (let [type-tags (cset/intersection (set (:tags node))
                                           (set (:names type-config)))
              type-tags (if (empty? type-tags) [default-tag] type-tags)]
+         #_(prn node type-tags)
          (reduce #(f %1 %2 node) accum type-tags)))
      {}
      nodes)))
@@ -264,13 +265,14 @@
 (defn check-types-counts
   ([ed editor-fn] (check-types-counts ed editor-fn nil))
   ([ed editor-fn lines]
-   (let [before-replace-counts (types-counts ed lines)]
-     (editor-fn)
-     (let [after-replace-counts (types-counts ed lines)]
-       (when-not (= before-replace-counts after-replace-counts)
-         (cmd/exec! :editor.undo)
-         (notifos/set-msg! "Before and after type counts not equal. Please submit your outline as an issue." {:class "error"})
-         (println "BEFORE: " before-replace-counts "\nAFTER: " after-replace-counts))))))
+   (let [before-replace-counts (types-counts ed lines)
+         new-body-count (count (s/split-lines (editor-fn)))
+         new-lines (when lines (range (first lines) (+ new-body-count (first lines))))
+         after-replace-counts (types-counts ed new-lines)]
+         (when-not (= before-replace-counts after-replace-counts)
+           (cmd/exec! :editor.undo)
+           (notifos/set-msg! "Before and after type counts not equal. Please submit your outline as an issue." {:class "error"})
+           (println "BEFORE: " before-replace-counts "\nAFTER: " after-replace-counts)))))
 
 (cmd/command {:command :ltfiles.type-replace-children
               :desc "ltfiles: replaces current children with new type view"
@@ -281,10 +283,12 @@
                         (check-types-counts
                          ed
                          (fn []
-                           (editor/replace (editor/->cm-ed ed)
-                                           {:line (inc (:line (editor/->cursor ed))) :ch 0}
-                                           {:line end-line :ch 0}
-                                           (->type-view ed (keyword (:name type))))))))})
+                           (let [new-body (->type-view ed (keyword (:name type)))]
+                             (editor/replace (editor/->cm-ed ed)
+                                             {:line (inc (:line (editor/->cursor ed))) :ch 0}
+                                             {:line end-line :ch 0}
+                                             new-body)
+                             new-body)))))})
 
 (cmd/command {:command :ltfiles.type-replace-branch
               :desc "ltfiles: replaces current branch with new type view"
@@ -296,10 +300,12 @@
                         (check-types-counts
                          ed
                          (fn []
-                           (editor/replace (editor/->cm-ed ed)
-                                           {:line (:line (editor/->cursor ed)) :ch 0}
-                                           {:line end-line :ch 0}
-                                           (->type-view ed (keyword (:name type)) 0)))
+                           (let [new-body (->type-view ed (keyword (:name type)) 0)]
+                             (editor/replace (editor/->cm-ed ed)
+                                             {:line (:line (editor/->cursor ed)) :ch 0}
+                                             {:line end-line :ch 0}
+                                             new-body)
+                             new-body))
                          (range line end-line))))})
 
 (cmd/command {:command :ltfiles.insert-type-branch
