@@ -39,7 +39,7 @@
   "Regex for pulling out tags with tag-prefix. To escape having a tag parsed,
   put a backslash before it e.g. \\#escaped"
   (re-pattern (str "(?:[^\\\\]|^)"
-                   "(" tag-prefix "[^ \\t\\n:.,?]+" ")")))
+                   "(" tag-prefix "[^ \\t\\n:.,;]+" ")")))
 
 (defn text->tags [text]
   (map
