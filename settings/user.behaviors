@@ -67,6 +67,7 @@
                                       "<Space>sb" ":ltexec ltfiles.type-replace-branch"
                                       "<Space>sc" ":ltexec ltfiles.types-counts"
                                       "<Space>si" ":ltexec ltfiles.insert-type-branch"
+                                      "<Space>sq" ":ltexec ltfiles.query-replace-children"
                                       "<Space>sr" ":ltexec ltfiles.type-replace-children"
                                       ; (t)oggle
                                       "<Space>tc" ":ltexec toggle-console"

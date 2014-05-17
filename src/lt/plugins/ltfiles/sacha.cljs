@@ -236,21 +236,23 @@
                  [tag (vec new-nodes)])))
            tags-nodes))))
 
-(defn ->type-view
-  "Creates a type view given a type and the editor (branch) to use. A type view
-  pivots a current branch by changing the top-level parents of a branch to the new type."
-  ([ed type] (->type-view ed type 1))
-  ([ed type indent-level]
+(defn ->view
+  "Creates a view given a type or a view config and the editor (branch) to use. A view
+  pivots the current branch by changing the parents of a branch."
+  ([ed type-or-view] (->view ed type-or-view 1))
+  ([ed type-or-view indent-level]
    (let [nodes (ed->nodes ed)
-         types-config (dynamic-config nodes)
-         tags-nodes (type-map (get-in types-config [:types type]) nodes)
+         view-config (if (map? type-or-view)
+                       type-or-view
+                       (get-in (dynamic-config nodes) [:types type-or-view]))
+         tags-nodes (type-map view-config nodes)
          tags-nodes (ensure-unique-nodes tags-nodes)
          tags-nodes (save-tags tags-nodes)
          new-nodes (mapcat
                     (fn [tag]
                       (when-let [children (get tags-nodes tag)]
                         (into [{:type-tag true :text (str tag-prefix (name tag))}] children)))
-                    (get-in types-config [:types type :names]))
+                    (:names view-config))
          indented-nodes (indent-nodes new-nodes
                                       (c/line-indent ed (.-line (editor/cursor ed)))
                                       (editor/option ed "tabSize")
@@ -283,7 +285,7 @@
                         (check-types-counts
                          ed
                          (fn []
-                           (let [new-body (->type-view ed (keyword (:name type)))]
+                           (let [new-body (->view ed (keyword (:name type)))]
                              (editor/replace (editor/->cm-ed ed)
                                              {:line (inc (:line (editor/->cursor ed))) :ch 0}
                                              {:line end-line :ch 0}
@@ -300,7 +302,7 @@
                         (check-types-counts
                          ed
                          (fn []
-                           (let [new-body (->type-view ed (keyword (:name type)) 0)]
+                           (let [new-body (->view ed (keyword (:name type)) 0)]
                              (editor/replace (editor/->cm-ed ed)
                                              {:line (:line (editor/->cursor ed)) :ch 0}
                                              {:line end-line :ch 0}
@@ -313,7 +315,29 @@
               :options type-selector
               :exec (fn [type]
                       (let [ed (pool/last-active)]
-                        (util/insert-at-next-line ed (->type-view ed (keyword (:name type))))))})
+                        (util/insert-at-next-line ed (->view ed (keyword (:name type))))))})
+
+(defn ->query-view
+  "Create a view given a query. There are two formats.
+  With parent:    #type: tag1, tag2
+  Without parent: tag1, tag2"
+  [ed query]
+  (let [tags-string (-> (re-find #"^\s*(\S+:|)\s*(.*)$" query) (get 2))
+        tags (when tags-string (s/split tags-string #"\s*,\s*"))
+        view-config {:names (conj tags "leftover") :default "leftover"}]
+    (->view ed view-config)))
+
+(cmd/command {:command :ltfiles.query-replace-children
+              :desc "ltfiles: replaces current children based on current node's query"
+              :exec (fn []
+                      (let [ed (pool/last-active)
+                            end-line (c/safe-next-non-child-line ed (.-line (editor/cursor ed)))]
+                        (let [line (:line (editor/->cursor ed))
+                              new-body (->query-view ed (editor/line ed line))]
+                             (editor/replace (editor/->cm-ed ed)
+                                             {:line (inc line) :ch 0}
+                                             {:line end-line :ch 0}
+                                             new-body))))})
 
 (comment
 
