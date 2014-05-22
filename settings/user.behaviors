@@ -69,6 +69,7 @@
                                       "<Space>si" ":ltexec kukui.insert-type-branch"
                                       "<Space>sq" ":ltexec kukui.query-replace-children"
                                       "<Space>sr" ":ltexec kukui.type-replace-children"
+                                      "<Space>ss" ":ltexec kukui.stamp-children"
                                       ; (t)oggle
                                       "<Space>tc" ":ltexec toggle-console"
                                       "<Space>tl" ":ltexec ltfiles.toggle-line-numbers"
