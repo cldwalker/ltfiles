@@ -58,11 +58,6 @@
            (when (seq stdout) (println "STDOUT: " stdout))
            (when (seq stderr) (println "STDERR: " stderr)))))
 
-(defn copy
-  "Platform-independent copy"
-  [text]
-  (.set (.Clipboard.get (js/require "nw.gui")) text "text"))
-
 (defn exec-commands
   "Execs a vec of commands - same format as a user.keymap vec"
   [commands]

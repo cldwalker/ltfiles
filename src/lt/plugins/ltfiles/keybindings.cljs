@@ -60,7 +60,7 @@
                       :transform #(str "<p class='binding'>" %3 "</p>")}))
 
 (cmd/command {:command :ltfiles.keybinding-bar
-              :desc "ltfiles: Searcn keybinding or command of keys"
+              :desc "ltfiles: Search keybinding or command of keys"
               :options key-selector
               :exec prn})
 (comment

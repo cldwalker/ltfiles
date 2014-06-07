@@ -1,8 +1,8 @@
 (ns lt.plugins.ltfiles.inline-result
-  (:require [lt.plugins.ltfiles.util :as util]
-            [lt.objs.editor.pool :as pool]
+  (:require [lt.objs.editor.pool :as pool]
             [lt.object :as object]
             [lt.objs.editor :as editor]
+            [lt.objs.platform :as platform]
             [lt.objs.command :as cmd]))
 
 
@@ -29,7 +29,7 @@
 
 (defn copy-current-inline-result []
   (when-let [inline (current-inline-widget)]
-    (util/copy (:result @inline))))
+    (platform/copy (:result @inline))))
 
 ;; These also works for a selection. Note: you cannot bind these commands to vim/map-keys
 ;; because something about invoking it disables s selection
