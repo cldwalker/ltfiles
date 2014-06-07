@@ -156,24 +156,10 @@
               :desc "ltfiles: Print current file path"
               :exec (fn [] (notifos/set-msg! (str "Current path is " (util/current-file))))})
 
-;; copied from opener's ::open-standard-editor
-;; TODO: PR so I can just reuse it
-(defn open-path [obj path]
-  (doc/open path
-            (fn [doc]
-              (let [type (files/path->type path)
-                    ed (pool/create (merge {:doc doc :line-ending (-> @doc :line-ending)} (opener/path->info path)))]
-                (metrics/capture! :editor.open {:type (or (:name type) (files/ext path))
-                                                :lines (editor/last-line ed)})
-                (object/add-tags ed [:editor.file-backed])
-                (object/raise obj :open ed)
-                (tabs/add! ed)
-                (tabs/active! ed)))))
-
 (defn open-current-file []
   (let [current-file (util/current-file)]
     (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
-    (open-path opener/opener current-file)))
+    (opener/open-path opener/opener current-file)))
 
 (cmd/command {:command :ltfiles.vertical-split-current-file
               :desc "ltfiles: split current file vertically i.e. open in another tabset"
