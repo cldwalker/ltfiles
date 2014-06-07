@@ -9,10 +9,6 @@
                                       "j" "gj",
                                       "k" "gk"
                                       "gJ" ":ltexec ltfiles.smart-join"
-                                      ;; assumes running with a CM that has an updated vim.js
-                                      ;"gv" ":ltexec ltfiles.vim-reselect-visual"
-                                      "[p" ":ltexec ltfiles.vim-indent-paste-above"
-                                      "]p" ":ltexec ltfiles.vim-indent-paste-below"
                                       "''" ":ltexec lt.plugins.marks/jump-to-last-edit-mark"
 
                                       ;; <Space> is a leader key in normal mode
@@ -66,8 +62,9 @@
                                       ; s - kukui
                                       "<Space>sb" ":ltexec kukui.type-replace-branch"
                                       "<Space>sc" ":ltexec kukui.types-counts"
-                                      "<Space>si" ":ltexec kukui.insert-type-branch"
+                                      "<Space>sI" ":ltexec kukui.insert-type-branch"
                                       "<Space>sq" ":ltexec kukui.query-replace-children"
+                                      "<Space>si" ":ltexec kukui.query-insert-children"
                                       "<Space>sr" ":ltexec kukui.type-replace-children"
                                       "<Space>ss" ":ltexec kukui.stamp-children"
                                       ; (t)oggle
@@ -108,6 +105,7 @@
               (:lt.objs.style/set-theme "cobalt")
               (:lt.plugins.vim/activate-vim)
               :lt.objs.editor/hide-line-numbers
+              (:lt.objs.editor.pool/line-comment-options {:indent true})
               (:lt.plugins.reflow/set-width 80)]
 
      ;; Here we can add behaviors to just clojure editors
