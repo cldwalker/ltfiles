@@ -12,6 +12,8 @@
 
      :editor {"alt-w" [:editor.watch.watch-selection]
               "alt-shift-w" [:editor.watch.unwatch]
+              "ctrl-j" [:editor.sublime.selectLinesDownward]
+              "ctrl-k" [:editor.sublime.selectLinesUpward]
 
               ;; here instead of <Space> vim/map-keys b/c of selection limitation
               "alt-," [:ltfiles.toggle-current-inline-result]
