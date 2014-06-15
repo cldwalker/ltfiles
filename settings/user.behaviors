@@ -38,9 +38,11 @@
                                       "<Space>gi" ":ltexec gitbeam.in-with-clipboard"
                                       "<Space>gI" ":ltexec gitbeam.in-with-current-word"
                                       "<Space>go" ":ltexec gitbeam.out-with-external-browser"
-                                      "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
                                       "<Space>k" ":ltexec keymap.modify-user"
                                       "<Space>K" ":ltexec keymap.view-default"
+                                      "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
+                                      ; (m) misc
+                                      "<Space>ms" ":ltexec ltfiles.print-fn-source"
                                       ; (o)pen
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
                                       "<Space>oc" ":ltexec ltfiles.rotate-console"
