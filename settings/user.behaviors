@@ -29,8 +29,9 @@
                                       "<Space>dO" ":ltexec ltfiles.object-bar"
                                       "<Space>dt" ":ltexec ltfiles.tag-bar"
                                       ;; (f)ind
-                                      "<Space>fd" ":ltexec ltfiles.search-current-folder"
+                                      "<Space>fd" ":ltexec ltfiles.search-current-directory"
                                       "<Space>ff" ":ltexec ltfiles.search-current-file"
+                                      "<Space>fF" ":ltexec ltfiles.search-current-folder"
                                       "<Space>fu" ":ltexec ltfiles.search-current-folder-for-fn-usage"
                                       "<Space>fw" ":ltexec ltfiles.search-current-file-with-current-word" ; same as vim's [I
                                       "<Space>fW" ":ltexec ltfiles.search-current-folder-with-current-word"

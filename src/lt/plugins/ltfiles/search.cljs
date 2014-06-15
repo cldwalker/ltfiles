@@ -9,6 +9,9 @@
            [goog.string :as gs]
            [lt.plugins.ltfiles.util :as util]))
 
+(defmethod search/location "<directory>" [_]
+  [(util/current-directory)])
+
 (defmethod search/location "<file>" [_]
   [(util/current-file)])
 
@@ -27,8 +30,8 @@
 (defn set-replace [this v]
   (dom/val (dom/$ :input.replace (object/->content this)) v))
 
-(defn search-current-folder []
-  (set-location search/searcher "<folder>")
+(defn open-search-for [path]
+  (set-location search/searcher path)
   (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show))
 
@@ -36,18 +39,17 @@
 ;; Would like to add selection detection to these but am limited by vim keys not
 ;; picking up selection
 
+(cmd/command {:command :ltfiles.search-current-directory
+              :desc "ltfiles: Searches current directory"
+              :exec (partial open-search-for "<directory>")})
+
 (cmd/command {:command :ltfiles.search-current-folder
               :desc "ltfiles: Searches current folder"
-              :exec search-current-folder})
-
-(defn search-current-file []
-  (set-location search/searcher "<file>")
-  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
-  (cmd/exec! :searcher.show))
+              :exec (partial open-search-for "<folder>")})
 
 (cmd/command {:command :ltfiles.search-current-file
               :desc "ltfiles: Searches current file"
-              :exec search-current-file})
+              :exec (partial open-search-for "<file>")})
 
 (defn search-current-file-with-current-word []
   (set-search search/searcher (clojure/current-word))

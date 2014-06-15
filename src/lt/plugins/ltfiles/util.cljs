@@ -2,6 +2,7 @@
   (:require [lt.objs.editor :as editor]
             [lt.objs.command :as cmd]
             [lt.objs.workspace :as workspace]
+            [lt.objs.files :as files]
             [lt.objs.editor.pool :as pool]))
 
 (defn current-word*
@@ -40,6 +41,9 @@
 
 (defn current-file []
   (-> @(pool/last-active) :info :path))
+
+(defn current-directory []
+  (files/parent (current-file)))
 
 (defn file-folder [file]
   (some #(when (parent? % file) %)
