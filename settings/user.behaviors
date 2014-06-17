@@ -65,6 +65,7 @@
                                       ; s - kukui
                                       "<Space>sb" ":ltexec kukui.type-replace-branch"
                                       "<Space>sc" ":ltexec kukui.types-counts"
+                                      "<Space>sC" ":ltexec kukui.all-types-counts"
                                       "<Space>sd" ":ltexec kukui.toggle-descs"
                                       "<Space>sI" ":ltexec kukui.insert-type-branch"
                                       "<Space>sq" ":ltexec kukui.query-replace-children"
