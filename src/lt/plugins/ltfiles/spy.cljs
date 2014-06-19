@@ -4,12 +4,11 @@
             [goog.object :as object]
             [clojure.string]))
 
-;; There must be a less hacky way
 ;; from http://stackoverflow.com/questions/16656481/how-can-i-get-the-clojurescript-namespace-i-am-in-from-within-a-clojurescript-pr
-(defn current-ns []
+(defn ->ns [namespace]
   (reduce (fn [ns n] (aget ns n))
           js/window
-          (clojure.string/split (namespace ::x) #"\.")))
+          (clojure.string/split namespace #"\.")))
 
 (defn ns-fns [namespace]
   (->> (object/getKeys namespace)
@@ -37,5 +36,6 @@
 
 
 (comment
+  (aget lt.plugins.ltfiles.spy "ns_fns")
   (unspy lt.plugins.ltfiles.spy "some_dude")
   )

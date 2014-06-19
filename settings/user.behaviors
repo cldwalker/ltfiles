@@ -27,6 +27,7 @@
                                       "<Space>dB" ":ltexec ltfiles.behavior-bar"
                                       "<Space>do" ":ltexec ltfiles.jump-to-object"
                                       "<Space>dO" ":ltexec ltfiles.object-bar"
+                                      "<Space>ds" ":ltexec ltfiles.clojurescript-spy"
                                       "<Space>dt" ":ltexec ltfiles.tag-bar"
                                       ;; (f)ind
                                       "<Space>fd" ":ltexec ltfiles.search-current-directory"
@@ -72,6 +73,7 @@
                                       "<Space>si" ":ltexec kukui.query-insert-children"
                                       "<Space>sr" ":ltexec kukui.type-replace-children"
                                       "<Space>ss" ":ltexec kukui.stamp-children"
+                                      "<Space>sS" ":ltexec kukui.save-config"
                                       ; (t)oggle
                                       "<Space>tc" ":ltexec toggle-console"
                                       "<Space>tl" ":ltexec ltfiles.toggle-line-numbers"
