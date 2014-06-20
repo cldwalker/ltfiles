@@ -1,7 +1,6 @@
 (ns lt.plugins.ltfiles.spy
   "Spy on functions with ease"
-  (:require [goog.debug :as debug]
-            [goog.object :as object]
+  (:require [goog.object :as object]
             [clojure.string]))
 
 ;; from http://stackoverflow.com/questions/16656481/how-can-i-get-the-clojurescript-namespace-i-am-in-from-within-a-clojurescript-pr
@@ -19,7 +18,7 @@
 
 (defn ->spy [f fname]
   (fn [& args]
-    (println (str "ARGUMENTS of " fname ": " (pr-str args)))
+    (println (str "ARGUMENTS for " fname ": " (pr-str args)))
     (apply f args)))
 
 (defn unspy
@@ -29,8 +28,8 @@
 
 (defn spy
   "Spies on a given fn. By default prints args"
-  [namespace f]
-  (let [fname (debug/getFunctionName f)]
+  [namespace fname]
+  (let [f (aget namespace fname)]
     (swap! spies update-in [namespace fname] (constantly f))
     (aset namespace fname (->spy f fname))))
 

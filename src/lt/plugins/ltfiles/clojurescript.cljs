@@ -27,6 +27,10 @@
               :desc "ltfiles: Spy on a clojurescript fn in current ns"
               :options cmd-selector
               :exec (fn [selection]
-                      (prn  selection)
-                      (let [nsp (current-ns)]
-                        (spy/spy nsp (aget nsp (:name selection)))))})
+                      (spy/spy (current-ns) (:name selection)))})
+
+(cmd/command {:command :ltfiles.clojurescript-unspy
+              :desc "ltfiles: Unspy on a clojurescript fn in current ns"
+              :options cmd-selector
+              :exec (fn [selection]
+                      (spy/unspy (current-ns) (:name selection)))})
