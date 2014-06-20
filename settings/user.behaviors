@@ -44,6 +44,7 @@
                                       "<Space>K" ":ltexec keymap.view-default"
                                       "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
                                       ; (m) misc
+                                      "<Space>mc" ":ltexec ltfiles.jump-to-ctag"
                                       "<Space>ms" ":ltexec ltfiles.print-fn-source"
                                       ; (o)pen
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
@@ -118,6 +119,7 @@
 
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]
+     :editor.clojurescript [:lt.plugins.ctags/simple-jump-to-definition]}}
      :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}])]}
 
  ;; You can use the subtract key to remove behavior that may get added by
