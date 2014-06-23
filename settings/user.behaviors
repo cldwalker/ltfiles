@@ -119,7 +119,7 @@
 
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]
-     :editor.clojurescript [:lt.plugins.ctags/simple-jump-to-definition]}}
+     :editor.clojurescript [:lt.plugins.ctags/simple-jump-to-definition]
      :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}])]}
 
  ;; You can use the subtract key to remove behavior that may get added by
@@ -130,4 +130,4 @@
      ;; turn off annoying info boxes while editing any behavior
      :editor.behaviors [:lt.objs.langs.behaviors/show-info-on-move]
      ;; allow transient files to close without prompt
-     :editor.transient [:lt.objs.editor.file/dirty-on-change]}}}
+     :editor.transient [:lt.objs.editor.file/dirty-on-change]}}
