@@ -74,8 +74,8 @@
                                       "<Space>sq" ":ltexec kukui.query-replace-children"
                                       "<Space>si" ":ltexec kukui.query-insert-children"
                                       "<Space>sr" ":ltexec kukui.type-replace-children"
-                                      "<Space>ss" ":ltexec kukui.stamp-children"
-                                      "<Space>sS" ":ltexec kukui.save-config"
+                                      "<Space>ss" ":ltexec kukui.save-current-config"
+                                      "<Space>sS" ":ltexec kukui.stamp-children"
                                       ; (t)oggle
                                       "<Space>tc" ":ltexec toggle-console"
                                       "<Space>tl" ":ltexec ltfiles.toggle-line-numbers"
