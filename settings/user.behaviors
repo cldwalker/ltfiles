@@ -71,8 +71,9 @@
                                       "<Space>sd" ":ltexec kukui.toggle-descs"
                                       "<Space>sj" ":ltexec kukui.jump-to-entity"
                                       "<Space>sl" ":ltexec kukui.query-with-local-type"
-                                      "<Space>sq" ":ltexec kukui.query-with-named-queries"
-                                      "<Space>sQ" ":ltexec kukui.query-with-datascript"
+                                      "<Space>sq" ":ltexec kukui.query-and-open-file"
+                                      "<Space>sQ" ":ltexec kukui.query-and-print"
+                                      "<Space>sr" ":ltexec kukui.reset-sync"
                                       "<Space>ss" ":ltexec kukui.sync-file-to-db"
                                       "<Space>sS" ":ltexec kukui.stamp-children"
                                       ; (t)oggle
