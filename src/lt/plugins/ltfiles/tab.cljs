@@ -61,7 +61,7 @@
 (object/add-behavior! opener/opener ::track-open-files)
 
 (def file-selector
-  (selector/selector {:items (fn [] @opened-files)
+  (selector/selector {:items (fn [] (reverse @opened-files))
                       :key :rel
                       :transform #(str "<p>" (files/basename %) "</p><p class='binding'>" %3 "</p>")}))
 
