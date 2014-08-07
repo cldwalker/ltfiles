@@ -6,7 +6,6 @@
   [ed path doc]
   (let [info (merge {:mime "plaintext" :tags [:editor.plaintext]}
                     (lt.objs.opener/path->info path))
-        content (:content (lt.objs.files/open-sync path))
         ;; TODO: remove hardcoded brittle defaults
         ;; These defaults may not work for others and for specific file types
         default-tags #{:editor.inline-result :tabset.tab :editor.keys.vim.normal
@@ -24,6 +23,32 @@
     (swap! ed #(apply dissoc % outdated-editor-keys))
     (when-let [ts (:lt.objs.tabs/tabset @ed)]
       (lt.object/raise ts :tab.updated))))
+
+(defn update-editor-path!
+  "Updates given editor to edit a new path. Appropriately swaps CM doc object,
+  refreshes editor keys and updates editor's tab, :tags, :info and :listeners."
+  [ed path]
+  (update-editor-to-linked-doc!
+   ed
+   path
+   (lt.objs.document/create {:line-ending lt.objs.files/line-ending
+                             :mime (:mime info)
+                             :mtime (lt.objs.files/stats path)
+                             :content (:content (lt.objs.files/open-sync path))})))
+
+(def old-open-path (aget lt.objs.opener "open_path"))
+
+(def open-in-current-editor false)
+
+(defn new-open-path [obj path]
+  (if open-in-current-editor
+    (update-editor-path!
+     (lt.objs.editor.pool/last-active) path)
+    (old-open-path obj path)))
+
+;; Override open-path to be to control how to open a path
+;; Consider PR upstream to make this less gross
+(aset lt.objs.opener "open_path" new-open-path)
 
 (comment
   (def path (get-in @ed [:info :path]))
