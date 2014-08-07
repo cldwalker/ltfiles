@@ -73,6 +73,7 @@
                                       "<Space>sJ" ":ltexec kukui.jump-to-query-result-source"
                                       "<Space>sl" ":ltexec kukui.query-with-local-type"
                                       "<Space>soe" ":ltexec kukui.open-entity"
+                                      "<Space>sos" ":ltexec kukui.open-regex-search"
                                       "<Space>sot" ":ltexec kukui.open-entity-tagged"
                                       "<Space>soT" ":ltexec kukui.open-entity-type"
                                       "<Space>sp" ":ltexec kukui.previous-query"
