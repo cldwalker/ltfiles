@@ -1,5 +1,6 @@
 (ns lt.plugins.ltfiles.document
-  "Some doc helpers - mostly around swapDoc and linkDoc")
+  "Some doc helpers - mostly around swapDoc and linkDoc"
+  (:require-macros [lt.macros :refer [behavior]]))
 
 (defn update-editor-to-linked-doc!
   "Updates given editor to use a linked doc"
@@ -49,6 +50,16 @@
 ;; Override open-path to be to control how to open a path
 ;; Consider PR upstream to make this less gross
 (aset lt.objs.opener "open_path" new-open-path)
+
+(behavior ::open-with-jump-stack-on-select
+          :desc "Alternative to lt.objs.sidebar.navigate/open-on-select that uses jump-stack"
+          :triggers #{:select}
+          :reaction (fn [this cur]
+                      (lt.object/raise lt.objs.jump-stack/jump-stack
+                                       :jump-stack.push!
+                                       (lt.objs.editor.pool/last-active)
+                                       (:full cur)
+                                       {:line 0 :ch 0})))
 
 (comment
   (def path (get-in @ed [:info :path]))
