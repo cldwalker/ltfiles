@@ -4,6 +4,8 @@
             [lt.objs.notifos :as notifos])
   (:require-macros [lt.macros :refer [behavior]]))
 
+;; TODO: Add proper requires once doc helpers settle down
+
 (defn update-editor-to-linked-doc!
   "Updates given editor to use a linked doc"
   [ed path doc]
@@ -49,7 +51,7 @@
      (lt.objs.editor.pool/last-active) path)
     (old-open-path obj path)))
 
-;; Override open-path to be to control how to open a path
+;; Override open-path to control how to open a path
 ;; Consider PR upstream to make this less gross
 (aset lt.objs.opener "open_path" new-open-path)
 
