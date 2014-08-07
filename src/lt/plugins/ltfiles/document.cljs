@@ -1,5 +1,7 @@
 (ns lt.plugins.ltfiles.document
   "Some doc helpers - mostly around swapDoc and linkDoc"
+  (:require [lt.objs.command :as cmd]
+            [lt.objs.notifos :as notifos])
   (:require-macros [lt.macros :refer [behavior]]))
 
 (defn update-editor-to-linked-doc!
@@ -60,6 +62,13 @@
                                        (lt.objs.editor.pool/last-active)
                                        (:full cur)
                                        {:line 0 :ch 0})))
+
+(cmd/command {:command :ltfiles.toggle-open-in-current-editor
+              :desc "Toggles whether opening a new file should open in new or existing tab."
+              :exec (fn []
+                      (def open-in-current-editor (not open-in-current-editor))
+                      (notifos/set-msg! (str "open-in-current-editor is "
+                                             open-in-current-editor)))})
 
 (comment
   (def path (get-in @ed [:info :path]))

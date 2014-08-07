@@ -584,6 +584,10 @@ lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new
 if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.document')) {
 goog.provide('lt.plugins.ltfiles.document');
 goog.require('cljs.core');
+goog.require('lt.objs.notifos');
+goog.require('lt.objs.notifos');
+goog.require('lt.objs.command');
+goog.require('lt.objs.command');
 /**
 * Updates given editor to use a linked doc
 */
@@ -593,7 +597,7 @@ lt.object.remove_tags.call(null,ed,clojure.set.difference.call(null,new cljs.cor
 lt.object.add_tags.call(null,ed,cljs.core.into.call(null,default_tags,new cljs.core.Keyword(null,"tags","tags",1017456523).cljs$core$IFn$_invoke$arity$2(info,cljs.core.PersistentVector.EMPTY)));
 lt.object.merge_BANG_.call(null,ed,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"info","info",1017141280),info], null));
 cljs.core.swap_BANG_.call(null,ed,((function (info,default_tags,default_editor_keys,outdated_editor_keys){
-return (function (p1__8333_SHARP_){return cljs.core.apply.call(null,cljs.core.dissoc,p1__8333_SHARP_,outdated_editor_keys);
+return (function (p1__8339_SHARP_){return cljs.core.apply.call(null,cljs.core.dissoc,p1__8339_SHARP_,outdated_editor_keys);
 });})(info,default_tags,default_editor_keys,outdated_editor_keys))
 );
 var temp__4092__auto__ = new cljs.core.Keyword("lt.objs.tabs","tabset","lt.objs.tabs/tabset",3378091779).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,ed));if(cljs.core.truth_(temp__4092__auto__))
@@ -620,6 +624,9 @@ lt.plugins.ltfiles.document.new_open_path = (function new_open_path(obj,path){if
 lt.plugins.ltfiles.document.__BEH__open_with_jump_stack_on_select = (function __BEH__open_with_jump_stack_on_select(this$,cur){return lt.object.raise.call(null,lt.objs.jump_stack.jump_stack,new cljs.core.Keyword(null,"jump-stack.push!","jump-stack.push!",4063822260),lt.objs.editor.pool.last_active.call(null),new cljs.core.Keyword(null,"full","full",1017058817).cljs$core$IFn$_invoke$arity$1(cur),new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"line","line",1017226086),0,new cljs.core.Keyword(null,"ch","ch",1013907415),0], null));
 });
 lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.ltfiles.document","open-with-jump-stack-on-select","lt.plugins.ltfiles.document/open-with-jump-stack-on-select",3539007497),new cljs.core.Keyword(null,"reaction","reaction",4441361819),lt.plugins.ltfiles.document.__BEH__open_with_jump_stack_on_select,new cljs.core.Keyword(null,"desc","desc",1016984067),"Alternative to lt.objs.sidebar.navigate/open-on-select that uses jump-stack",new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"select","select",4402849902),null], null), null));
+lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.toggle-open-in-current-editor","ltfiles.toggle-open-in-current-editor",4086543218),new cljs.core.Keyword(null,"desc","desc",1016984067),"Toggles whether opening a new file should open in new or existing tab.",new cljs.core.Keyword(null,"exec","exec",1017031683),(function (){lt.plugins.ltfiles.document.open_in_current_editor = cljs.core.not.call(null,lt.plugins.ltfiles.document.open_in_current_editor);
+return lt.objs.notifos.set_msg_BANG_.call(null,[cljs.core.str("open-in-current-editor is "),cljs.core.str(lt.plugins.ltfiles.document.open_in_current_editor)].join(''));
+})], null));
 }
 if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.developer')) {
 goog.provide('lt.plugins.ltfiles.developer');

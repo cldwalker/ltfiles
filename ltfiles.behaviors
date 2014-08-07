@@ -1,4 +1,3 @@
 {:+ {:app [(:lt.objs.plugins/load-js "ltfiles_compiled.js")]
      :navigate.selector [:lt.plugins.ltfiles.document/open-with-jump-stack-on-select]}
- :- {:navigate.selector [:lt.objs.sidebar.navigate/open-on-select]}
- }
+ :- {:navigate.selector [:lt.objs.sidebar.navigate/open-on-select]}}
