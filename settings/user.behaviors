@@ -130,7 +130,12 @@
      :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]
      :editor.clojurescript [:lt.plugins.ctags/simple-jump-to-definition]
      :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}
-                                         {:name "cljx" :exts [:cljx] :mime "text/x-clojure" :tags [:editor.clj]}])]}
+                                         {:name "cljx" :exts [:cljx] :mime "text/x-clojure" :tags [:editor.clj]}])]
+
+     ;; Enable when pull 1585 lands
+     ;; :document [(:lt.objs.document/set-linked-doc-options {:shared-history true})]
+     ;; :opener [(:lt.objs.opener/existing-path-opens-linked-doc true)]
+     }
 
  ;; You can use the subtract key to remove behavior that may get added by
  ;; another diff
