@@ -3,7 +3,9 @@
             [lt.object :as object]
             [lt.objs.editor :as editor]
             [lt.objs.platform :as platform]
-            [lt.objs.command :as cmd]))
+            [lt.objs.command :as cmd]
+            [lt.plugins.birch.reader :as reader]
+            [lt.plugins.birch.eval :as eval]))
 
 
 ;; Caution: This will not find an inline result if it moves a different line after the eval
@@ -41,3 +43,9 @@
 (cmd/command {:command :ltfiles.copy-current-inline-result
               :desc "ltfiles: copies current inline result"
               :exec copy-current-inline-result})
+
+(cmd/command {:command :ltfiles.view-current-inline-result
+              :desc "ltfiles: open current inline result in eval viewer"
+              :exec (fn []
+                      (when-let [data (reader/read-string! (eval/ir->result (current-inline-widget)))]
+                        (object/raise eval/viewer :set! data)))})

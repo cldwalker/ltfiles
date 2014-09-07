@@ -17,7 +17,7 @@
 
               ;; here instead of <Space> vim/map-keys b/c of selection limitation
               "alt-," [:ltfiles.toggle-current-inline-result]
-              "alt-v" [:ltfiles.vim-visual-mode]
+              "alt-v" [:ltfiles.view-current-inline-result]
               "alt-g" [:gitbeam.out-with-external-browser]
               "alt-shift-g" [:gitbeam.out-with-internal-browser]
               "alt-c" [:gitbeam.out-with-clipboard-copy]

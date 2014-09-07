@@ -5,6 +5,7 @@
  :behaviors "ltfiles.behaviors",
  :dependencies {
 "Aleph" "0.0.1",
+ "Birch" "0.0.1",
  "CSS" "0.0.5",
  "Claire" "0.1.8",
  "Clojure" "0.0.12",
