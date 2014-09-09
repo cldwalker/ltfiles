@@ -69,6 +69,7 @@
                                       "<Space>sc" ":ltexec kukui.types-counts"
                                       "<Space>sC" ":ltexec kukui.all-types-counts"
                                       "<Space>sd" ":ltexec kukui.toggle-descs"
+                                      "<Space>si" ":ltexec kukui.input-query-and-open-file"
                                       "<Space>sj" ":ltexec kukui.jump-to-entity"
                                       "<Space>sJ" ":ltexec kukui.jump-to-query-result-source"
                                       "<Space>sl" ":ltexec kukui.query-with-local-type"
