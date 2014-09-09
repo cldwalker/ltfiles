@@ -27,7 +27,6 @@
 (defn find-command-keybindings [keymap]
   (println "Searching " (count keymap) "keybindings...")
   (popup/input
-   popup/basic-input
    #(find-command-keybindings* % keymap)
    :placeholder "regex"
    :header "Enter command regex"))

@@ -1,41 +1,27 @@
 (ns lt.plugins.ltfiles.popup
-  "Generic input, thanks to https://github.com/kuznicki-me/gitlight/blob/master/src/lt/plugins/gitlight/commit.cljs"
+  "Generic input thanks to lt/objs/plugins.cljs"
   (:require [lt.objs.popup :as popup]
-            [lt.object :as object]
             [lt.util.dom :as dom]
-            [crate.binding :refer [bound]])
+            [lt.objs.context :as ctx])
   (:require-macros [lt.macros :refer [defui behavior]]))
 
-(defui input-html [this]
-  [:input.option {:type "text" :placeholder (bound this :placeholder)}]
-  ;; this is a hack to get at the input value on submit
-  :keyup (fn [e]
-           (this-as me
-                    (swap! this assoc :input-value (dom/val me)))))
+(defui text-input [m]
+  [:input {:type "text" :placeholder (:placeholder m)}]
+  :focus (fn []
+           (ctx/in! :popup.input))
+  :blur (fn []
+          (ctx/out! :popup.input)))
 
-(object/object* ::basic-input
-                :tags #{:basic-input}
-                :init (fn [this opts]
-                        (input-html this)))
-
-(defn ->input [attrs]
-  (doto (object/create ::basic-input)
-      (object/merge! attrs)))
-
-(def basic-input (->input {:placeholder ""}))
-
-;; TODO: focus should be on input, not cancel
-;; autofocus nor tabindex work
-(defn input [input-obj action-fn & {:as opts}]
-  (when (:placeholder opts)
-    (object/merge! input-obj (select-keys opts [:placeholder])))
-  (popup/popup! {:header  (or (:header opts) "Enter value")
-                 :body (input-html input-obj)
-                 :buttons [{:label "Submit"
-                            :action (fn []
-                                      ;; why can't we just read from the input elem here?
-                                      (action-fn (-> input-obj deref :input-value))) }
-                           {:label "Cancel"}]}))
+(defn input [action-fn & {:as opts}]
+  (let [input (text-input opts)
+        p (popup/popup! {:header  (or (:header opts) "Enter value")
+                         :body input
+                         :buttons [{:label "Cancel"}
+                                   {:label "Submit"
+                                    :action (fn []
+                                              (action-fn (dom/val input)))}]})]
+    (dom/focus input)
+    (.setSelectionRange input 1000 1000)))
 
 (defn info
   "Display an info popup given a list of items to display."
@@ -45,11 +31,3 @@
                     {:body (list [:ul
                                   (map #(vector :li %) data)])})]
     (popup/popup! opts)))
-
-(comment
-  (do
-    (popup basic-input #(prn "SUBMIT" %)
-           :placeholder "URL"
-           :header "Enter url")
-    (.focus (-> @basic-input :content)))
-  )
