@@ -9,7 +9,7 @@ development, you may find other useful tidbits.
 To set this up on a Mac:
 
 ```sh
-$ git clone https://github.com/cldwalker/ltfiles ~/Library/Application\ Support/LightTable/plugins
+$ git clone https://github.com/cldwalker/ltfiles ~/Library/Application\ Support/LightTable/plugins/ltfiles
 $ cd ~/Library/Application\ Support/LightTable/plugins/ltfiles
 # If you have existing settings, back them up
 $ mv ../../settings{,.bak}
