@@ -72,3 +72,7 @@
               :options file-selector
               :exec (fn [file]
                       (cmd/exec! :open-path (:full file)))})
+
+(cmd/command {:command :ltfiles.balance-tabsets
+              :desc "ltfiles: Balance tabset widths"
+              :exec (fn [] (tabs/equalize-tabset-widths))})
