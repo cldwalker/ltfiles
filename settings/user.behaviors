@@ -45,7 +45,10 @@
                                       "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
                                       ; (m) misc
                                       "<Space>mc" ":ltexec ltfiles.jump-to-ctag"
+                                      "<Space>me" ":ltexec sancho.open-grimoire-examples"
+                                      "<Space>mE" ":ltexec sancho.open-grimoire-url"
                                       "<Space>ms" ":ltexec ltfiles.print-fn-source"
+                                      "<Space>mu" ":ltexec sancho.open-crossclj-url"
                                       ; (o)pen
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
                                       "<Space>oc" ":ltexec ltfiles.rotate-console"
