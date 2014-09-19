@@ -133,7 +133,7 @@
               (:lt.plugins.reflow/set-width 80)]
 
      ;; Here we can add behaviors to just clojure editors
-     :editor.clojure [(:lt.objs.langs.clj/print-length 1000)]
+     :editor.clojure [(:lt.plugins.clojure/print-length 1000)]
      :editor.clojurescript [:lt.plugins.ctags/simple-jump-to-definition]
      :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}
                                          {:name "cljx" :exts [:cljx] :mime "text/x-clojure" :tags [:editor.clj]}])]
