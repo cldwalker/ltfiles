@@ -7,8 +7,12 @@
             [lt.plugins.ltfiles.search :as lsearch]
             [lt.objs.search :as search]
             [goog.string :as gs]
+            [clojure.set :as cset]
+            [cljs.reader :as reader]
             [lt.objs.clients.local :as local]
             [lt.objs.context :as context]
+            [lt.objs.editor.pool :as pool]
+            [lt.objs.notifos :as notifos]
             [lt.object :as object])
   (:require-macros [lt.macros :refer [behavior]]))
 
@@ -127,3 +131,33 @@
               :desc "ltfiles: Print context"
               :exec (fn [] (prn (context/current)))})
 
+
+(defn validate-behaviors-file
+  "Detects behaviors in .behaviors file that have invalid names"
+  []
+  (let [ed (pool/last-active)
+        behaviors-edn (-> @ed :doc deref :doc .getValue reader/read-string)
+        user-behaviors (->> behaviors-edn
+                            vals
+                            (mapcat
+                             (fn [diff-map]
+                               (mapcat (fn [behaviors]
+                                         (map #(if (sequential? %) (first %) %) behaviors))
+                                       (vals diff-map))))
+                            set)
+        invalid-behaviors (cset/difference user-behaviors  (-> @object/behaviors keys set))
+        user-tags (->> behaviors-edn vals (mapcat keys) set)
+        invalid-tags (cset/difference user-tags  (-> @object/tags keys set))
+        invalid (cond-> {}
+                        (seq invalid-behaviors) (assoc :behaviors invalid-behaviors)
+                        (seq invalid-tags) (assoc :tags invalid-tags))]
+    (if (seq invalid)
+      (do
+        (prn "Invalid .behaviors" invalid)
+        (notifos/set-msg! (str "Behaviors file is invalid: " invalid)
+                       {:class  "error"}))
+      (notifos/set-msg! "Behaviors are valid"))))
+
+(cmd/command {:command :ltfiles.validate-behaviors
+              :desc "ltfiles: Validate current behaviors file"
+              :exec validate-behaviors-file})
