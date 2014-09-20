@@ -133,7 +133,7 @@
 
 
 (defn validate-behaviors-file
-  "Detects behaviors in .behaviors file that have invalid names"
+  "Detects invalid keywords in .behaviors file"
   []
   (let [ed (pool/last-active)
         behaviors-edn (-> @ed :doc deref :doc .getValue reader/read-string)
@@ -147,7 +147,8 @@
                             set)
         invalid-behaviors (cset/difference user-behaviors  (-> @object/behaviors keys set))
         user-tags (->> behaviors-edn vals (mapcat keys) set)
-        invalid-tags (cset/difference user-tags  (-> @object/tags keys set))
+        ;; doesn't handle :editor.keys.vim.normal yet
+        invalid-tags (cset/difference user-tags (-> @object/tags keys sort))
         invalid (cond-> {}
                         (seq invalid-behaviors) (assoc :behaviors invalid-behaviors)
                         (seq invalid-tags) (assoc :tags invalid-tags))]
@@ -158,6 +159,35 @@
                        {:class  "error"}))
       (notifos/set-msg! "Behaviors are valid"))))
 
-(cmd/command {:command :ltfiles.validate-behaviors
+(cmd/command {:command :ltfiles.validate-behaviors-file
               :desc "ltfiles: Validate current behaviors file"
               :exec validate-behaviors-file})
+
+(defn validate-keymap-file
+  "Detects invalid keywords in .keymap file"
+  []
+  (let [ed (pool/last-active) ;; (first (pool/containing-path "user.keymap"))
+        keymap-edn (-> @ed :doc deref :doc .getValue reader/read-string)
+        user-commands (->> keymap-edn
+                           vals
+                           (mapcat
+                            (fn [diff-map]
+                              (mapcat (fn [keymap]
+                                        (mapcat (fn [cmds]
+                                                  (map #(if (sequential? %) (first %) %) cmds))
+                                                (vals keymap)))
+                                      (vals diff-map))))
+                           set)
+        invalid-commands (cset/difference user-commands (-> @cmd/manager :commands keys set))
+        invalid (cond-> {}
+                        (seq invalid-commands) (assoc :commands invalid-commands))]
+    (if (seq invalid)
+      (do
+        (prn "Invalid .keymap" invalid)
+        (notifos/set-msg! (str "Keymap file is invalid: " invalid)
+                       {:class  "error"}))
+      (notifos/set-msg! "Keymaps are valid"))))
+
+(cmd/command {:command :ltfiles.validate-keymap-file
+              :desc "ltfiles: Validate current keymap file"
+              :exec validate-keymap-file})
