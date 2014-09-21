@@ -100,12 +100,14 @@
 
 ;; must be configured per user
 (def plugin-name "ltfiles")
+(def plugins-blacklist #{"kukui"})
 
 (defn save-plugins []
   (let [personal-plugins-file (files/join (files/lt-user-dir "plugins") plugin-name "plugin.edn")
         deps (->> @app/app
                   :lt.objs.plugins/plugins
                   vals
+                  (remove #(contains? plugins-blacklist (:name %)))
                   (map (juxt :name :version))
                   sort
                   flatten
