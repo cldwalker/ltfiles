@@ -3,8 +3,10 @@
             [lt.object :as object]
             [lt.objs.editor.pool :as pool]
             [lt.plugins.clojure :as clojure]
+            [lt.plugins.ltfiles.popup :as popup]
             [lt.objs.editor :as ed]
-            [lt.objs.find :as find]))
+            [lt.objs.find :as find])
+  (:require-macros [lt.macros :refer [behavior]]))
 
 (defn current-word []
   (:string (clojure/find-symbol-at-cursor (pool/last-active))))
@@ -35,3 +37,22 @@
               :exec (fn []
                       (eval-code (pool/last-active)
                                  (str "(clojure.repl/source " (current-word) ")")))})
+
+(cmd/command {:command :ltfiles.eval-once
+             :desc "ltfiles: Evals clojure(script) with given input"
+             :exec (fn []
+                     (popup/input (fn [input]
+                                    (eval-code (pool/last-active) input {:result-type :eval-once}))))})
+
+(defn handle-eval [result]
+  (println "RESULT:" (:result result)))
+
+(behavior ::clj-result.eval-once
+          :desc "ltfiles: Handles result from clj eval"
+          :triggers #{:editor.eval.clj.result.eval-once}
+          :reaction #(handle-eval (-> %2 :results first)))
+
+(behavior ::cljs-result.eval-once
+          :desc "ltfiles: Handles result from cljs eval"
+          :triggers #{:editor.eval.cljs.result.eval-once}
+          :reaction #(handle-eval %2))

@@ -364,6 +364,7 @@ if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.clojure')) {
 goog.provide('lt.plugins.ltfiles.clojure');
 goog.require('cljs.core');
 goog.require('lt.objs.find');
+goog.require('lt.plugins.ltfiles.popup');
 goog.require('lt.objs.editor.pool');
 goog.require('lt.objs.command');
 goog.require('lt.plugins.clojure');
@@ -373,6 +374,7 @@ goog.require('lt.object');
 goog.require('lt.object');
 goog.require('lt.objs.editor.pool');
 goog.require('lt.objs.command');
+goog.require('lt.plugins.ltfiles.popup');
 goog.require('lt.objs.find');
 goog.require('lt.objs.editor');
 lt.plugins.ltfiles.clojure.current_word = (function current_word(){return new cljs.core.Keyword(null,"string","string",4416885635).cljs$core$IFn$_invoke$arity$1(lt.plugins.clojure.find_symbol_at_cursor.call(null,lt.objs.editor.pool.last_active.call(null)));
@@ -407,6 +409,15 @@ return eval_code;
 ;
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.print-fn-source","ltfiles.print-fn-source",3601345299),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: Print current fn's source",new cljs.core.Keyword(null,"exec","exec",1017031683),(function (){return lt.plugins.ltfiles.clojure.eval_code.call(null,lt.objs.editor.pool.last_active.call(null),[cljs.core.str("(clojure.repl/source "),cljs.core.str(lt.plugins.ltfiles.clojure.current_word.call(null)),cljs.core.str(")")].join(''));
 })], null));
+lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.eval-once","ltfiles.eval-once",2195807045),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: Evals clojure(script) with given input",new cljs.core.Keyword(null,"exec","exec",1017031683),(function (){return lt.plugins.ltfiles.popup.input.call(null,(function (input){return lt.plugins.ltfiles.clojure.eval_code.call(null,lt.objs.editor.pool.last_active.call(null),input,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"result-type","result-type",4725630556),new cljs.core.Keyword(null,"eval-once","eval-once",1668252804)], null));
+}));
+})], null));
+lt.plugins.ltfiles.clojure.handle_eval = (function handle_eval(result){return cljs.core.println.call(null,"RESULT:",new cljs.core.Keyword(null,"result","result",4374444943).cljs$core$IFn$_invoke$arity$1(result));
+});
+lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.ltfiles.clojure","clj-result.eval-once","lt.plugins.ltfiles.clojure/clj-result.eval-once",3450293116),new cljs.core.Keyword(null,"reaction","reaction",4441361819),(function (p1__8758_SHARP_,p2__8757_SHARP_){return lt.plugins.ltfiles.clojure.handle_eval.call(null,cljs.core.first.call(null,new cljs.core.Keyword(null,"results","results",2111450984).cljs$core$IFn$_invoke$arity$1(p2__8757_SHARP_)));
+}),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: Handles result from clj eval",new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"editor.eval.clj.result.eval-once","editor.eval.clj.result.eval-once",870359537),null], null), null));
+lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.ltfiles.clojure","cljs-result.eval-once","lt.plugins.ltfiles.clojure/cljs-result.eval-once",1023616425),new cljs.core.Keyword(null,"reaction","reaction",4441361819),(function (p1__8760_SHARP_,p2__8759_SHARP_){return lt.plugins.ltfiles.clojure.handle_eval.call(null,p2__8759_SHARP_);
+}),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: Handles result from cljs eval",new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"editor.eval.cljs.result.eval-once","editor.eval.cljs.result.eval-once",3066770494),null], null), null));
 }
 if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.search')) {
 goog.provide('lt.plugins.ltfiles.search');
