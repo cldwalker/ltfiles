@@ -119,8 +119,9 @@
 
     ;; one property and plugin per line for easier editing and diffing
     (files/save personal-plugins-file
-                (s/replace plugin-body #"(\"\s*,|\{|\},)" #(str % "\n")))
-    (notifos/set-msg! "Plugins saved to " personal-plugins-file)))
+                (s/replace plugin-body #"(\"\s*,|\{|\},)" #(str % "\n"))
+                (fn []
+                  (notifos/set-msg! (str "Plugins saved to " personal-plugins-file))))))
 
 (cmd/command {:command :ltfiles.save-plugins
               :desc "ltfiles: Save plugins to :dependencies of personal plugin"
