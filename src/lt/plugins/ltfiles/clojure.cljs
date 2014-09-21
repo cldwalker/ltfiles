@@ -18,21 +18,16 @@
               :desc "ltfiles: Finds next clojure word"
               :exec find-next-clojure-word})
 
-;; Copied from lt.plugins.clojure ::on-eval.custom
-;; TODO: PR upstream
-(defn eval-code [editor code]
-  (let [;; Unused: pos (ed/->cursor editor)
-        info (:info @editor)
-        info  (assoc info
+(defn eval-code
+  "Evals code and returns result dispatching to handle fn, based
+  on [:meta :type] passed to :eval!."
+  ([editor code]
+   (eval-code editor code {}))
+  ([editor code meta-val]
+   (let [info (assoc (:info @editor)
                 :code code
-                :ns (or (:ns opts) (:ns info))
-                :meta {:start (-> (ed/->cursor editor "start") :line)
-                       :end (-> (ed/->cursor editor "end") :line)
-                       :verbatim (:verbatim opts)
-                       :result-type (or (:result-type opts) :inline)})
-        info (assoc info :print-length (object/raise-reduce editor :clojure.print-length+ nil))]
-    (object/raise clojure/clj-lang :eval! {:origin editor
-                                           :info info})))
+                :meta meta-val)]
+     (object/raise clojure/clj-lang :eval! {:origin editor :info info}))))
 
 ;; TODO: make this an inline-result
 (cmd/command {:command :ltfiles.print-fn-source
