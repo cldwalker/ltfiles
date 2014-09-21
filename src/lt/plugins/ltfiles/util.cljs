@@ -9,11 +9,11 @@
   "Returns current word given string and cursor position in string"
   [string cursor]
   (str
-   (re-find #"\S+$" (subs string 0 cursor))
-   (re-find #"^\S+" (subs string cursor))))
+   (re-find #"[^\s()\[\]]+$" (subs string 0 cursor))
+   (re-find #"^[^\s()\[\]]+" (subs string cursor))))
 
 (defn current-word
-  "Current word under cursor"
+  "Current word under cursor. Disallows whitespace and []() chars in url"
   []
   (when-let [ed (pool/last-active)]
     (let [cursor (editor/->cursor ed)]
