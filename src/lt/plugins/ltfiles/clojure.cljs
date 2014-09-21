@@ -38,11 +38,15 @@
                       (eval-code (pool/last-active)
                                  (str "(clojure.repl/source " (current-word) ")")))})
 
+(def eval-history (atom []))
+
 (cmd/command {:command :ltfiles.eval-once
-             :desc "ltfiles: Evals clojure(script) with given input"
-             :exec (fn []
-                     (popup/input (fn [input]
-                                    (eval-code (pool/last-active) input {:result-type :eval-once}))))})
+              :desc "ltfiles: Evals clojure(script) with given input"
+              :exec (fn []
+                      (popup/input (fn [input]
+                                     (swap! eval-history conj input)
+                                     (eval-code (pool/last-active) input {:result-type :eval-once}))
+                                   :completions (sort (distinct @eval-history))))})
 
 (defn handle-eval [result]
   (println "RESULT:" (:result result)))
