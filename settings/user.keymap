@@ -7,6 +7,7 @@
            "pmeta-shift-=" [:window.zoom-in]
            "pmeta--" [:window.zoom-out]
            "alt-space" [:ltfiles.commandbar]
+           "alt-l" [:ltfiles.def-let]
            ;; needs to be in :app to print actual context
            "alt-t" [:ltfiles.print-context]}
 

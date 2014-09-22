@@ -1,11 +1,16 @@
 (ns lt.plugins.ltfiles.clojure
   (:require [lt.objs.command :as cmd]
             [lt.object :as object]
+            [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
             [lt.plugins.clojure :as clojure]
             [lt.plugins.ltfiles.popup :as popup]
+            [lt.plugins.ltfiles.util :as util]
+            [lt.objs.notifos :as notifos]
             [lt.objs.editor :as ed]
-            [lt.objs.find :as find])
+            [lt.objs.find :as find]
+            [cljs.reader :as reader]
+            [clojure.string :as string])
   (:require-macros [lt.macros :refer [behavior]]))
 
 (defn current-word []
@@ -60,3 +65,34 @@
           :desc "ltfiles: Handles result from cljs eval"
           :triggers #{:editor.eval.cljs.result.eval-once}
           :reaction #(handle-eval %2))
+
+(cmd/command {:command :ltfiles.def-let
+              ;; assumes line is in a let block
+              :desc "ltfiles: Evals current line or selection as def(s)"
+              :exec (fn []
+                      (let [ed (pool/last-active)]
+                        (if (editor/selection? ed)
+                          (let [expressions (->> (editor/selection ed)
+                                                 reader/read-string
+                                                 (partition 2)
+                                                 (map (fn [[k v]]
+                                                        (str "(def " k " " v ")"))))]
+                            (eval-code ed (string/join "\n" expressions))
+                            (notifos/set-msg! (str "Def'ed " (count expressions) "vars")))
+                          ;; def current line, regardless of where it is in (let)
+                          (let [[_ _ expression] (->> (util/relative-line)
+                                                      (re-find #"^\s*(\(let\s*)?\[?([^\]]+)"))]
+                            (eval-code (pool/last-active) (str "(def " expression ")"))
+                            (notifos/set-msg! (str "Def'ed expression: " expression))))))})
+
+
+(comment
+  (re-find #"^\s*(\(let\s*)?\[?([^\]]+)" " (let [a 3")
+  (re-find #"^\s*(\(let\s*)?\[?([^\]]+)" " b 3]  ")
+
+  (let [f 6
+        b (inc f)
+        c (->> (Math/pow b 2)
+               (+ 10))]
+    c)
+  )
