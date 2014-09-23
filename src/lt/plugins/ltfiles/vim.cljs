@@ -33,7 +33,7 @@
         js->clj
         (remove #(#{"-" "\""} (first %)))
         (map (fn [[k v]]
-               (str k ": " (pr-str (get v "text"))))))
+               (str k ": " (pr-str (first (get v "keyBuffer")))))))
    :header "Registers"))
 
 (cmd/command {:command :ltfiles.show-registers
