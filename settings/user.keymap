@@ -24,6 +24,7 @@
               "alt-c" [:gitbeam.out-with-clipboard-copy]
               "alt-shift-c" [:ltfiles.copy-current-inline-result]
 
+              "alt-;" [:ltfiles.comment-let]
               "cmd-=" [:paredit.select.parent :smart-indent-selection :paredit.select.clear]
               ;;Eval the parent ( ... )
               "alt-enter" [(:paredit.select.parent "(")

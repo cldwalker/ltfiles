@@ -86,7 +86,21 @@
                             (notifos/set-msg! (str "Def'ed expression: " expression))))))})
 
 
+(cmd/command {:command :ltfiles.comment-let
+              :desc "Comments out end of a let block"
+              :exec (fn []
+                      (let [ed (pool/last-active)
+                            pos (count (re-find #"^.*\]" (util/relative-line)))]
+                        (editor/replace ed
+                                        {:line (.-line (editor/cursor ed))
+                                         :ch (dec pos)}
+                                        "\n")
+                        (cmd/exec! :toggle-comment-selection)))})
+
 (comment
+  (let [x 1
+        a 2])
+
   (re-find #"^\s*(\(let\s*)?\[?([^\]]+)" " (let [a 3")
   (re-find #"^\s*(\(let\s*)?\[?([^\]]+)" " b 3]  ")
 
