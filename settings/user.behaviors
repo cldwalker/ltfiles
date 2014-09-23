@@ -3,6 +3,8 @@
      ;; all of Light Table here
      :app [(:lt.objs.style/set-skin "dark")
            (:lt.objs.app/set-default-zoom-level -0.5)
+           ;; default w/ blob-storage for work
+           (:lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage")
            ;; :ltexec_clj is a custom ex_command from my vim.cljs
            (:lt.plugins.vim/map-keys {"0" "^",
                                       "-" ":ltexec ltfiles.find-next-clojure-word",
