@@ -123,9 +123,7 @@
                                       "\\'" ":ltexec paredit-plus.wrap-quote"})
            (:lt.plugins.photon/set-directories
             [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo"
-             "~/.gitbeam" "~/code" "/Volumes/relevance"])
-           :lt.plugins.ltfiles.reminisce/restore-tabs
-           :lt.plugins.ltfiles.reminisce/restore-workspace]
+             "~/.gitbeam" "~/code" "/Volumes/relevance"])]
 
      ;; The editor tag is applied to all editors
      :editor [:lt.objs.editor/no-wrap
@@ -148,9 +146,7 @@
 
  ;; You can use the subtract key to remove behavior that may get added by
  ;; another diff
- :- {:app [:lt.objs.intro/show-intro
-           :lt.plugins.reminisce/restore-tabs
-           :lt.plugins.reminisce/restore-workspace]
+ :- {:app [:lt.objs.intro/show-intro]
      ;; turn off aggressive autocomplete
      :editor [:lt.plugins.auto-complete/auto-show-on-input]
      ;; turn off annoying info boxes while editing any behavior

@@ -2,6 +2,7 @@
   (:require [lt.objs.editor :as editor]
             [lt.objs.command :as cmd]
             [lt.objs.workspace :as workspace]
+            [lt.object :as object]
             [lt.objs.files :as files]
             [lt.objs.editor.pool :as pool]))
 
@@ -77,6 +78,11 @@
                   {:line (inc (:line (editor/->cursor ed))) :ch 0}
                   s)
   ed)
+
+(defn call-behavior-reaction [id & args]
+  (let [behavior-fn (:reaction (object/->behavior id))]
+    (assert behavior-fn)
+    (apply behavior-fn args)))
 
 
 (comment
