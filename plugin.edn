@@ -14,7 +14,6 @@
  "GBlame" "0.0.8",
  "HTML" "0.0.2",
  "Javascript" "0.0.3",
- "Keymapper" "0.0.4",
  "Markdown" "0.0.3",
  "Marks" "0.0.2",
  "Paredit" "0.0.4",
@@ -30,7 +29,7 @@
  "gitbeam" "0.2.0",
  "lt_snippets" "0.0.3",
  "photon" "0.1.0",
- "sacha" "0.2.0",
+ "sacha" "0.2.1",
  "smart-ignore" "0.1.2"},
  :author "Gabriel Horner",
  :name "ltfiles"}
