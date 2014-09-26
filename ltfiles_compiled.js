@@ -827,28 +827,6 @@ return lt.objs.notifos.set_msg_BANG_.call(null,[cljs.core.str("Keymap file is in
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.validate-keymap-file","ltfiles.validate-keymap-file",1832877702),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: Validate current keymap file",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.ltfiles.developer.validate_keymap_file], null));
 }
-if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.reminisce')) {
-goog.provide('lt.plugins.ltfiles.reminisce');
-goog.require('cljs.core');
-goog.require('lt.objs.cache');
-goog.require('lt.objs.cache');
-goog.require('lt.objs.app');
-goog.require('lt.objs.app');
-lt.plugins.ltfiles.reminisce.__BEH__restore_workspace = (function __BEH__restore_workspace(){if((lt.objs.app.window_number.call(null) === 0))
-{return lt.plugins.ltfiles.reminisce.call_behavior_reaction.call(null,new cljs.core.Keyword("lt.plugins.reminisce","restore-workspace","lt.plugins.reminisce/restore-workspace",2601623548),lt.objs.app.app);
-} else
-{return null;
-}
-});
-lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.ltfiles.reminisce","restore-workspace","lt.plugins.ltfiles.reminisce/restore-workspace",534056790),new cljs.core.Keyword(null,"reaction","reaction",4441361819),lt.plugins.ltfiles.reminisce.__BEH__restore_workspace,new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"post-init","post-init",2970371471),null], null), null));
-lt.plugins.ltfiles.reminisce.__BEH__restore_tabs = (function __BEH__restore_tabs(this$){if((lt.objs.app.window_number.call(null) === 0))
-{return lt.plugins.ltfiles.reminisce.call_behavior_reaction.call(null,new cljs.core.Keyword("lt.plugins.reminisce","restore-tabs","lt.plugins.reminisce/restore-tabs",2301820229),lt.objs.app.app);
-} else
-{return null;
-}
-});
-lt.object.behavior_STAR_.call(null,new cljs.core.Keyword("lt.plugins.ltfiles.reminisce","restore-tabs","lt.plugins.ltfiles.reminisce/restore-tabs",750055437),new cljs.core.Keyword(null,"reaction","reaction",4441361819),lt.plugins.ltfiles.reminisce.__BEH__restore_tabs,new cljs.core.Keyword(null,"triggers","triggers",2516997421),new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"post-init","post-init",2970371471),null], null), null));
-}
 if(!lt.util.load.provided_QMARK_('lt.plugins.ltfiles.vim')) {
 goog.provide('lt.plugins.ltfiles.vim');
 goog.require('cljs.core');
@@ -883,10 +861,10 @@ if(cljs.core.truth_(lt.objs.editor.selection_QMARK_.call(null,lt.objs.editor.poo
 }
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.vim-toggle-comment-selection","ltfiles.vim-toggle-comment-selection",2683966153),new cljs.core.Keyword(null,"desc","desc",1016984067),"ltfiles: toggle comment selection that also handles visual mode",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.ltfiles.vim.vim_toggle_comment_selection], null));
-lt.plugins.ltfiles.vim.set_vim_yank = (function set_vim_yank(text){return CodeMirror.Vim.getRegisterController.call(null).unamedRegister.set(text,true);
+lt.plugins.ltfiles.vim.set_vim_yank = (function set_vim_yank(text){return CodeMirror.Vim.getRegisterController.call(null).unnamedRegister.setText(text);
 });
-lt.plugins.ltfiles.vim.show_registers = (function show_registers(){return lt.plugins.ltfiles.popup.info.call(null,cljs.core.map.call(null,(function (p__8345){var vec__8346 = p__8345;var k = cljs.core.nth.call(null,vec__8346,0,null);var v = cljs.core.nth.call(null,vec__8346,1,null);return [cljs.core.str(k),cljs.core.str(": "),cljs.core.str(cljs.core.pr_str.call(null,cljs.core.first.call(null,cljs.core.get.call(null,v,"keyBuffer"))))].join('');
-}),cljs.core.remove.call(null,(function (p1__8342_SHARP_){return new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 2, ["\"",null,"-",null], null), null).call(null,cljs.core.first.call(null,p1__8342_SHARP_));
+lt.plugins.ltfiles.vim.show_registers = (function show_registers(){return lt.plugins.ltfiles.popup.info.call(null,cljs.core.map.call(null,(function (p__8360){var vec__8361 = p__8360;var k = cljs.core.nth.call(null,vec__8361,0,null);var v = cljs.core.nth.call(null,vec__8361,1,null);return [cljs.core.str(k),cljs.core.str(": "),cljs.core.str(cljs.core.pr_str.call(null,cljs.core.first.call(null,cljs.core.get.call(null,v,"keyBuffer"))))].join('');
+}),cljs.core.remove.call(null,(function (p1__8357_SHARP_){return new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 2, ["\"",null,"-",null], null), null).call(null,cljs.core.first.call(null,p1__8357_SHARP_));
 }),cljs.core.js__GT_clj.call(null,CodeMirror.Vim.getRegisterController.call(null).registers))),new cljs.core.Keyword(null,"header","header",4087600639),"Registers");
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"ltfiles.show-registers","ltfiles.show-registers",1875818673),new cljs.core.Keyword(null,"desc","desc",1016984067),"show vim's registers",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.ltfiles.vim.show_registers], null));

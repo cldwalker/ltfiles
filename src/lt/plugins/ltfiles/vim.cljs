@@ -25,7 +25,7 @@
 
 ;; Should use higher-level .pushText. Couldn't pass the correct register
 (defn set-vim-yank [text]
-  (.set (.-unamedRegister (CodeMirror.Vim.getRegisterController)) text true))
+  (.setText (.-unnamedRegister (CodeMirror.Vim.getRegisterController)) text))
 
 (defn show-registers []
   (popup/info
