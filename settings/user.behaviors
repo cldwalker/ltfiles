@@ -109,7 +109,7 @@
                                       "\\d" ":ltexec paredit-plus.delete-pair-contents"
                                       "\\f" ":ltexec paredit.move.down.forward"
                                       "\\j" ":ltexec paredit-plus.join-sexps"
-                                      "\\k" ":ltexec paredit-plus.kill"
+                                      "\\k" ":ltexec ltfiles.paredit-kill"
                                       "\\n" ":ltexec ltfiles.paredit-newline-before-pair-close"
                                       "\\N" ":ltexec paredit-plus.new-line-after-pair-close"
                                       "\\u" ":ltexec paredit.move.up.backward"

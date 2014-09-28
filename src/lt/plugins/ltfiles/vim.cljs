@@ -23,9 +23,14 @@
               :desc "ltfiles: toggle comment selection that also handles visual mode"
               :exec vim-toggle-comment-selection})
 
-;; Should use higher-level .pushText. Couldn't pass the correct register
+;; Should use the 0th register. Multiple calls to this shouldn't clobber the yank stack
 (defn set-vim-yank [text]
   (.setText (.-unnamedRegister (CodeMirror.Vim.getRegisterController)) text))
+
+;; TODO: Make this editor-agnostic so I can PR this and call from core commands
+(cmd/command {:command :ltfiles.vim-yank
+              :desc "ltfiles: Sets text to latest yank"
+              :exec set-vim-yank})
 
 (defn show-registers []
   (popup/info
