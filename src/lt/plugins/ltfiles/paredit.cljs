@@ -15,14 +15,19 @@
               :desc "ltfiles: Newline before a pair close"
               :exec newline-before-pair-close})
 
+(defn editor-replace
+  [ed from to s]
+  (cmd/exec! :ltfiles.vim-yank (editor/range ed from to))
+  (editor/replace ed from to s))
+
 ;; modified version of paredit-splice-sexp-kill
 (defn paredit-kill-backword [ed l]
   (when-let [[c loc] (first (paredit-plus/find-unbalanced ed l (paredit-plus/pair-chars :close) :forward))]
     (when-let [mloc (paredit-plus/find-match ed loc c)]
       (editor/operation ed (fn []
-                             (editor/replace ed loc (editor/adjust-loc loc 1) "")
+                             (editor-replace ed loc (editor/adjust-loc loc 1) "")
                              ;; inc to avoid deleting parent
-                             (editor/replace ed (update-in mloc [:ch] inc) l ""))))))
+                             (editor-replace ed (update-in mloc [:ch] inc) l ""))))))
 
 
 (cmd/command {:command :ltfiles.paredit-kill-backword
@@ -31,11 +36,6 @@
                        (when-let [ed (pool/last-active)]
                          (paredit-kill-backword ed (editor/->cursor ed))))})
 
-
-(defn editor-replace
-  [ed from to s]
-  (cmd/exec! :ltfiles.vim-yank (editor/range ed from to))
-  (editor/replace ed from to s))
 
 ;; modified version of paredit-plus/paredit-kill that sets clipboard on yanked range
 (defn paredit-kill [ed]
