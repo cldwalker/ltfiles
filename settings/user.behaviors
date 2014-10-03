@@ -26,12 +26,9 @@
                                       ;; (d)ev
                                       "<Space>dc" ":ltexec ltfiles.jump-to-command"
                                       "<Space>db" ":ltexec ltfiles.jump-to-behavior"
-                                      "<Space>dB" ":ltexec ltfiles.behavior-bar"
                                       "<Space>do" ":ltexec ltfiles.jump-to-object"
-                                      "<Space>dO" ":ltexec ltfiles.object-bar"
                                       "<Space>ds" ":ltexec ltfiles.clojurescript-spy"
                                       "<Space>dS" ":ltexec ltfiles.clojurescript-unspy"
-                                      "<Space>dt" ":ltexec ltfiles.tag-bar"
                                       ;; (f)ind
                                       "<Space>fd" ":ltexec ltfiles.search-current-directory"
                                       "<Space>ff" ":ltexec ltfiles.search-current-file"

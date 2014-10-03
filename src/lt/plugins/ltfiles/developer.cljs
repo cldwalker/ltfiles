@@ -2,7 +2,6 @@
   "LT Developer tools i.e. inspect objects, behaviors, tags and cmds"
   (:require [lt.objs.command :as cmd]
             [lt.util.dom :as dom]
-            [lt.plugins.aleph :as aleph]
             [lt.plugins.ltfiles.selector :as selector]
             [lt.plugins.ltfiles.search :as lsearch]
             [lt.objs.search :as search]
@@ -15,24 +14,6 @@
             [lt.objs.notifos :as notifos]
             [lt.object :as object])
   (:require-macros [lt.macros :refer [behavior]]))
-
-(defn show-and-focus-filter-list [flist]
-  (cmd/exec! :aleph.browse)
-  (->> (object/->content flist)
-       (dom/$ :.search)
-       .focus))
-
-(cmd/command {:command :ltfiles.behavior-bar
-              :desc "ltfiles: Search behaviors in aleph"
-              :exec (partial show-and-focus-filter-list aleph/b-list)})
-
-(cmd/command {:command :ltfiles.object-bar
-              :desc "ltfiles: Search objects in aleph"
-              :exec (partial show-and-focus-filter-list aleph/o-list)})
-
-(cmd/command {:command :ltfiles.tag-bar
-              :desc "ltfiles: Search tags in aleph"
-              :exec (partial show-and-focus-filter-list aleph/t-list)})
 
 (def cmd-selector
   (selector/selector {:items (fn []
