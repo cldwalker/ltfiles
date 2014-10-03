@@ -132,19 +132,22 @@
               :exec (fn [] (prn (context/current)))})
 
 
+(defn ->user-behaviors [behaviors-edn]
+  (->> behaviors-edn
+       vals
+       (mapcat
+        (fn [diff-map]
+          (mapcat (fn [behaviors]
+                    (map #(if (sequential? %) (first %) %) behaviors))
+                  (vals diff-map))))
+       set))
+
 (defn validate-behaviors-file
   "Detects invalid keywords in .behaviors file"
   []
   (let [ed (pool/last-active)
         behaviors-edn (-> @ed :doc deref :doc .getValue reader/read-string)
-        user-behaviors (->> behaviors-edn
-                            vals
-                            (mapcat
-                             (fn [diff-map]
-                               (mapcat (fn [behaviors]
-                                         (map #(if (sequential? %) (first %) %) behaviors))
-                                       (vals diff-map))))
-                            set)
+        user-behaviors (->user-behaviors behaviors-edn)
         invalid-behaviors (cset/difference user-behaviors  (-> @object/behaviors keys set))
         user-tags (->> behaviors-edn vals (mapcat keys) set)
         ;; doesn't handle :editor.keys.vim.normal yet
@@ -162,6 +165,20 @@
 (cmd/command {:command :ltfiles.validate-behaviors-file
               :desc "ltfiles: Validate current behaviors file"
               :exec validate-behaviors-file})
+
+(cmd/command {:command :ltfiles.unused-lt-behaviors
+              :desc "ltfiles: Find defined behaviors that aren't in default.behaviors file"
+              :exec (fn []
+                      (let [ed (pool/last-active)
+                            behaviors-edn (-> @ed :doc deref :doc .getValue reader/read-string)
+                            user-behaviors (->user-behaviors behaviors-edn)
+                            system-behaviors (->> @object/behaviors
+                                                  keys
+                                                  ;; does miss a few LT core plugins
+                                                  (remove #(.startsWith (namespace %) "lt.plugins"))
+                                                  set)
+                            unused-behaviors (cset/difference system-behaviors user-behaviors)]
+                        (prn "Unused behaviors:" unused-behaviors)))})
 
 (defn validate-keymap-file
   "Detects invalid keywords in .keymap file"
