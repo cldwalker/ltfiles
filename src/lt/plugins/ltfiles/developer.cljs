@@ -148,7 +148,7 @@
         invalid-behaviors (cset/difference user-behaviors  (-> @object/behaviors keys set))
         user-tags (->> behaviors-edn vals (mapcat keys) set)
         ;; doesn't handle :editor.keys.vim.normal yet
-        invalid-tags (cset/difference user-tags (-> @object/tags keys sort))
+        invalid-tags (cset/difference user-tags (-> @object/tags keys set))
         invalid (cond-> {}
                         (seq invalid-behaviors) (assoc :behaviors invalid-behaviors)
                         (seq invalid-tags) (assoc :tags invalid-tags))]
