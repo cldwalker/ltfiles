@@ -8,6 +8,7 @@
             [cljs.reader :as reader]
             [clojure.string :as s]
             [lt.plugins.ltfiles.popup :as popup]
+            [lt.objs.platform :as platform]
             [lt.objs.command :as cmd]))
 
 (defn vim-toggle-comment-selection
@@ -31,6 +32,17 @@
 (cmd/command {:command :ltfiles.vim-yank
               :desc "ltfiles: Sets text to latest yank"
               :exec set-vim-yank})
+
+(defn get-register-value [register]
+  (-> (.-registers (CodeMirror.Vim.getRegisterController))
+      (aget register) ;; pick a register
+      (aget "keyBuffer")
+      first))
+
+(cmd/command {:command :ltfiles.copy-latest-vim-register
+              :desc "ltfiles: Copies latest vim yank to system clipboard"
+              :exec (fn []
+                      (platform/copy (get-register-value "0")))})
 
 (defn show-registers []
   (popup/info
