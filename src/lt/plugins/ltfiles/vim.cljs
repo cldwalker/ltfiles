@@ -82,6 +82,8 @@
               :exec smart-join})
 
 (comment
+  (def ed (pool/last-active))
+  (js/CodeMirror.Vim.handleEx (editor/->cm-ed ed) ":sort")
   (.-text (.-unamedRegister (CodeMirror.Vim.getRegisterController)))
   (.pushText
    (CodeMirror.Vim.getRegisterController)
