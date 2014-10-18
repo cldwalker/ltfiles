@@ -124,7 +124,7 @@
 
      ;; The editor tag is applied to all editors
      :editor [:lt.objs.editor/no-wrap
-              (:lt.objs.style/set-theme "cobalt")
+              (:lt.objs.style/set-theme "solarized")
               (:lt.plugins.vim/activate-vim)
               :lt.objs.editor/hide-line-numbers
               (:lt.objs.editor.pool/line-comment-options {:indent true})
