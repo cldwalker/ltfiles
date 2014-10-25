@@ -132,7 +132,6 @@
 
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.plugins.clojure/print-length 1000)]
-     :editor.clojurescript [:lt.plugins.ctags/simple-jump-to-definition]
      :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}
                                          {:name "cljx" :exts [:cljx] :mime "text/x-clojure" :tags [:editor.clj]}])]
 
@@ -145,7 +144,8 @@
  ;; another diff
  :- {:app [:lt.objs.intro/show-intro]
      ;; turn off aggressive autocomplete
-     :editor [:lt.plugins.auto-complete/auto-show-on-input]
+     :editor [:lt.plugins.auto-complete/auto-show-on-input
+              :lt.plugins.ctags/on-result]
      ;; turn off annoying info boxes while editing any behavior
      :editor.behaviors [:lt.objs.langs.behaviors/show-info-on-move]
      ;; allow transient files to close without prompt
