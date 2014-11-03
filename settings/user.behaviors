@@ -53,6 +53,7 @@
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
                                       "<Space>oc" ":ltexec ltfiles.rotate-console"
                                       "<Space>oC" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :console-tab :console.show]"
+                                      "<Space>od" ":ltexec show-connect"
                                       "<Space>of" ":ltexec claire-show"
                                       "<Space>oF" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :editor.open-current-file-in-browser]"
                                       "<Space>ok" ":ltexec ltfiles.keybinding-bar"
@@ -132,6 +133,9 @@
 
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.plugins.clojure/print-length 1000)]
+     ;; for work
+     :editor.javascript [(:lt.objs.editor/tab-settings false 4 4)]
+
      :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}
                                          {:name "cljx" :exts [:cljx] :mime "text/x-clojure" :tags [:editor.clj]}])]
 
