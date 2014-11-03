@@ -47,6 +47,10 @@
 
      :tabs {"ctrl-tab" [:snippet.select]}
 
+     :editor.javascript {"alt-enter" [(:paredit.select.parent "{")
+                                      :eval-editor-form
+                                      :paredit.select.clear]}}
+
      ;; Broken alt combos: i,e
 
      ;; Thanks to https://github.com/jamii/lt-config/ for most watches
