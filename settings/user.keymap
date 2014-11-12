@@ -49,7 +49,7 @@
 
      :editor.javascript {"alt-enter" [(:paredit.select.parent "{")
                                       :eval-editor-form
-                                      :paredit.select.clear]}}
+                                      :paredit.select.clear]}
 
      ;; Broken alt combos: i,e
 
@@ -69,16 +69,16 @@
                   ;; requires lein-kibit
                   ;; from https://github.com/danielribeiro/LightTableKibit
                   "alt-k" [(:eval.custom
-                              "(do
-                              (require 'kibit.check)
-                              (prn :WOW)
-                              (if-let [better (kibit.check/check-expr '__SELECTION__)]
-                              (with-out-str
-                              (clojure.pprint/write (:alt better)
-                              :suppress-namespaces true
-                              :dispatch clojure.pprint/code-dispatch))
-                              __SELECTION*__))"
-                              {:result-type :replace :verbatim true})]}
+                            "(do
+                            (require 'kibit.check)
+                            (prn :WOW)
+                            (if-let [better (kibit.check/check-expr '__SELECTION__)]
+                            (with-out-str
+                            (clojure.pprint/write (:alt better)
+                            :suppress-namespaces true
+                            :dispatch clojure.pprint/code-dispatch))
+                            __SELECTION*__))"
+                            {:result-type :replace :verbatim true})]}
      :editor.cljs {"alt-p" [(:eval.custom "(.log js/console __SELECTION__)" {:result-type :inline :verbatim true})]
                    "alt-shift-p" [(:eval.custom "(prn __SELECTION__)" {:result-type :inline :verbatim true})]
                    ;; Sorts a clojure :require statement. Doesn't pretty print it yet
