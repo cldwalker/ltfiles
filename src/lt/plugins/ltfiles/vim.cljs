@@ -44,6 +44,11 @@
               :exec (fn []
                       (platform/copy (get-register-value "0")))})
 
+(cmd/command {:command :ltfiles.copy-clipboard-to-vim
+              :desc "ltfiles: Copies clipboard to vim register"
+              :exec (fn []
+                      (set-vim-yank (platform/paste)))})
+
 (defn show-registers []
   (popup/info
    (->> (.-registers (CodeMirror.Vim.getRegisterController))
