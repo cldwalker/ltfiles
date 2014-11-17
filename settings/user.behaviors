@@ -133,6 +133,7 @@
 
      ;; Here we can add behaviors to just clojure editors
      :editor.clojure [(:lt.plugins.clojure/print-length 1000)]
+     :editor.html [(:lt.objs.editor/tab-settings false 2 2)]
      ;; for work
      :editor.javascript [(:lt.objs.editor/tab-settings false 4 4)]
 
