@@ -8,9 +8,7 @@
  [:app "alt-t" :user.print-context]
  [:app "alt-tab" :tabset.next]
  [:app "alt-x" :tabset.close]
- [:app "pmeta--" :window.zoom-out]
  [:app "cmd-k" :clear-inline-results]
- [:app "pmeta-shift-=" :window.zoom-in]
  [:app "ctrl-o r" :tabs.move-next-tabset]
  [:app "-ctrl-x ctrl-f" :claire-show]
 
