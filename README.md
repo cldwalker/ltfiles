@@ -1,6 +1,6 @@
 ## Description
 
-These are my LightTable dotfiles which recreate LT as I use it. This will pull in my keys,
+This is my Light Table User plugin a.k.a. dotfiles which recreates LT as I use it. This will pull in my keys,
 behaviors, commands and plugins.  While my workflow is centered around vim, clojure(script) and web
 development, you may find other useful tidbits.
 
@@ -9,18 +9,15 @@ development, you may find other useful tidbits.
 To set this up on a Mac:
 
 ```sh
+# Backup your existing User
+$ mv ~/Library/Application\ Support/LightTable/plugins/User{,.bak}
 $ git clone https://github.com/cldwalker/ltfiles ~/Library/Application\ Support/LightTable/plugins/User
-$ cd ~/Library/Application\ Support/LightTable/plugins/user
-# If you have existing settings, back them up
-$ mv ../../settings{,.bak}
-$ ln -s $PWD/settings $PWD/../../settings
 ```
 
 ## Usage
 
 * To use any custom commands, `Ctrl-Space` and search for 'User'.
 * Plugins I use will be in plugin.edn.
-* Behavior and keys are in settings/.
 
 ## Bugs/Issues
 
