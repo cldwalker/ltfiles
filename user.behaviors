@@ -3,6 +3,7 @@
  ;; all of Light Table here
  [:app :lt.objs.style/set-skin "dark"]
  [:app :lt.objs.plugins/load-js "user_compiled.js"]
+ [:app :lt.objs.settings/pair-keymap-diffs]
  [:app :lt.objs.app/set-default-zoom-level -0.5]
  ;; default w/ blob-storage for work
  [:app :lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage"]

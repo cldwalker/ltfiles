@@ -17,7 +17,6 @@
             [clojure.string :as s]
             [lt.objs.command :as cmd]))
 
-
 ;; Prevent common error when introspecting LT objects: "RangeError: Maximum call stack size exceeded"
 (set! *print-level* 5)
 
