@@ -1,13 +1,13 @@
-{:+ {
-     ;; The app tag is kind of like global scope. You assign behaviors that affect
-     ;; all of Light Table here
-     :app [(:lt.objs.style/set-skin "dark")
-           (:lt.objs.plugins/load-js "user_compiled.js")
-           (:lt.objs.app/set-default-zoom-level -0.5)
-           ;; default w/ blob-storage for work
-           (:lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage")
-           ;; :ltexec_clj is a custom ex_command from my vim.cljs
-           (:lt.plugins.vim/map-keys {"0" "^",
+[
+ ;; The app tag is kind of like global scope. You assign behaviors that affect
+ ;; all of Light Table here
+ [:app :lt.objs.style/set-skin "dark"]
+ [:app :lt.objs.plugins/load-js "user_compiled.js"]
+ [:app :lt.objs.app/set-default-zoom-level -0.5]
+ ;; default w/ blob-storage for work
+ [:app :lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage"]
+ ;; :ltexec_clj is a custom ex_command from my vim.cljs
+ [:app :lt.plugins.vim/map-keys {"0" "^",
                                       "-" ":ltexec user.find-next-clojure-word",
                                       "j" "gj",
                                       "k" "gk"
@@ -119,45 +119,47 @@
                                       "\\(" ":ltexec paredit-plus.wrap-round"
                                       "\\{" ":ltexec paredit-plus.wrap-curly"
                                       "\\[" ":ltexec paredit-plus.wrap-square"
-                                      "\\'" ":ltexec paredit-plus.wrap-quote"})
-           (:lt.plugins.photon/set-directories
-            [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo"
-             "~/.gitbeam" "~/code" "/Volumes/relevance"])]
+                                      "\\'" ":ltexec paredit-plus.wrap-quote"}]
+ [:app :lt.plugins.photon/set-directories
+  [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo" "~/.gitbeam" "~/code" "/Volumes/relevance"]]
+ [:app :-lt.objs.intro/show-intro]
 
-     ;; The editor tag is applied to all editors
-     :editor [:lt.objs.editor/no-wrap
-              (:lt.objs.style/set-theme "solarized")
-              (:lt.plugins.vim/activate-vim)
-              :lt.objs.editor/hide-line-numbers
-              (:lt.objs.editor.pool/line-comment-options {:indent true})
-              (:lt.plugins.reflow/set-width 80)]
+ [:document :lt.objs.document/set-linked-doc-options {:shared-history true}]
 
-     ;; Here we can add behaviors to just clojure editors
-     :editor.clojure [(:lt.plugins.clojure/print-length 1000)
-                      :lt.plugins.user.clojure/clj-result.eval-once]
-     :editor.cljs [:lt.plugins.user.clojure/cljs-result.eval-once]
-     :editor.html [(:lt.objs.editor/tab-settings false 2 2)]
-     ;; for work
-     :editor.javascript [(:lt.objs.editor/tab-settings false 4 4)]
+ ;; The editor tag is applied to all editors
+ [:editor :lt.objs.editor/no-wrap]
+ [:editor :lt.objs.style/set-theme "solarized"]
+ [:editor :lt.plugins.vim/activate-vim]
+ [:editor :lt.objs.editor/hide-line-numbers]
+ [:editor :lt.objs.editor.pool/line-comment-options {:indent true}]
+ [:editor :lt.plugins.reflow/set-width 80]
+ ;; turn off aggressive autocomplete
+ [:editor :-lt.plugins.auto-complete/auto-show-on-input]
+ [:editor :-lt.plugins.ctags/on-result]
 
-     :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}
-                                         {:name "cljx" :exts [:cljx] :mime "text/x-clojure" :tags [:editor.clj]}])]
+ ;; turn off large info boxes while editing any behavior
+ [:editor.behaviors :-lt.objs.langs.behaviors/show-info-on-move]
 
-     :user.hello [:lt.plugins.user/on-close-destroy]
-     :document [(:lt.objs.document/set-linked-doc-options {:shared-history true})]
-     :opener [(:lt.objs.opener/existing-path-opens-linked-doc true)]
+ [:editor.cljs :lt.plugins.user.clojure/cljs-result.eval-once]
 
-     :navigate.selector [:lt.plugins.user.document/open-with-jump-stack-on-select]
-     }
+ [:editor.clojure :lt.plugins.clojure/print-length 1000]
+ [:editor.clojure :lt.plugins.user.clojure/clj-result.eval-once]
 
- ;; You can use the subtract key to remove behavior that may get added by
- ;; another diff
- :- {:app [:lt.objs.intro/show-intro]
-     ;; turn off aggressive autocomplete
-     :editor [:lt.plugins.auto-complete/auto-show-on-input
-              :lt.plugins.ctags/on-result]
-     ;; turn off annoying info boxes while editing any behavior
-     :editor.behaviors [:lt.objs.langs.behaviors/show-info-on-move]
-     ;; allow transient files to close without prompt
-     :editor.transient [:lt.objs.editor.file/dirty-on-change]
-     :navigate.selector [:lt.objs.sidebar.navigate/open-on-select]}}
+ [:editor.html :lt.objs.editor/tab-settings false 2 2]
+
+ ;; for work
+ [:editor.javascript :lt.objs.editor/tab-settings false 4 4]
+
+ ;; allow transient files to close without prompt
+ [:editor.transient :-lt.objs.editor.file/dirty-on-change]
+
+ [:files :lt.objs.files/file-types [{:exts [:cljs.hl :boot], :mime "text/x-clojurescript", :tags [:editor.cljs], :name "hoplon"}
+                                    {:exts [:cljx], :mime "text/x-clojure", :tags [:editor.clj], :name "cljx"}]]
+
+ [:navigate.selector :lt.plugins.user.document/open-with-jump-stack-on-select]
+ [:navigate.selector :-lt.objs.sidebar.navigate/open-on-select]
+
+ [:opener :lt.objs.opener/existing-path-opens-linked-doc true]
+
+ [:user.hello :lt.plugins.user/on-close-destroy]
+]
