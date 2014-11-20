@@ -2,6 +2,7 @@
      ;; The app tag is kind of like global scope. You assign behaviors that affect
      ;; all of Light Table here
      :app [(:lt.objs.style/set-skin "dark")
+           (:lt.objs.plugins/load-js "user_compiled.js")
            (:lt.objs.app/set-default-zoom-level -0.5)
            ;; default w/ blob-storage for work
            (:lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage")
@@ -140,6 +141,7 @@
      :files [(:lt.objs.files/file-types [{:name "hoplon" :exts [:cljs.hl :boot] :mime "text/x-clojurescript" :tags [:editor.cljs]}
                                          {:name "cljx" :exts [:cljx] :mime "text/x-clojure" :tags [:editor.clj]}])]
 
+     :user.hello [:lt.plugins.user/on-close-destroy]
      ;; Enable when pull 1585 lands
      ;; :document [(:lt.objs.document/set-linked-doc-options {:shared-history true})]
      ;; :opener [(:lt.objs.opener/existing-path-opens-linked-doc true)]
