@@ -1,9 +1,9 @@
-(ns lt.plugins.ltfiles.developer
+(ns lt.plugins.user.developer
   "LT Developer tools i.e. inspect objects, behaviors, tags and cmds"
   (:require [lt.objs.command :as cmd]
             [lt.util.dom :as dom]
-            [lt.plugins.ltfiles.selector :as selector]
-            [lt.plugins.ltfiles.search :as lsearch]
+            [lt.plugins.user.selector :as selector]
+            [lt.plugins.user.search :as lsearch]
             [lt.objs.search :as search]
             [goog.string :as gs]
             [clojure.set :as cset]
@@ -28,8 +28,8 @@
                       :transform #(str "<p class='binding'>" %3 "</p>")}))
 
 ;; Can't be used to open another command using selector/selector
-(cmd/command {:command :ltfiles.commandbar
-              :desc "ltfiles: executes a command by its id or desc"
+(cmd/command {:command :user.commandbar
+              :desc "User: executes a command by its id or desc"
               :options cmd-selector
               :exec (fn [cmd]
                       ((:exec cmd)))})
@@ -53,8 +53,8 @@
   (partial jump-to-first-result
            #(str "/:command\\s+" (gs/regExpEscape (:command %)) "(\\s+|$)/")))
 
-(cmd/command {:command :ltfiles.jump-to-command
-              :desc "ltfiles: jump to chosen command"
+(cmd/command {:command :user.jump-to-command
+              :desc "User: jump to chosen command"
               :options cmd-selector
               :exec jump-to-command})
 
@@ -76,8 +76,8 @@
   (partial jump-to-first-result
            #(str "/behavior\\s+::" (gs/regExpEscape (name (:name %))) "(\\s+|$)/")))
 
-(cmd/command {:command :ltfiles.jump-to-behavior
-              :desc "ltfiles: jump to chosen behavior"
+(cmd/command {:command :user.jump-to-behavior
+              :desc "User: jump to chosen behavior"
               :options behavior-selector
               :exec jump-to-behavior})
 
@@ -94,8 +94,8 @@
   (partial jump-to-first-result
            #(str "/object\\*\\s+::" (gs/regExpEscape (name (:name %))) "(\\s+|$)/")))
 
-(cmd/command {:command :ltfiles.jump-to-object
-              :desc "ltfiles: jump to chosen object definition"
+(cmd/command {:command :user.jump-to-object
+              :desc "User: jump to chosen object definition"
               :options object-selector
               :exec jump-to-object})
 
@@ -104,12 +104,12 @@
 ;; ====
 
 ;; Faster than mousing around. Only needs to be done once
-(cmd/command {:command :ltfiles.connect-to-lt-ui
-              :desc "ltfiles: Connect to LT UI via a keystroke"
+(cmd/command {:command :user.connect-to-lt-ui
+              :desc "User: Connect to LT UI via a keystroke"
               :exec local/init})
 
-(cmd/command {:command :ltfiles.print-context
-              :desc "ltfiles: Print context"
+(cmd/command {:command :user.print-context
+              :desc "User: Print context"
               :exec (fn [] (prn (context/current)))})
 
 
@@ -143,12 +143,12 @@
                        {:class  "error"}))
       (notifos/set-msg! "Behaviors are valid"))))
 
-(cmd/command {:command :ltfiles.validate-behaviors-file
-              :desc "ltfiles: Validate current behaviors file"
+(cmd/command {:command :user.validate-behaviors-file
+              :desc "User: Validate current behaviors file"
               :exec validate-behaviors-file})
 
-(cmd/command {:command :ltfiles.unused-lt-behaviors
-              :desc "ltfiles: Find defined behaviors that aren't in default.behaviors file"
+(cmd/command {:command :user.unused-lt-behaviors
+              :desc "User: Find defined behaviors that aren't in default.behaviors file"
               :exec (fn []
                       (let [ed (pool/last-active)
                             behaviors-edn (-> @ed :doc deref :doc .getValue reader/read-string)
@@ -186,6 +186,6 @@
                        {:class  "error"}))
       (notifos/set-msg! "Keymaps are valid"))))
 
-(cmd/command {:command :ltfiles.validate-keymap-file
-              :desc "ltfiles: Validate current keymap file"
+(cmd/command {:command :user.validate-keymap-file
+              :desc "User: Validate current keymap file"
               :exec validate-keymap-file})

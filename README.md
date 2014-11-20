@@ -9,8 +9,8 @@ development, you may find other useful tidbits.
 To set this up on a Mac:
 
 ```sh
-$ git clone https://github.com/cldwalker/ltfiles ~/Library/Application\ Support/LightTable/plugins/ltfiles
-$ cd ~/Library/Application\ Support/LightTable/plugins/ltfiles
+$ git clone https://github.com/cldwalker/ltfiles ~/Library/Application\ Support/LightTable/plugins/User
+$ cd ~/Library/Application\ Support/LightTable/plugins/user
 # If you have existing settings, back them up
 $ mv ../../settings{,.bak}
 $ ln -s $PWD/settings $PWD/../../settings
@@ -18,7 +18,7 @@ $ ln -s $PWD/settings $PWD/../../settings
 
 ## Usage
 
-* To use any custom commands, `Ctrl-Space` and search for 'ltfiles'.
+* To use any custom commands, `Ctrl-Space` and search for 'User'.
 * Plugins I use will be in plugin.edn.
 * Behavior and keys are in settings/.
 

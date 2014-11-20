@@ -2,7 +2,7 @@
 :desc "My Light Table dotfiles",
  :version "0.1.0",
  :source "https://github.com/cldwalker/ltfiles",
- :behaviors "ltfiles.behaviors",
+ :behaviors "user.behaviors",
  :dependencies {
 "Aleph" "0.1.0",
  "Birch" "0.0.1",
@@ -32,4 +32,4 @@
  "sacha" "0.2.1",
  "smart-ignore" "0.1.2"},
  :author "Gabriel Horner",
- :name "ltfiles"}
+ :name "User"}

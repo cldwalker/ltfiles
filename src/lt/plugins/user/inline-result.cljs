@@ -1,4 +1,4 @@
-(ns lt.plugins.ltfiles.inline-result
+(ns lt.plugins.user.inline-result
   (:require [lt.objs.editor.pool :as pool]
             [lt.object :as object]
             [lt.objs.editor :as editor]
@@ -36,16 +36,16 @@
 ;; These also works for a selection. Note: you cannot bind these commands to vim/map-keys
 ;; because something about invoking it disables s selection
 
-(cmd/command {:command :ltfiles.toggle-current-inline-result
-              :desc "ltfiles: toggles current inline result"
+(cmd/command {:command :user.toggle-current-inline-result
+              :desc "User: toggles current inline result"
               :exec toggle-current-inline-result})
 
-(cmd/command {:command :ltfiles.copy-current-inline-result
-              :desc "ltfiles: copies current inline result"
+(cmd/command {:command :user.copy-current-inline-result
+              :desc "User: copies current inline result"
               :exec copy-current-inline-result})
 
-(cmd/command {:command :ltfiles.view-current-inline-result
-              :desc "ltfiles: open current inline result in eval viewer"
+(cmd/command {:command :user.view-current-inline-result
+              :desc "User: open current inline result in eval viewer"
               :exec (fn []
                       (when-let [data (reader/read-string! (eval/ir->result (current-inline-widget)))]
                         (object/raise eval/viewer :set! data)))})

@@ -1,4 +1,4 @@
-(ns lt.plugins.ltfiles.util
+(ns lt.plugins.user.util
   (:require [lt.objs.editor :as editor]
             [lt.objs.command :as cmd]
             [lt.objs.workspace :as workspace]

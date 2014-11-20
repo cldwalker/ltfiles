@@ -1,13 +1,13 @@
-(ns lt.plugins.ltfiles.search
+(ns lt.plugins.user.search
  (:require [lt.objs.search :as search]
            [lt.object :as object]
            [lt.util.dom :as dom]
            [lt.objs.command :as cmd]
            [clojure.string :as s]
            [lt.objs.files :as files]
-           [lt.plugins.ltfiles.clojure :as clojure]
+           [lt.plugins.user.clojure :as clojure]
            [goog.string :as gs]
-           [lt.plugins.ltfiles.util :as util]))
+           [lt.plugins.user.util :as util]))
 
 (defmethod search/location "<directory>" [_]
   [(util/current-directory)])
@@ -32,56 +32,56 @@
 
 (defn open-search-for [path]
   (set-location search/searcher path)
-  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
+  (cmd/exec! :user.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show))
 
 ;; These commands could be composed in user.behaviors but that seems too messy
 ;; Would like to add selection detection to these but am limited by vim keys not
 ;; picking up selection
 
-(cmd/command {:command :ltfiles.search-current-directory
-              :desc "ltfiles: Searches current directory"
+(cmd/command {:command :user.search-current-directory
+              :desc "User: Searches current directory"
               :exec (partial open-search-for "<directory>")})
 
-(cmd/command {:command :ltfiles.search-current-folder
-              :desc "ltfiles: Searches current folder"
+(cmd/command {:command :user.search-current-folder
+              :desc "User: Searches current folder"
               :exec (partial open-search-for "<folder>")})
 
-(cmd/command {:command :ltfiles.search-current-file
-              :desc "ltfiles: Searches current file"
+(cmd/command {:command :user.search-current-file
+              :desc "User: Searches current file"
               :exec (partial open-search-for "<file>")})
 
 (defn search-current-file-with-current-word []
   (set-search search/searcher (clojure/current-word))
   (set-location search/searcher "<file>")
-  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
+  (cmd/exec! :user.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show)
   (cmd/exec! :searcher.search))
 
-(cmd/command {:command :ltfiles.search-current-file-with-current-word
-              :desc "ltfiles: Searches current file with current word"
+(cmd/command {:command :user.search-current-file-with-current-word
+              :desc "User: Searches current file with current word"
               :exec search-current-file-with-current-word})
 
 
 (defn search-current-folder-with-current-word []
   (set-search search/searcher (clojure/current-word))
   (set-location search/searcher "<folder>")
-  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
+  (cmd/exec! :user.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show)
   (cmd/exec! :searcher.search))
 
-(cmd/command {:command :ltfiles.search-current-folder-with-current-word
-              :desc "ltfiles: Searches current folder with current word"
+(cmd/command {:command :user.search-current-folder-with-current-word
+              :desc "User: Searches current folder with current word"
               :exec search-current-folder-with-current-word})
 
 (defn search-current-folder-for-fn-usage []
   (set-search search/searcher
               (s/replace-first "/\\((\\S+\\/)?%s\\s+/" "%s" (gs/regExpEscape (clojure/current-word))))
   (set-location search/searcher "<folder>")
-  (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
+  (cmd/exec! :user.ensure-and-focus-second-tabset)
   (cmd/exec! :searcher.show)
   (cmd/exec! :searcher.search))
 
-(cmd/command {:command :ltfiles.search-current-folder-for-fn-usage
-              :desc "ltfiles: Searches current folder for fn usage"
+(cmd/command {:command :user.search-current-folder-for-fn-usage
+              :desc "User: Searches current folder for fn usage"
               :exec search-current-folder-for-fn-usage})

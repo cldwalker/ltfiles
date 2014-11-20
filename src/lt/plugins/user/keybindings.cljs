@@ -1,12 +1,12 @@
-(ns lt.plugins.ltfiles.keybindings
+(ns lt.plugins.user.keybindings
   "Misc fns related to keybindings"
   (:require [lt.objs.keyboard :as keyboard]
             [lt.objs.command :as cmd]
-            [lt.plugins.ltfiles.selector :as selector]
+            [lt.plugins.user.selector :as selector]
             [lt.objs.settings :as settings]
             [lt.objs.files :as files]
             [goog.string :as gstring]
-            [lt.plugins.ltfiles.popup :as popup]))
+            [lt.plugins.user.popup :as popup]))
 
 ;; A more user-friendly keyboard/cmd->current-binding
 ;; This purposely doesn't find all cmds in a vec of fns e.g.
@@ -32,8 +32,8 @@
    :header "Enter command regex"))
 
 ;; consider a separate cmd that pulls result using autocompleted widget
-(cmd/command {:command :ltfiles.find-command-keybindings
-              :desc "ltfiles: Finds keybindings that use a command for the given regex"
+(cmd/command {:command :user.find-command-keybindings
+              :desc "User: Finds keybindings that use a command for the given regex"
               ;; pull out keymap early so it searches a broader set
               ;; reading keymap inside a command or input narrows visible keys
               ;; Note: this may only be pulling the right keys when repl testing
@@ -58,10 +58,10 @@
                       :key :index
                       :transform #(str "<p class='binding'>" %3 "</p>")}))
 
-(cmd/command {:command :ltfiles.keybinding-bar
-              :desc "ltfiles: Search keybinding or command of keys"
+(cmd/command {:command :user.keybinding-bar
+              :desc "User: Search keybinding or command of keys"
               :options key-selector
               :exec prn})
 (comment
-  (keyboard/cmd->current-binding :ltfiles.tab-open-current-url)
+  (keyboard/cmd->current-binding :user.tab-open-current-url)
   (->> @keyboard/key-map vals (take 5)))

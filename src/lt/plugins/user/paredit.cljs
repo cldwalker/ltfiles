@@ -1,4 +1,4 @@
-(ns lt.plugins.ltfiles.paredit
+(ns lt.plugins.user.paredit
   (:require [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
             [lt.objs.command :as cmd]
@@ -11,13 +11,13 @@
                            (paredit-plus/move-cursor-along-pair ed (editor/->cursor ed) :forward :before)
                            (cmd/exec! :editor.new-line-indent)))))
 
-(cmd/command {:command :ltfiles.paredit-newline-before-pair-close
-              :desc "ltfiles: Newline before a pair close"
+(cmd/command {:command :user.paredit-newline-before-pair-close
+              :desc "User: Newline before a pair close"
               :exec newline-before-pair-close})
 
 (defn editor-replace
   [ed from to s]
-  (cmd/exec! :ltfiles.vim-yank (editor/range ed from to))
+  (cmd/exec! :user.vim-yank (editor/range ed from to))
   (editor/replace ed from to s))
 
 ;; modified version of paredit-splice-sexp-kill
@@ -30,8 +30,8 @@
                              (editor-replace ed (update-in mloc [:ch] inc) l ""))))))
 
 
-(cmd/command {:command :ltfiles.paredit-kill-backword
-              :desc "ltfiles: kill backword up to paredit parent"
+(cmd/command {:command :user.paredit-kill-backword
+              :desc "User: kill backword up to paredit parent"
               :exec (fn []
                        (when-let [ed (pool/last-active)]
                          (paredit-kill-backword ed (editor/->cursor ed))))})
@@ -66,8 +66,8 @@
         ))))
 
 
-(cmd/command {:command :ltfiles.paredit-kill
-              :desc "ltfiles: paredit kill and  to clipboard"
+(cmd/command {:command :user.paredit-kill
+              :desc "User: paredit kill and  to clipboard"
               :exec (fn []
                       (when-let [ed (pool/last-active)]
                         (paredit-kill ed)))})

@@ -1,4 +1,4 @@
-(ns lt.plugins.ltfiles.popup
+(ns lt.plugins.user.popup
   "Generic input thanks to lt/objs/plugins.cljs"
   (:require [lt.objs.popup :as popup]
             [lt.util.dom :as dom]

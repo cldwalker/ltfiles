@@ -1,4 +1,4 @@
-(ns lt.plugins.ltfiles.selector
+(ns lt.plugins.user.selector
   "Easy to use selector a.k.a fuzzy finder"
   (:require [lt.objs.sidebar.command :as scmd]
             [lt.object :as object])

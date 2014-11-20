@@ -1,13 +1,13 @@
-(ns lt.plugins.ltfiles.vim
+(ns lt.plugins.user.vim
   "Cmds that depend on using vim mode. Commands that implement common vimisms are
   spread across other namespaces."
   (:require [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
             [lt.plugins.vim :as vim]
-            [lt.plugins.ltfiles.util :as util]
+            [lt.plugins.user.util :as util]
             [cljs.reader :as reader]
             [clojure.string :as s]
-            [lt.plugins.ltfiles.popup :as popup]
+            [lt.plugins.user.popup :as popup]
             [lt.objs.platform :as platform]
             [lt.objs.command :as cmd]))
 
@@ -20,8 +20,8 @@
       (cmd/exec! :vim.send-key "V")
       (cmd/exec! :vim.send-key "v"))))
 
-(cmd/command {:command :ltfiles.vim-toggle-comment-selection
-              :desc "ltfiles: toggle comment selection that also handles visual mode"
+(cmd/command {:command :user.vim-toggle-comment-selection
+              :desc "User: toggle comment selection that also handles visual mode"
               :exec vim-toggle-comment-selection})
 
 ;; Should use the 0th register. Multiple calls to this shouldn't clobber the yank stack
@@ -29,8 +29,8 @@
   (.setText (.-unnamedRegister (CodeMirror.Vim.getRegisterController)) text))
 
 ;; TODO: Make this editor-agnostic so I can PR this and call from core commands
-(cmd/command {:command :ltfiles.vim-yank
-              :desc "ltfiles: Sets text to latest yank"
+(cmd/command {:command :user.vim-yank
+              :desc "User: Sets text to latest yank"
               :exec set-vim-yank})
 
 (defn get-register-value [register]
@@ -39,13 +39,13 @@
       (aget "keyBuffer")
       first))
 
-(cmd/command {:command :ltfiles.copy-latest-vim-register
-              :desc "ltfiles: Copies latest vim yank to system clipboard"
+(cmd/command {:command :user.copy-latest-vim-register
+              :desc "User: Copies latest vim yank to system clipboard"
               :exec (fn []
                       (platform/copy (get-register-value "0")))})
 
-(cmd/command {:command :ltfiles.copy-clipboard-to-vim
-              :desc "ltfiles: Copies clipboard to vim register"
+(cmd/command {:command :user.copy-clipboard-to-vim
+              :desc "User: Copies clipboard to vim register"
               :exec (fn []
                       (set-vim-yank (platform/paste)))})
 
@@ -58,7 +58,7 @@
                (str k ": " (pr-str (first (get v "keyBuffer")))))))
    :header "Registers"))
 
-(cmd/command {:command :ltfiles.show-registers
+(cmd/command {:command :user.show-registers
               :desc "show vim's registers"
               :exec show-registers})
 
@@ -82,8 +82,8 @@
   (smart-join-line))
 
 
-(cmd/command {:command :ltfiles.smart-join
-              :desc "ltfiles: a smarter paredit-like J(oin)"
+(cmd/command {:command :user.smart-join
+              :desc "User: a smarter paredit-like J(oin)"
               :exec smart-join})
 
 (comment

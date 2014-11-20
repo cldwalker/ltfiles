@@ -1,7 +1,7 @@
-(ns lt.plugins.ltfiles.ctags
+(ns lt.plugins.user.ctags
   "Builds on the ctags plugin"
   (:require [lt.plugins.ctags :as ctags]
-            [lt.plugins.ltfiles.selector :as selector]
+            [lt.plugins.user.selector :as selector]
             [lt.objs.editor.pool :as pool]
             [lt.objs.command :as cmd]))
 
@@ -16,8 +16,8 @@
                       :key :token
                       :placeholder "token"}))
 
-(cmd/command {:command :ltfiles.jump-to-ctag
-              :desc "ltfiles: Select a ctag token from a ctags file"
+(cmd/command {:command :user.jump-to-ctag
+              :desc "User: Select a ctag token from a ctags file"
               :options token-selector
               :exec (fn [selection]
                       (ctags/lookup-tag (pool/last-active) selection))})

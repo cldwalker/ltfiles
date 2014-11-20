@@ -1,4 +1,4 @@
-(ns lt.plugins.ltfiles
+(ns lt.plugins.user
   (:require [lt.object :as object]
             [lt.objs.workspace :as workspace]
             [lt.objs.notifos :as notifos]
@@ -11,7 +11,7 @@
             [lt.objs.document :as doc]
             [lt.objs.metrics :as metrics]
             [lt.objs.files :as files]
-            [lt.plugins.ltfiles.util :as util]
+            [lt.plugins.user.util :as util]
             [lt.objs.tabs :as tabs]
             [lt.objs.opener :as opener]
             [clojure.string :as s]
@@ -40,8 +40,8 @@
     (swap! workspace/current-ws assoc :ws-behaviors behavior-string)
     (cmd/exec! :behaviors.reload)))
 
-(cmd/command {:command :ltfiles.toggle-line-numbers
-              :desc "ltfiles: toggles line numbers"
+(cmd/command {:command :user.toggle-line-numbers
+              :desc "User: toggles line numbers"
               :exec toggle-line-numbers})
 
 (defn toggle-strip-whitespace
@@ -65,8 +65,8 @@
                            (if strip-whitespace "enabled." "disabled."))))
      500)))
 
-(cmd/command {:command :ltfiles.toggle-strip-whitespace
-              :desc "ltfiles: toggles stripping whitespace on save"
+(cmd/command {:command :user.toggle-strip-whitespace
+              :desc "User: toggles stripping whitespace on save"
               :exec toggle-strip-whitespace})
 
 ;; Console
@@ -77,21 +77,21 @@
   (cmd/exec! :open-path
              (files/join (files/lt-user-dir "logs") (str "window" (app/window-number) ".log"))))
 
-(cmd/command {:command :ltfiles.open-console-log-file
-              :desc "ltfiles: open current console log as an editable/searchable file"
+(cmd/command {:command :user.open-console-log-file
+              :desc "User: open current console log as an editable/searchable file"
               :exec open-console-log-file})
 
 ;; assumes focus is on editor, not console
 ;; ensures focus remains on current editor
 (defn rotate-console []
   (if (bottombar/active? console/console)
-    (util/exec-commands [:console.hide :ltfiles.ensure-and-focus-second-tabset :console-tab :console.show :tabset.next])
+    (util/exec-commands [:console.hide :user.ensure-and-focus-second-tabset :console-tab :console.show :tabset.next])
     ;; assumes console tab is open in second tabset
     ;; NOTE: tabset.next appears buggy which is sometimes causing current tab to close
-    (util/exec-commands [:tabset.next :ltfiles.smart-tab-close :toggle-console :tabset.next])))
+    (util/exec-commands [:tabset.next :user.smart-tab-close :toggle-console :tabset.next])))
 
-(cmd/command {:command :ltfiles.rotate-console
-              :desc "ltfiles: Rotates open console between bottombar and another tabset"
+(cmd/command {:command :user.rotate-console
+              :desc "User: Rotates open console between bottombar and another tabset"
               :exec rotate-console})
 
 
@@ -99,7 +99,7 @@
 ;; =======
 
 ;; must be configured per user
-(def plugin-name "ltfiles")
+(def plugin-name "user")
 (def plugins-blacklist #{"kukui"})
 
 (defn save-plugins []
@@ -125,12 +125,12 @@
                 (fn []
                   (notifos/set-msg! (str "Plugins saved to " personal-plugins-file))))))
 
-(cmd/command {:command :ltfiles.save-plugins
-              :desc "ltfiles: Save plugins to :dependencies of personal plugin"
+(cmd/command {:command :user.save-plugins
+              :desc "User: Save plugins to :dependencies of personal plugin"
               :exec save-plugins})
 
-(cmd/command {:command :ltfiles.add-plugins-folder
-              :desc "ltfiles: Add plugins folder to current workspace"
+(cmd/command {:command :user.add-plugins-folder
+              :desc "User: Add plugins folder to current workspace"
               :exec (fn []
                       (object/raise workspace/current-ws :add.folder! (files/lt-user-dir "plugins")))})
 
@@ -151,21 +151,21 @@
     (notifos/set-msg! "No workspace folder found to refresh!" {:class "error"})))
 
 ;; handy for adding/removing files - especially when switching between branches
-(cmd/command {:command :ltfiles.refresh-current-workspace-folder
-              :desc "ltfiles: Refreshes current workspace folder"
+(cmd/command {:command :user.refresh-current-workspace-folder
+              :desc "User: Refreshes current workspace folder"
               :exec refresh-current-folder})
 
-(cmd/command {:command :ltfiles.print-current-file
-              :desc "ltfiles: Print current file path"
+(cmd/command {:command :user.print-current-file
+              :desc "User: Print current file path"
               :exec (fn [] (notifos/set-msg! (str "Current path is " (util/current-file))))})
 
 (defn open-current-file []
   (let [current-file (util/current-file)]
-    (cmd/exec! :ltfiles.ensure-and-focus-second-tabset)
+    (cmd/exec! :user.ensure-and-focus-second-tabset)
     (opener/open-path opener/opener current-file)))
 
-(cmd/command {:command :ltfiles.vertical-split-current-file
-              :desc "ltfiles: split current file vertically i.e. open in another tabset"
+(cmd/command {:command :user.vertical-split-current-file
+              :desc "User: split current file vertically i.e. open in another tabset"
               :exec open-current-file})
 
 (comment

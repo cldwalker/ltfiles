@@ -2,14 +2,14 @@
            "cmd-k" [:clear-inline-results]
            "alt-d" [:dev-inspector]
            "alt-x" [:tabset.close]
-           "cmd-b" [:ltfiles.open-buffers]
+           "cmd-b" [:user.open-buffers]
            ;; There's a PR for this upstream
            "pmeta-shift-=" [:window.zoom-in]
            "pmeta--" [:window.zoom-out]
-           "alt-space" [:ltfiles.commandbar]
-           "alt-l" [:ltfiles.def-let]
+           "alt-space" [:user.commandbar]
+           "alt-l" [:user.def-let]
            ;; needs to be in :app to print actual context
-           "alt-t" [:ltfiles.print-context]
+           "alt-t" [:user.print-context]
            "ctrl-o t" [:tabs.move-new-tabset]
            "ctrl-o r" [:tabs.move-next-tabset]}
 
@@ -19,14 +19,14 @@
               "ctrl-k" [:editor.sublime.selectLinesUpward]
 
               ;; here instead of <Space> vim/map-keys b/c of selection limitation
-              "alt-," [:ltfiles.toggle-current-inline-result]
-              "alt-v" [:ltfiles.view-current-inline-result]
+              "alt-," [:user.toggle-current-inline-result]
+              "alt-v" [:user.view-current-inline-result]
               "alt-g" [:gitbeam.out-with-external-browser]
               "alt-shift-g" [:gitbeam.out-with-internal-browser]
               "alt-c" [:gitbeam.out-with-clipboard-copy]
-              "alt-shift-c" [:ltfiles.copy-current-inline-result]
+              "alt-shift-c" [:user.copy-current-inline-result]
 
-              "alt-;" [:ltfiles.comment-let]
+              "alt-;" [:user.comment-let]
               "alt-=" [:smart-indent-selection]
               "cmd-=" [:paredit.select.parent :smart-indent-selection :paredit.select.clear]
               ;;Eval the parent ( ... )
@@ -39,7 +39,7 @@
                               "alt-q" [:lt.plugins.reflow/reflow] ; alt-q since gq doesn't work
                               ;;Select the parent expression, whether that's [], {}, or ()
                               "cmd-," [:paredit.select.parent]
-                              "cmd-;" [:ltfiles.vim-toggle-comment-selection]}
+                              "cmd-;" [:user.vim-toggle-comment-selection]}
 
      ;; avoid going too out of the way keys for command bar
      :filter-list.input { "ctrl-n" [(:filter-list.input.move-selection 1)]

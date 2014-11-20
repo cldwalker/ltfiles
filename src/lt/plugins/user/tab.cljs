@@ -1,9 +1,9 @@
-(ns lt.plugins.ltfiles.tab
+(ns lt.plugins.user.tab
   (:require [lt.objs.context :as context]
             [lt.object :as object]
             [lt.objs.tabs :as tabs]
-            [lt.plugins.ltfiles.selector :as selector]
-            [lt.plugins.ltfiles.util :as util]
+            [lt.plugins.user.selector :as selector]
+            [lt.plugins.user.util :as util]
             [lt.objs.opener :as opener]
             [lt.objs.files :as files]
             [lt.objs.command :as cmd])
@@ -17,8 +17,8 @@
     (when (= 1 tabs)
       (cmd/exec! :tabset.close))))
 
-(cmd/command {:command :ltfiles.smart-tab-close
-              :desc "ltfiles: closes a tab and tabset if last tab"
+(cmd/command {:command :user.smart-tab-close
+              :desc "User: closes a tab and tabset if last tab"
               :exec smart-tab-close})
 
 (defn close-current-tabs []
@@ -27,8 +27,8 @@
       (object/raise tab :close)))
   (cmd/exec! :tabset.close))
 
-(cmd/command {:command :ltfiles.close-current-tabs
-              :desc "ltfiles: closes a tabset completely - including all of its tabs"
+(cmd/command {:command :user.close-current-tabs
+              :desc "User: closes a tabset completely - including all of its tabs"
               :exec close-current-tabs})
 
 
@@ -37,8 +37,8 @@
       (cmd/exec! :tabset.new))
   (cmd/exec! :tabset.next))
 
-(cmd/command {:command :ltfiles.ensure-and-focus-second-tabset
-              :desc "ltfiles: Ensure second tabset and focus it"
+(cmd/command {:command :user.ensure-and-focus-second-tabset
+              :desc "User: Ensure second tabset and focus it"
               :exec ensure-and-focus-second-tabset})
 
 ;; File opener
@@ -67,12 +67,12 @@
 
 ;; Currently only looks at files opened through opener. Could consider workspace files
 ;; This aims to be the same as vim's :buffers command
-(cmd/command {:command :ltfiles.open-buffers
-              :desc "ltfiles: Opens any file that has been opened since LT started"
+(cmd/command {:command :user.open-buffers
+              :desc "User: Opens any file that has been opened since LT started"
               :options file-selector
               :exec (fn [file]
                       (cmd/exec! :open-path (:full file)))})
 
-(cmd/command {:command :ltfiles.balance-tabsets
-              :desc "ltfiles: Balance tabset widths"
+(cmd/command {:command :user.balance-tabsets
+              :desc "User: Balance tabset widths"
               :exec (fn [] (tabs/equalize-tabset-widths))})

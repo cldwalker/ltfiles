@@ -1,11 +1,11 @@
-(ns lt.plugins.ltfiles.clojure
+(ns lt.plugins.user.clojure
   (:require [lt.objs.command :as cmd]
             [lt.object :as object]
             [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
             [lt.plugins.clojure :as clojure]
-            [lt.plugins.ltfiles.popup :as popup]
-            [lt.plugins.ltfiles.util :as util]
+            [lt.plugins.user.popup :as popup]
+            [lt.plugins.user.util :as util]
             [lt.objs.notifos :as notifos]
             [lt.objs.editor :as ed]
             [lt.objs.find :as find]
@@ -21,8 +21,8 @@
     (find/set-val find/bar word) ;; necessary for find.next to work
     (object/raise find/bar :search! word)))
 
-(cmd/command {:command :ltfiles.find-next-clojure-word
-              :desc "ltfiles: Finds next clojure word"
+(cmd/command {:command :user.find-next-clojure-word
+              :desc "User: Finds next clojure word"
               :exec find-next-clojure-word})
 
 (defn eval-code
@@ -37,16 +37,16 @@
      (object/raise clojure/clj-lang :eval! {:origin editor :info info}))))
 
 ;; TODO: make this an inline-result
-(cmd/command {:command :ltfiles.print-fn-source
-              :desc "ltfiles: Print current fn's source"
+(cmd/command {:command :user.print-fn-source
+              :desc "User: Print current fn's source"
               :exec (fn []
                       (eval-code (pool/last-active)
                                  (str "(clojure.repl/source " (current-word) ")")))})
 
 (def eval-history (atom []))
 
-(cmd/command {:command :ltfiles.eval-once
-              :desc "ltfiles: Evals clojure(script) with given input"
+(cmd/command {:command :user.eval-once
+              :desc "User: Evals clojure(script) with given input"
               :exec (fn []
                       (popup/input (fn [input]
                                      (swap! eval-history conj input)
@@ -57,18 +57,18 @@
   (println "RESULT:" (:result result)))
 
 (behavior ::clj-result.eval-once
-          :desc "ltfiles: Handles result from clj eval"
+          :desc "User: Handles result from clj eval"
           :triggers #{:editor.eval.clj.result.eval-once}
           :reaction #(handle-eval (-> %2 :results first)))
 
 (behavior ::cljs-result.eval-once
-          :desc "ltfiles: Handles result from cljs eval"
+          :desc "User: Handles result from cljs eval"
           :triggers #{:editor.eval.cljs.result.eval-once}
           :reaction #(handle-eval %2))
 
-(cmd/command {:command :ltfiles.def-let
+(cmd/command {:command :user.def-let
               ;; assumes line is in a let block
-              :desc "ltfiles: Evals current line or selection as def(s)"
+              :desc "User: Evals current line or selection as def(s)"
               :exec (fn []
                       (let [ed (pool/last-active)]
                         (if (editor/selection? ed)
@@ -86,7 +86,7 @@
                             (notifos/set-msg! (str "Def'ed expression: " expression))))))})
 
 
-(cmd/command {:command :ltfiles.comment-let
+(cmd/command {:command :user.comment-let
               :desc "Comments out end of a let block"
               :exec (fn []
                       (let [ed (pool/last-active)

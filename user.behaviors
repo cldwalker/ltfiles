@@ -8,10 +8,10 @@
            (:lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage")
            ;; :ltexec_clj is a custom ex_command from my vim.cljs
            (:lt.plugins.vim/map-keys {"0" "^",
-                                      "-" ":ltexec ltfiles.find-next-clojure-word",
+                                      "-" ":ltexec user.find-next-clojure-word",
                                       "j" "gj",
                                       "k" "gk"
-                                      "gJ" ":ltexec ltfiles.smart-join"
+                                      "gJ" ":ltexec user.smart-join"
                                       "''" ":ltexec lt.plugins.marks/jump-to-last-edit-mark"
 
                                       ;; <Space> is a leader key in normal mode
@@ -21,55 +21,55 @@
                                       "<Space>cc" ":ltexec clear-console"
                                       "<Space>cC" ":ltexec editor.disconnect-clients"
                                       "<Space>ce" ":ltexec eval.cancel-all!"
-                                      "<Space>ct" ":ltexec_clj [:tabset.next :ltfiles.close-current-tabs :tabset.close]"
+                                      "<Space>ct" ":ltexec_clj [:tabset.next :user.close-current-tabs :tabset.close]"
                                       "<Space>cw" ":ltexec editor.watch.remove-all"
                                       "<Space>cs" ":ltexec reset-working"
                                       ;; (d)ev
-                                      "<Space>dc" ":ltexec ltfiles.jump-to-command"
-                                      "<Space>db" ":ltexec ltfiles.jump-to-behavior"
-                                      "<Space>do" ":ltexec ltfiles.jump-to-object"
-                                      "<Space>ds" ":ltexec ltfiles.clojurescript-spy"
-                                      "<Space>dS" ":ltexec ltfiles.clojurescript-unspy"
+                                      "<Space>dc" ":ltexec user.jump-to-command"
+                                      "<Space>db" ":ltexec user.jump-to-behavior"
+                                      "<Space>do" ":ltexec user.jump-to-object"
+                                      "<Space>ds" ":ltexec user.clojurescript-spy"
+                                      "<Space>dS" ":ltexec user.clojurescript-unspy"
                                       ;; (f)ind
-                                      "<Space>fd" ":ltexec ltfiles.search-current-directory"
-                                      "<Space>ff" ":ltexec ltfiles.search-current-file"
-                                      "<Space>fF" ":ltexec ltfiles.search-current-folder"
-                                      "<Space>fu" ":ltexec ltfiles.search-current-folder-for-fn-usage"
-                                      "<Space>fw" ":ltexec ltfiles.search-current-file-with-current-word" ; same as vim's [I
-                                      "<Space>fW" ":ltexec ltfiles.search-current-folder-with-current-word"
+                                      "<Space>fd" ":ltexec user.search-current-directory"
+                                      "<Space>ff" ":ltexec user.search-current-file"
+                                      "<Space>fF" ":ltexec user.search-current-folder"
+                                      "<Space>fu" ":ltexec user.search-current-folder-for-fn-usage"
+                                      "<Space>fw" ":ltexec user.search-current-file-with-current-word" ; same as vim's [I
+                                      "<Space>fW" ":ltexec user.search-current-folder-with-current-word"
                                       "<Space>gi" ":ltexec gitbeam.in-with-clipboard"
                                       "<Space>gI" ":ltexec gitbeam.in-with-current-word"
                                       "<Space>go" ":ltexec gitbeam.out-with-external-browser"
                                       "<Space>k" ":ltexec keymap.modify-user"
                                       "<Space>K" ":ltexec keymap.view-default"
-                                      "<Space>l" ":ltexec ltfiles.connect-to-lt-ui"
+                                      "<Space>l" ":ltexec user.connect-to-lt-ui"
                                       ; (m) misc
-                                      "<Space>mc" ":ltexec ltfiles.jump-to-ctag"
+                                      "<Space>mc" ":ltexec user.jump-to-ctag"
                                       "<Space>me" ":ltexec sancho.open-grimoire-examples"
                                       "<Space>mE" ":ltexec sancho.open-grimoire-url"
-                                      "<Space>mo" ":ltexec ltfiles.eval-once"
-                                      "<Space>ms" ":ltexec ltfiles.print-fn-source"
+                                      "<Space>mo" ":ltexec user.eval-once"
+                                      "<Space>ms" ":ltexec user.print-fn-source"
                                       "<Space>mu" ":ltexec sancho.open-crossclj-url"
                                       ; (o)pen
                                       "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
-                                      "<Space>oc" ":ltexec ltfiles.rotate-console"
-                                      "<Space>oC" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :console-tab :console.show]"
+                                      "<Space>oc" ":ltexec user.rotate-console"
+                                      "<Space>oC" ":ltexec_clj [:user.ensure-and-focus-second-tabset :console-tab :console.show]"
                                       "<Space>od" ":ltexec show-connect"
                                       "<Space>of" ":ltexec claire-show"
-                                      "<Space>oF" ":ltexec_clj [:ltfiles.ensure-and-focus-second-tabset :editor.open-current-file-in-browser]"
-                                      "<Space>ok" ":ltexec ltfiles.keybinding-bar"
+                                      "<Space>oF" ":ltexec_clj [:user.ensure-and-focus-second-tabset :editor.open-current-file-in-browser]"
+                                      "<Space>ok" ":ltexec user.keybinding-bar"
                                       "<Space>op" ":ltexec photon.add-folder"
                                       "<Space>oP" ":ltexec photon.remove-folder"
-                                      "<Space>or" ":ltexec ltfiles.show-registers"
+                                      "<Space>or" ":ltexec user.show-registers"
                                       "<Space>ot" ":ltexec tabset.new"
-                                      "<Space>ou" ":ltexec ltfiles.system-open-current-url"
-                                      "<Space>oU" ":ltexec ltfiles.tab-open-current-url"
-                                      "<Space>ov" ":ltexec ltfiles.vertical-split-current-file" ; sams as vim's C-w v
+                                      "<Space>ou" ":ltexec user.system-open-current-url"
+                                      "<Space>oU" ":ltexec user.tab-open-current-url"
+                                      "<Space>ov" ":ltexec user.vertical-split-current-file" ; sams as vim's C-w v
                                       "<Space>ow" ":ltexec workspace.show-recents"
                                       "<Space>oz" ":ltexec_clj [:tabs.close-others :window.fullscreen]" ; (z)oom
-                                      "<Space>pc" ":ltexec ltfiles.system-open-plugin-changelog"
+                                      "<Space>pc" ":ltexec user.system-open-plugin-changelog"
                                       "<Space>pm" ":ltexec plugin-manager.show"
-                                      "<Space>r" ":ltexec ltfiles.refresh-current-workspace-folder"
+                                      "<Space>r" ":ltexec user.refresh-current-workspace-folder"
                                       ; s - kukui
                                       "<Space>sc" ":ltexec kukui.types-counts"
                                       "<Space>sC" ":ltexec kukui.all-types-counts"
@@ -92,11 +92,11 @@
                                       "<Space>sS" ":ltexec kukui.stamp-children"
                                       ; (t)oggle
                                       "<Space>tc" ":ltexec toggle-console"
-                                      "<Space>tl" ":ltexec ltfiles.toggle-line-numbers"
-                                      "<Space>to" ":ltexec ltfiles.toggle-open-in-current-editor"
-                                      "<Space>tw" ":ltexec ltfiles.toggle-strip-whitespace"
+                                      "<Space>tl" ":ltexec user.toggle-line-numbers"
+                                      "<Space>to" ":ltexec user.toggle-open-in-current-editor"
+                                      "<Space>tw" ":ltexec user.toggle-strip-whitespace"
                                       "<Space>w" ":ltexec workspace.show"
-                                      "<Space>x" ":ltexec ltfiles.smart-tab-close"
+                                      "<Space>x" ":ltexec user.smart-tab-close"
 
                                       ;; \\ is leader key for paredit
                                       ;; loosely inspired by https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
@@ -104,12 +104,12 @@
                                       "\\," ":ltexec paredit.shrink.right"
                                       "\\<" ":ltexec paredit.grow.left"
                                       "\\>" ":ltexec paredit.shrink.left"
-                                      "\\b" ":ltexec ltfiles.paredit-kill-backword"
+                                      "\\b" ":ltexec user.paredit-kill-backword"
                                       "\\d" ":ltexec paredit-plus.delete-pair-contents"
                                       "\\f" ":ltexec paredit.move.down.forward"
                                       "\\j" ":ltexec paredit-plus.join-sexps"
-                                      "\\k" ":ltexec ltfiles.paredit-kill"
-                                      "\\n" ":ltexec ltfiles.paredit-newline-before-pair-close"
+                                      "\\k" ":ltexec user.paredit-kill"
+                                      "\\n" ":ltexec user.paredit-newline-before-pair-close"
                                       "\\N" ":ltexec paredit-plus.new-line-after-pair-close"
                                       "\\u" ":ltexec paredit.move.up.backward"
                                       "\\r" ":ltexec paredit-plus.raise-sexp"
@@ -133,7 +133,9 @@
               (:lt.plugins.reflow/set-width 80)]
 
      ;; Here we can add behaviors to just clojure editors
-     :editor.clojure [(:lt.plugins.clojure/print-length 1000)]
+     :editor.clojure [(:lt.plugins.clojure/print-length 1000)
+                      :lt.plugins.user.clojure/clj-result.eval-once]
+     :editor.cljs [:lt.plugins.user.clojure/cljs-result.eval-once]
      :editor.html [(:lt.objs.editor/tab-settings false 2 2)]
      ;; for work
      :editor.javascript [(:lt.objs.editor/tab-settings false 4 4)]
@@ -144,6 +146,8 @@
      :user.hello [:lt.plugins.user/on-close-destroy]
      :document [(:lt.objs.document/set-linked-doc-options {:shared-history true})]
      :opener [(:lt.objs.opener/existing-path-opens-linked-doc true)]
+
+     :navigate.selector [:lt.plugins.user.document/open-with-jump-stack-on-select]
      }
 
  ;; You can use the subtract key to remove behavior that may get added by
@@ -155,4 +159,5 @@
      ;; turn off annoying info boxes while editing any behavior
      :editor.behaviors [:lt.objs.langs.behaviors/show-info-on-move]
      ;; allow transient files to close without prompt
-     :editor.transient [:lt.objs.editor.file/dirty-on-change]}}
+     :editor.transient [:lt.objs.editor.file/dirty-on-change]
+     :navigate.selector [:lt.objs.sidebar.navigate/open-on-select]}}

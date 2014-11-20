@@ -1,7 +1,7 @@
-(ns lt.plugins.ltfiles.browse
+(ns lt.plugins.user.browse
   "Browser related commands"
-  (:require [lt.plugins.ltfiles.util :as util]
-            [lt.plugins.ltfiles.selector :as selector]
+  (:require [lt.plugins.user.util :as util]
+            [lt.plugins.user.selector :as selector]
             [lt.objs.platform :as platform]
             [lt.objs.app :as app]
             [lt.objs.notifos :as notifos]
@@ -10,23 +10,23 @@
 
 (defn tab-open-current-url []
   (let [current-word (util/current-word)
-        commands [:ltfiles.ensure-and-focus-second-tabset
+        commands [:user.ensure-and-focus-second-tabset
                   :add-browser-tab
                   :browser.url-bar.focus
                   [:browser.url-bar.navigate! current-word]
                   :browser.focus-content]]
     (util/exec-commands commands)))
 
-(cmd/command {:command :ltfiles.tab-open-current-url
-              :desc "ltfiles: opens url under cursor in another tabset and browser"
+(cmd/command {:command :user.tab-open-current-url
+              :desc "User: opens url under cursor in another tabset and browser"
               :exec tab-open-current-url})
 
 
 (defn system-open-current-url []
   (platform/open (util/current-word)))
 
-(cmd/command {:command :ltfiles.system-open-current-url
-              :desc "ltfiles: opens url under cursor in system browser"
+(cmd/command {:command :user.system-open-current-url
+              :desc "User: opens url under cursor in system browser"
               :exec system-open-current-url})
 
 (def plugin-selector
@@ -42,7 +42,7 @@
         "/compare/" (:version plugin) "...master")))
 
 ;; useful to see before upgrading
-(cmd/command {:command :ltfiles.system-open-plugin-changelog
-              :desc "ltfiles: opens changelog/diff of plugin"
+(cmd/command {:command :user.system-open-plugin-changelog
+              :desc "User: opens changelog/diff of plugin"
               :options plugin-selector
               :exec system-open-plugin-changelog})

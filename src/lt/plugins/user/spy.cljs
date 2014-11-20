@@ -1,4 +1,4 @@
-(ns lt.plugins.ltfiles.spy
+(ns lt.plugins.user.spy
   "Spy on functions with ease"
   (:require [goog.object :as object]
             [clojure.string]))
@@ -35,6 +35,6 @@
 
 
 (comment
-  (aget lt.plugins.ltfiles.spy "ns_fns")
-  (unspy lt.plugins.ltfiles.spy "some_dude")
+  (aget lt.plugins.user.spy "ns_fns")
+  (unspy lt.plugins.user.spy "some_dude")
   )
