@@ -11,7 +11,8 @@ To set this up on a Mac:
 ```sh
 # Backup your existing User
 $ mv ~/Library/Application\ Support/LightTable/plugins/User{,.bak}
-$ git clone https://github.com/cldwalker/ltfiles ~/Library/Application\ Support/LightTable/plugins/User
+$ git clone https://github.com/cldwalker/ltfiles
+$ cd ltfiles; ./install.sh
 ```
 
 ## Usage
