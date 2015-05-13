@@ -132,7 +132,7 @@
                                       "\\[" ":ltexec paredit-plus.wrap-square"
                                       "\\'" ":ltexec paredit-plus.wrap-quote"}]
  [:app :lt.plugins.photon/set-directories
-  [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo" "~/.gitbeam" "~/code" "/Volumes/relevance"]]
+  [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo" "~/code/priv" "~/code/work" "~/.gitbeam" "~/code"]]
  [:app :-lt.objs.intro/show-intro]
 
  [:document :lt.objs.document/set-linked-doc-options {:shared-history true}]
