@@ -2,6 +2,7 @@
  :version "0.1.0",
  :source "https://github.com/cldwalker/ltfiles",
  :behaviors "user.behaviors",
+ ;; Dependencies for later: c3, gitbeam, emmet, snippets
  ;; Do not edit - :dependencies are auto-generated
 :dependencies {
 "Aleph" "0.1.0",
