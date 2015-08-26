@@ -164,8 +164,7 @@
  ;; allow transient files to close without prompt
  [:editor.transient :-lt.objs.editor.file/dirty-on-change]
  [:files :lt.objs.files/file-types [{:exts [:cljs.hl :boot], :mime "text/x-clojurescript", :tags [:editor.cljs], :name "hoplon"}
-                                    {:exts [:cljx], :mime "text/x-clojure", :tags [:editor.clj], :name "cljx"}
-                                    #_{:exts [:cljc], :mime "text/x-clojure", :tags [:editor.clj], :name "cljc"}]]
+                                    {:exts [:cljx], :mime "text/x-clojure", :tags [:editor.clj], :name "cljx"}]]
 
  [:navigate.selector :lt.plugins.user.document/open-with-jump-stack-on-select]
  [:navigate.selector :-lt.objs.sidebar.navigate/open-on-select]
