@@ -140,7 +140,8 @@
  ;; The editor tag is applied to all editors
  [:editor :lt.objs.editor/no-wrap]
  [:editor :lt.objs.style/set-theme "solarized"]
- [:editor :lt.plugins.vim/activate-vim]
+ ;; [:editor :-lt.plugins.vim/activate-vim]
+ [:editor :-lt.plugins.emacs/activate-emacs]
  [:editor :lt.objs.editor/hide-line-numbers]
  [:editor :lt.objs.editor.pool/line-comment-options {:indent true}]
  [:editor :lt.plugins.reflow/set-width 80]
