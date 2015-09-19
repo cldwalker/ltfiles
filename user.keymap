@@ -1,6 +1,6 @@
 [
  [:app "alt-d" :dev-inspector]
- [:app "ctrl-o t" :tabs.move-new-tabset]
+ [:app "alt-o t" :tabs.move-new-tabset]
  [:app "alt-space" :user.commandbar]
  [:app "alt-l" :user.def-let]
  [:app "cmd-b" :user.open-buffers]
@@ -9,7 +9,7 @@
  [:app "alt-tab" :tabset.next]
  [:app "alt-x" :tabset.close]
  [:app "cmd-k" :clear-inline-results]
- [:app "ctrl-o r" :tabs.move-next-tabset]
+ [:app "alt-o r" :tabs.move-next-tabset]
  [:app "-ctrl-x ctrl-f" :claire-show]
 
  ;; Broken alt combos: i,e
