@@ -1,15 +1,15 @@
 [
  [:app "alt-d" :dev-inspector]
- [:app "alt-o t" :tabs.move-new-tabset]
+ [:app "alt-t o" :tabs.move-new-tabset]
  [:app "alt-space" :user.commandbar]
  [:app "alt-l" :user.def-let]
  [:app "cmd-b" :user.open-buffers]
  ;; needs to be in :app to print actual context
- [:app "alt-t" :user.print-context]
+ [:app "alt-t c" :user.print-context]
  [:app "alt-tab" :tabset.next]
  [:app "alt-x" :tabset.close]
  [:app "cmd-k" :clear-inline-results]
- [:app "alt-o r" :tabs.move-next-tabset]
+ [:app "alt-t r" :tabs.move-next-tabset]
  [:app "-ctrl-x ctrl-f" :claire-show]
 
  ;; Broken alt combos: i,e
