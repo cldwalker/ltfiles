@@ -7,7 +7,6 @@
             [lt.plugins.birch.reader :as reader]
             [lt.plugins.birch.eval :as eval]))
 
-
 ;; Caution: This will not find an inline result if it moves a different line after the eval
 (defn current-inline-widget
   "Finds the inline widget for the current line. If lines are selected, uses the last line
@@ -18,10 +17,10 @@
                          (-> ed editor/selection-bounds :to :line)
                          (:line (editor/->cursor ed)))]
     (->> (:widgets @ed)
-       (some (fn [[[l t] widget]]
-               (when (and (= t :inline)
-                          (= current-line (editor/lh->line ed l)))
-                 widget))))))
+         (some (fn [[[line ch type_] widget]]
+                 (when (and (= type_ :inline)
+                            (= current-line (editor/lh->line ed line)))
+                   widget))))))
 
 (defn toggle-current-inline-result []
   (when-let [inline (current-inline-widget)]
@@ -35,6 +34,8 @@
 
 ;; These also works for a selection. Note: you cannot bind these commands to vim/map-keys
 ;; because something about invoking it disables s selection
+
+;; NOTE: These commands only work for LT master e.g. 0.8.x
 
 (cmd/command {:command :user.toggle-current-inline-result
               :desc "User: toggles current inline result"
