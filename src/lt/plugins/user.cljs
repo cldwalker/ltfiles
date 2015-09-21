@@ -24,24 +24,24 @@
 ;; ================
 
 ;; toggle behaviors by changing workspace behavior: is there a more localized way of doing this?
-(defn toggle-line-numbers
+(defn toggle-behavior
   "Sets line number first time this is called and toggles on subsequent calls"
-  []
-  (let [ws-behavior (settings/safe-read (:ws-behaviors @workspace/current-ws) "workspace.behaviors")
-        show-line-numbers (some #(= :lt.objs.editor/hide-line-numbers %) (get-in ws-behavior [:+ :editor]))
-        line-behavior (if show-line-numbers :lt.objs.editor/line-numbers :lt.objs.editor/hide-line-numbers)
-        behavior-string  (->> (get-in ws-behavior [:+ :editor])
-                              (remove #{:lt.objs.editor/line-numbers :lt.objs.editor/hide-line-numbers})
-                              (cons line-behavior)
-                              vec
-                              (assoc-in ws-behavior [:+ :editor])
+  [[behavior-tag behavior]]
+  (let [negated-behavior (keyword (str "-" (namespace behavior)) (name behavior))
+        ws-behaviors (settings/safe-read (:ws-behaviors @workspace/current-ws) "workspace.behaviors")
+        behavior-string  (->> ws-behaviors
+                              (mapv (fn [[_ beh :as v]]
+                                      (condp = beh
+                                        behavior [behavior-tag negated-behavior]
+                                        negated-behavior [behavior-tag behavior]
+                                        v)))
                               pr-str)]
     (swap! workspace/current-ws assoc :ws-behaviors behavior-string)
     (cmd/exec! :behaviors.reload)))
 
 (cmd/command {:command :user.toggle-line-numbers
               :desc "User: toggles line numbers"
-              :exec toggle-line-numbers})
+              :exec (partial toggle-behavior [:editor :lt.objs.editor/line-numbers])})
 
 (defn toggle-strip-whitespace
   "Disables stripping whitespace on first call and toggles on subsequent calls"
