@@ -1329,30 +1329,23 @@ cljs.core._STAR_print_level_STAR_ = 5;
 /**
 * Sets line number first time this is called and toggles on subsequent calls
 */
-lt.plugins.user.toggle_line_numbers = (function toggle_line_numbers(){var ws_behavior = lt.objs.settings.safe_read.call(null,new cljs.core.Keyword(null,"ws-behaviors","ws-behaviors",2339346978).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.workspace.current_ws)),"workspace.behaviors");var show_line_numbers = cljs.core.some.call(null,((function (ws_behavior){
-return (function (p1__6271_SHARP_){return cljs.core._EQ_.call(null,new cljs.core.Keyword("lt.objs.editor","hide-line-numbers","lt.objs.editor/hide-line-numbers",1337733131),p1__6271_SHARP_);
-});})(ws_behavior))
-,cljs.core.get_in.call(null,ws_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"+","+",1013904285),new cljs.core.Keyword(null,"editor","editor",4001043679)], null)));var line_behavior = (cljs.core.truth_(show_line_numbers)?new cljs.core.Keyword("lt.objs.editor","line-numbers","lt.objs.editor/line-numbers",3399978738):new cljs.core.Keyword("lt.objs.editor","hide-line-numbers","lt.objs.editor/hide-line-numbers",1337733131));var behavior_string = cljs.core.pr_str.call(null,cljs.core.assoc_in.call(null,ws_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"+","+",1013904285),new cljs.core.Keyword(null,"editor","editor",4001043679)], null),cljs.core.vec.call(null,cljs.core.cons.call(null,line_behavior,cljs.core.remove.call(null,new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword("lt.objs.editor","line-numbers","lt.objs.editor/line-numbers",3399978738),null,new cljs.core.Keyword("lt.objs.editor","hide-line-numbers","lt.objs.editor/hide-line-numbers",1337733131),null], null), null),cljs.core.get_in.call(null,ws_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"+","+",1013904285),new cljs.core.Keyword(null,"editor","editor",4001043679)], null)))))));cljs.core.swap_BANG_.call(null,lt.objs.workspace.current_ws,cljs.core.assoc,new cljs.core.Keyword(null,"ws-behaviors","ws-behaviors",2339346978),behavior_string);
+lt.plugins.user.toggle_behavior = (function toggle_behavior(p__7397){var vec__7404 = p__7397;var behavior_tag = cljs.core.nth.call(null,vec__7404,0,null);var behavior = cljs.core.nth.call(null,vec__7404,1,null);var negated_behavior = cljs.core.keyword.call(null,[cljs.core.str("-"),cljs.core.str(cljs.core.namespace.call(null,behavior))].join(''),cljs.core.name.call(null,behavior));var ws_behaviors = lt.objs.settings.safe_read.call(null,new cljs.core.Keyword(null,"ws-behaviors","ws-behaviors",2339346978).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.workspace.current_ws)),"workspace.behaviors");var new_behaviors = cljs.core.mapv.call(null,((function (negated_behavior,ws_behaviors,vec__7404,behavior_tag,behavior){
+return (function (p__7405){var vec__7406 = p__7405;var _ = cljs.core.nth.call(null,vec__7406,0,null);var beh = cljs.core.nth.call(null,vec__7406,1,null);var v = vec__7406;var pred__7407 = cljs.core._EQ_;var expr__7408 = beh;if(cljs.core.truth_(pred__7407.call(null,behavior,expr__7408)))
+{return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [behavior_tag,negated_behavior], null);
+} else
+{if(cljs.core.truth_(pred__7407.call(null,negated_behavior,expr__7408)))
+{return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [behavior_tag,behavior], null);
+} else
+{return v;
+}
+}
+});})(negated_behavior,ws_behaviors,vec__7404,behavior_tag,behavior))
+,ws_behaviors);var new_behaviors__$1 = cljs.core.into.call(null,new_behaviors,((cljs.core._EQ_.call(null,new_behaviors,ws_behaviors))?new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [behavior_tag,behavior], null)], null):null));console.log("New workspace behaviors:",cljs.core.pr_str.call(null,new_behaviors__$1));
+cljs.core.swap_BANG_.call(null,lt.objs.workspace.current_ws,cljs.core.assoc,new cljs.core.Keyword(null,"ws-behaviors","ws-behaviors",2339346978),cljs.core.pr_str.call(null,new_behaviors__$1));
 return lt.objs.command.exec_BANG_.call(null,new cljs.core.Keyword(null,"behaviors.reload","behaviors.reload",2942796600));
 });
-lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"user.toggle-line-numbers","user.toggle-line-numbers",849211417),new cljs.core.Keyword(null,"desc","desc",1016984067),"User: toggles line numbers",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.user.toggle_line_numbers], null));
-/**
-* Disables stripping whitespace on first call and toggles on subsequent calls
-*/
-lt.plugins.user.toggle_strip_whitespace = (function toggle_strip_whitespace(){var ws_behavior = lt.objs.settings.safe_read.call(null,new cljs.core.Keyword(null,"ws-behaviors","ws-behaviors",2339346978).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.workspace.current_ws)),"workspace.behaviors");var strip_whitespace = cljs.core.some.call(null,((function (ws_behavior){
-return (function (p1__6272_SHARP_){return cljs.core._EQ_.call(null,new cljs.core.Keyword("lt.objs.editor.file","remove-trailing-whitespace","lt.objs.editor.file/remove-trailing-whitespace",1399383588),p1__6272_SHARP_);
-});})(ws_behavior))
-,cljs.core.get_in.call(null,ws_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"-","-",1013904287),new cljs.core.Keyword(null,"editor.file-backed","editor.file-backed",4684256680)], null)));var add_behavior_fn = (cljs.core.truth_(strip_whitespace)?cljs.core.identity:((function (ws_behavior,strip_whitespace){
-return (function (p1__6273_SHARP_){return cljs.core.cons.call(null,new cljs.core.Keyword("lt.objs.editor.file","remove-trailing-whitespace","lt.objs.editor.file/remove-trailing-whitespace",1399383588),p1__6273_SHARP_);
-});})(ws_behavior,strip_whitespace))
-);var behavior_string = cljs.core.pr_str.call(null,cljs.core.assoc_in.call(null,ws_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"-","-",1013904287),new cljs.core.Keyword(null,"editor.file-backed","editor.file-backed",4684256680)], null),cljs.core.vec.call(null,add_behavior_fn.call(null,cljs.core.remove.call(null,new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword("lt.objs.editor.file","remove-trailing-whitespace","lt.objs.editor.file/remove-trailing-whitespace",1399383588),null], null), null),cljs.core.get_in.call(null,ws_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"-","-",1013904287),new cljs.core.Keyword(null,"editor.file-backed","editor.file-backed",4684256680)], null)))))));cljs.core.swap_BANG_.call(null,lt.objs.workspace.current_ws,cljs.core.assoc,new cljs.core.Keyword(null,"ws-behaviors","ws-behaviors",2339346978),behavior_string);
-lt.objs.command.exec_BANG_.call(null,new cljs.core.Keyword(null,"behaviors.reload","behaviors.reload",2942796600));
-return setTimeout(((function (ws_behavior,strip_whitespace,add_behavior_fn,behavior_string){
-return (function (){return lt.objs.notifos.set_msg_BANG_.call(null,[cljs.core.str("Stripping whitespace on save "),cljs.core.str((cljs.core.truth_(strip_whitespace)?"enabled.":"disabled."))].join(''));
-});})(ws_behavior,strip_whitespace,add_behavior_fn,behavior_string))
-,500);
-});
-lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"user.toggle-strip-whitespace","user.toggle-strip-whitespace",2956187642),new cljs.core.Keyword(null,"desc","desc",1016984067),"User: toggles stripping whitespace on save",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.user.toggle_strip_whitespace], null));
+lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"user.toggle-line-numbers","user.toggle-line-numbers",849211417),new cljs.core.Keyword(null,"desc","desc",1016984067),"User: toggles line numbers",new cljs.core.Keyword(null,"exec","exec",1017031683),cljs.core.partial.call(null,lt.plugins.user.toggle_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"editor","editor",4001043679),new cljs.core.Keyword("lt.objs.editor","line-numbers","lt.objs.editor/line-numbers",3399978738)], null))], null));
+lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"user.toggle-strip-whitespace","user.toggle-strip-whitespace",2956187642),new cljs.core.Keyword(null,"desc","desc",1016984067),"User: toggles stripping whitespace on save",new cljs.core.Keyword(null,"exec","exec",1017031683),cljs.core.partial.call(null,lt.plugins.user.toggle_behavior,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"editor.file-backed","editor.file-backed",4684256680),new cljs.core.Keyword("lt.objs.editor.file","remove-trailing-whitespace","lt.objs.editor.file/remove-trailing-whitespace",1399383588)], null))], null));
 lt.plugins.user.open_console_log_file = (function open_console_log_file(){return lt.objs.command.exec_BANG_.call(null,new cljs.core.Keyword(null,"open-path","open-path",2513940794),lt.objs.files.join.call(null,lt.objs.files.lt_user_dir.call(null,"logs"),[cljs.core.str("window"),cljs.core.str(lt.objs.app.window_number.call(null)),cljs.core.str(".log")].join('')));
 });
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"user.open-console-log-file","user.open-console-log-file",529217741),new cljs.core.Keyword(null,"desc","desc",1016984067),"User: open current console log as an editable/searchable file",new cljs.core.Keyword(null,"exec","exec",1017031683),lt.plugins.user.open_console_log_file], null));
@@ -1366,13 +1359,13 @@ lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new
 lt.plugins.user.plugin_name = "user";
 lt.plugins.user.plugins_blacklist = new cljs.core.PersistentHashSet(null, new cljs.core.PersistentArrayMap(null, 1, ["kukui",null], null), null);
 lt.plugins.user.save_plugins = (function save_plugins(){var personal_plugins_file = lt.objs.files.join.call(null,lt.objs.files.lt_user_dir.call(null,"plugins"),lt.plugins.user.plugin_name,"plugin.edn");var deps = ((function (personal_plugins_file){
-return (function (p1__6275_SHARP_){return cljs.core.dissoc.call(null,p1__6275_SHARP_,lt.plugins.user.plugin_name);
+return (function (p1__7411_SHARP_){return cljs.core.dissoc.call(null,p1__7411_SHARP_,lt.plugins.user.plugin_name);
 });})(personal_plugins_file))
 .call(null,cljs.core.apply.call(null,cljs.core.sorted_map,cljs.core.flatten.call(null,cljs.core.sort.call(null,cljs.core.map.call(null,cljs.core.juxt.call(null,new cljs.core.Keyword(null,"name","name",1017277949),new cljs.core.Keyword(null,"version","version",1365512266)),cljs.core.remove.call(null,((function (personal_plugins_file){
-return (function (p1__6274_SHARP_){return cljs.core.contains_QMARK_.call(null,lt.plugins.user.plugins_blacklist,new cljs.core.Keyword(null,"name","name",1017277949).cljs$core$IFn$_invoke$arity$1(p1__6274_SHARP_));
+return (function (p1__7410_SHARP_){return cljs.core.contains_QMARK_.call(null,lt.plugins.user.plugins_blacklist,new cljs.core.Keyword(null,"name","name",1017277949).cljs$core$IFn$_invoke$arity$1(p1__7410_SHARP_));
 });})(personal_plugins_file))
 ,cljs.core.vals.call(null,new cljs.core.Keyword("lt.objs.plugins","plugins","lt.objs.plugins/plugins",2920328683).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,lt.objs.app.app)))))))));var plugin_body = cljs.core.pr_str.call(null,cljs.core.assoc.call(null,lt.objs.settings.safe_read.call(null,new cljs.core.Keyword(null,"content","content",1965434859).cljs$core$IFn$_invoke$arity$1(lt.objs.files.open_sync.call(null,personal_plugins_file)),personal_plugins_file),new cljs.core.Keyword(null,"dependencies","dependencies",1517678747),deps));return lt.objs.files.save.call(null,personal_plugins_file,clojure.string.replace.call(null,plugin_body,/(\"\s*,|\{|\},)/,((function (personal_plugins_file,deps,plugin_body){
-return (function (p1__6276_SHARP_){return [cljs.core.str(p1__6276_SHARP_),cljs.core.str("\n")].join('');
+return (function (p1__7412_SHARP_){return [cljs.core.str(p1__7412_SHARP_),cljs.core.str("\n")].join('');
 });})(personal_plugins_file,deps,plugin_body))
 ),((function (personal_plugins_file,deps,plugin_body){
 return (function (){return lt.objs.notifos.set_msg_BANG_.call(null,[cljs.core.str("Plugins saved to "),cljs.core.str(personal_plugins_file)].join(''));
@@ -1383,8 +1376,8 @@ lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new
 lt.objs.command.command.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"command","command",1964298941),new cljs.core.Keyword(null,"user.add-plugins-folder","user.add-plugins-folder",4218007644),new cljs.core.Keyword(null,"desc","desc",1016984067),"User: Add plugins folder to current workspace",new cljs.core.Keyword(null,"exec","exec",1017031683),(function (){return lt.object.raise.call(null,lt.objs.workspace.current_ws,new cljs.core.Keyword(null,"add.folder!","add.folder!",2151595160),lt.objs.files.lt_user_dir.call(null,"plugins"));
 })], null));
 lt.plugins.user.refresh_current_folder = (function refresh_current_folder(){var temp__4090__auto__ = (function (){var folder = lt.plugins.user.util.current_folder.call(null);var folder__$1 = cljs.core.some.call(null,((function (folder){
-return (function (p1__6277_SHARP_){if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"path","path",1017337751).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,p1__6277_SHARP_)),folder))
-{return p1__6277_SHARP_;
+return (function (p1__7413_SHARP_){if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"path","path",1017337751).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null,p1__7413_SHARP_)),folder))
+{return p1__7413_SHARP_;
 } else
 {return null;
 }

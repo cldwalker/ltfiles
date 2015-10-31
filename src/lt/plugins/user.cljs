@@ -29,44 +29,25 @@
   [[behavior-tag behavior]]
   (let [negated-behavior (keyword (str "-" (namespace behavior)) (name behavior))
         ws-behaviors (settings/safe-read (:ws-behaviors @workspace/current-ws) "workspace.behaviors")
-        behavior-string  (->> ws-behaviors
-                              (mapv (fn [[_ beh :as v]]
-                                      (condp = beh
-                                        behavior [behavior-tag negated-behavior]
-                                        negated-behavior [behavior-tag behavior]
-                                        v)))
-                              pr-str)]
-    (swap! workspace/current-ws assoc :ws-behaviors behavior-string)
+        new-behaviors  (mapv (fn [[_ beh :as v]]
+                               (condp = beh
+                                 behavior [behavior-tag negated-behavior]
+                                 negated-behavior [behavior-tag behavior]
+                                 v))
+                             ws-behaviors)
+        new-behaviors (into new-behaviors (when (= new-behaviors ws-behaviors)
+                                            [[behavior-tag behavior]]))]
+    (.log js/console "New workspace behaviors:" (pr-str new-behaviors))
+    (swap! workspace/current-ws assoc :ws-behaviors (pr-str new-behaviors))
     (cmd/exec! :behaviors.reload)))
 
 (cmd/command {:command :user.toggle-line-numbers
               :desc "User: toggles line numbers"
               :exec (partial toggle-behavior [:editor :lt.objs.editor/line-numbers])})
 
-(defn toggle-strip-whitespace
-  "Disables stripping whitespace on first call and toggles on subsequent calls"
-  []
-  (let [ws-behavior (settings/safe-read (:ws-behaviors @workspace/current-ws) "workspace.behaviors")
-        strip-whitespace (some #(= :lt.objs.editor.file/remove-trailing-whitespace %) (get-in ws-behavior [:- :editor.file-backed]))
-        add-behavior-fn (if strip-whitespace identity #(cons :lt.objs.editor.file/remove-trailing-whitespace %))
-        behavior-string (->> (get-in ws-behavior [:- :editor.file-backed])
-                             (remove #{:lt.objs.editor.file/remove-trailing-whitespace})
-                             add-behavior-fn
-                             vec
-                             (assoc-in ws-behavior [:- :editor.file-backed])
-                             pr-str)]
-    (swap! workspace/current-ws assoc :ws-behaviors behavior-string)
-    (cmd/exec! :behaviors.reload)
-    ;; timeout needed to override reload msg
-    (js/setTimeout
-     (fn []
-       (notifos/set-msg! (str "Stripping whitespace on save "
-                           (if strip-whitespace "enabled." "disabled."))))
-     500)))
-
 (cmd/command {:command :user.toggle-strip-whitespace
               :desc "User: toggles stripping whitespace on save"
-              :exec toggle-strip-whitespace})
+              :exec (partial toggle-behavior [:editor.file-backed :lt.objs.editor.file/remove-trailing-whitespace])})
 
 ;; Console
 ;; =======
