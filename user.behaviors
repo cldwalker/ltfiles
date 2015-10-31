@@ -3,14 +3,12 @@
  ;; all of Light Table here
  [:app :lt.objs.style/set-skin "dark"]
  [:app :lt.objs.plugins/load-js "user_compiled.js"]
- ;; load-addon in next LT release
+ ;; CodeMirror addons
  [:app :lt.objs.editor/load-addon "edit/matchtags.js"]
  [:app :lt.objs.editor/load-addon "edit/closetag.js"]
- ;; [:app :lt.objs.editor/load-addon "display/rulers.js"]
  ;; [:app :lt.objs.editor/load-addon ["dialog/dialog.js" "dialog/dialog.css"]]
  [:app :lt.objs.settings/pair-keymap-diffs]
- [:app :lt.objs.app/set-default-zoom-level 0.8] ;; atom-shell
- ;; [:app :lt.objs.app/set-default-zoom-level -0.5] ;; nw
+ [:app :lt.objs.app/set-default-zoom-level 0.8]
  ;; default w/ blob-storage for work
  [:app :lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage"]
  ;; :ltexec_clj is a custom ex_command from my vim.cljs
@@ -150,6 +148,7 @@
  ;; turn off aggressive autocomplete
  [:editor :-lt.plugins.auto-complete/auto-show-on-input]
  [:editor :-lt.plugins.ctags/on-result]
+ ;; [:editor :lt.objs.editor/set-rulers [{:color "#cfc" :column 100 :lineStyle "dashed"}]]
 
  ;; turn off large info boxes while editing any behavior
  [:editor.behaviors :-lt.objs.langs.behaviors/show-info-on-move]
@@ -172,6 +171,4 @@
  [:navigate.selector :-lt.objs.sidebar.navigate/open-on-select]
 
  [:opener :lt.objs.opener/existing-path-opens-linked-doc true]
-
- [:user.hello :lt.plugins.user/on-close-destroy]
 ]

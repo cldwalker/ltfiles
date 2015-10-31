@@ -1847,7 +1847,7 @@ goog.require('lt.objs.command');
 * of a selection (useful for eval).
 */
 lt.plugins.user.inline_result.current_inline_widget = (function current_inline_widget(){var ed = lt.objs.editor.pool.last_active.call(null);var current_line = (cljs.core.truth_(lt.objs.editor.selection_QMARK_.call(null,ed))?new cljs.core.Keyword(null,"line","line",1017226086).cljs$core$IFn$_invoke$arity$1(new cljs.core.Keyword(null,"to","to",1013907949).cljs$core$IFn$_invoke$arity$1(lt.objs.editor.selection_bounds.call(null,ed))):new cljs.core.Keyword(null,"line","line",1017226086).cljs$core$IFn$_invoke$arity$1(lt.objs.editor.__GT_cursor.call(null,ed)));return cljs.core.some.call(null,((function (ed,current_line){
-return (function (p__6686){var vec__6687 = p__6686;var vec__6688 = cljs.core.nth.call(null,vec__6687,0,null);var line = cljs.core.nth.call(null,vec__6688,0,null);var ch = cljs.core.nth.call(null,vec__6688,1,null);var type_ = cljs.core.nth.call(null,vec__6688,2,null);var widget = cljs.core.nth.call(null,vec__6687,1,null);if((cljs.core._EQ_.call(null,type_,new cljs.core.Keyword(null,"inline","inline",4124874251))) && (cljs.core._EQ_.call(null,current_line,lt.objs.editor.lh__GT_line.call(null,ed,line))))
+return (function (p__6923){var vec__6924 = p__6923;var vec__6925 = cljs.core.nth.call(null,vec__6924,0,null);var line = cljs.core.nth.call(null,vec__6925,0,null);var type_ = cljs.core.nth.call(null,vec__6925,1,null);var widget = cljs.core.nth.call(null,vec__6924,1,null);if((cljs.core._EQ_.call(null,type_,new cljs.core.Keyword(null,"inline","inline",4124874251))) && (cljs.core._EQ_.call(null,current_line,lt.objs.editor.lh__GT_line.call(null,ed,line))))
 {return widget;
 } else
 {return null;

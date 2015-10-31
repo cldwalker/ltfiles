@@ -1,8 +1,8 @@
 ## Description
 
 This is my Light Table User plugin a.k.a. dotfiles which recreates LT as I use it. This will pull in my keys,
-behaviors, commands and plugins.  While my workflow is centered around vim, clojure(script) and web
-development, you may find other useful tidbits.
+behaviors, commands and plugins. While my workflow is centered around vim, clojure(script) and web
+development, you may find other useful tidbits. Note: This configuration does require 0.8.0-alpha or greater.
 
 ## Install
 

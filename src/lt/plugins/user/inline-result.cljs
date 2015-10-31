@@ -17,7 +17,7 @@
                          (-> ed editor/selection-bounds :to :line)
                          (:line (editor/->cursor ed)))]
     (->> (:widgets @ed)
-         (some (fn [[[line ch type_] widget]]
+         (some (fn [[[line type_] widget]]
                  (when (and (= type_ :inline)
                             (= current-line (editor/lh->line ed line)))
                    widget))))))
@@ -34,8 +34,6 @@
 
 ;; These also works for a selection. Note: you cannot bind these commands to vim/map-keys
 ;; because something about invoking it disables s selection
-
-;; NOTE: These commands only work for LT master e.g. 0.8.x
 
 (cmd/command {:command :user.toggle-current-inline-result
               :desc "User: toggles current inline result"
