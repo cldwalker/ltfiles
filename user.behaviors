@@ -146,8 +146,7 @@
  [:editor :lt.objs.editor.pool/line-comment-options {:indent true}]
  [:editor :lt.plugins.reflow/set-width 80]
  [:editor :lt.objs.editor/set-codemirror-flags {:matchTags #js {:bothTags true}
-                                                :autoCloseTags true
-                                                :extraKeys #js {"Ctrl-K" "toMatchingTag"}}]
+                                                :autoCloseTags true}]
  ;; turn off aggressive autocomplete
  [:editor :-lt.plugins.auto-complete/auto-show-on-input]
  [:editor :-lt.plugins.ctags/on-result]
@@ -165,6 +164,8 @@
  ;; allow transient files to close without prompt
  [:editor.transient :-lt.objs.editor.file/dirty-on-change]
  [:files :lt.objs.files/file-types [{:exts [:cljs.hl :boot], :mime "text/x-clojurescript", :tags [:editor.cljs], :name "hoplon"}
+                                    ;; Enable when working with react code
+                                    {:exts [:js], :mime "text/jsx", :tags [:editor.javascript], :name "Javascript"}
                                     {:exts [:cljx], :mime "text/x-clojure", :tags [:editor.clj], :name "cljx"}]]
 
  [:navigate.selector :lt.plugins.user.document/open-with-jump-stack-on-select]

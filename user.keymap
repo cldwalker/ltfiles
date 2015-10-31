@@ -11,6 +11,7 @@
  [:app "cmd-k" :clear-inline-results]
  [:app "alt-t r" :tabs.move-next-tabset]
  [:app "-ctrl-x ctrl-f" :claire-show]
+ [:app "alt-j" :user.jump-to-matching-tag]
 
  ;; Broken alt combos: i,e
 
