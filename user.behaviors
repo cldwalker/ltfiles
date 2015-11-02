@@ -3,9 +3,6 @@
  ;; all of Light Table here
  [:app :lt.objs.style/set-skin "dark"]
  [:app :lt.objs.plugins/load-js "user_compiled.js"]
- ;; CodeMirror addons
- [:app :lt.objs.editor/load-addon "edit/matchtags.js"]
- [:app :lt.objs.editor/load-addon "edit/closetag.js"]
  ;; [:app :lt.objs.editor/load-addon ["dialog/dialog.js" "dialog/dialog.css"]]
  [:app :lt.objs.settings/pair-keymap-diffs]
  [:app :lt.objs.app/set-default-zoom-level 0.8]
@@ -143,8 +140,7 @@
  [:editor :lt.objs.editor/hide-line-numbers]
  [:editor :lt.objs.editor.pool/line-comment-options {:indent true}]
  [:editor :lt.plugins.reflow/set-width 80]
- [:editor :lt.objs.editor/set-codemirror-flags {:matchTags #js {:bothTags true}
-                                                :autoCloseTags true}]
+ ;; [:editor :lt.objs.editor/set-codemirror-flags {:smartIndent false}]
  ;; turn off aggressive autocomplete
  [:editor :-lt.plugins.auto-complete/auto-show-on-input]
  [:editor :-lt.plugins.ctags/on-result]
@@ -157,8 +153,6 @@
 
  [:editor.clojure :lt.plugins.clojure/print-length 1000]
  [:editor.clojure :lt.plugins.user.clojure/clj-result.eval-once]
-
- [:editor.html :lt.objs.editor/tab-settings false 2 2]
 
  ;; allow transient files to close without prompt
  [:editor.transient :-lt.objs.editor.file/dirty-on-change]
