@@ -59,11 +59,15 @@
           :desc "Alternative to lt.objs.sidebar.navigate/open-on-select that uses jump-stack"
           :triggers #{:select}
           :reaction (fn [this cur]
-                      (lt.object/raise lt.objs.jump-stack/jump-stack
-                                       :jump-stack.push!
-                                       (lt.objs.editor.pool/last-active)
-                                       (:full cur)
-                                       {:line 0 :ch 0})))
+                      (if-let [ed (lt.objs.editor.pool/last-active)]
+                        (lt.object/raise lt.objs.jump-stack/jump-stack
+                                         :jump-stack.push!
+                                         ed
+                                         (:full cur)
+                                         {:line 0 :ch 0})
+                        ;; Handle no editor e.g. welcome or no tabs open
+                        (lt.object/call-behavior-reaction :lt.objs.sidebar.navigate/open-on-select
+                                                          this cur))))
 
 (cmd/command {:command :user.toggle-open-in-current-editor
               :desc "Toggles whether opening a new file should open in new or existing tab."
