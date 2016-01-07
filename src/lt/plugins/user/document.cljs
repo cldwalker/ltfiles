@@ -1,6 +1,7 @@
 (ns lt.plugins.user.document
   "Some doc helpers - mostly around swapDoc and linkDoc"
   (:require [lt.objs.command :as cmd]
+            [lt.objs.editor.pool :as pool]
             [lt.objs.notifos :as notifos])
   (:require-macros [lt.macros :refer [behavior]]))
 
@@ -75,6 +76,11 @@
                       (def open-in-current-editor (not open-in-current-editor))
                       (notifos/set-msg! (str "open-in-current-editor is "
                                              open-in-current-editor)))})
+
+(cmd/command {:command :user.editor-file-reload
+              :desc "User: Reload editor from file"
+              :exec (fn []
+                      (pool/reload (pool/last-active)))})
 
 (comment
   (def path (get-in @ed [:info :path]))
