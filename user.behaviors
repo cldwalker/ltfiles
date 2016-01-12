@@ -1,7 +1,6 @@
 [
  ;; The app tag is kind of like global scope. You assign behaviors that affect
  ;; all of Light Table here
- [:app :lt.objs.style/set-skin "dark"]
  [:app :lt.objs.plugins/load-js "user_compiled.js"]
  ;; [:app :lt.objs.editor/load-addon ["dialog/dialog.js" "dialog/dialog.css"]]
  [:app :lt.objs.settings/pair-keymap-diffs]
@@ -129,6 +128,7 @@
  [:app :lt.plugins.photon/set-directories
   [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo" "~/code/priv" "~/code/work" "~/.gitbeam" "~/code"]]
  [:app :-lt.objs.intro/show-intro]
+ ;; [:app :lt.objs.metrics/disable-metrics]
 
  [:document :lt.objs.document/set-linked-doc-options {:shared-history true}]
 
@@ -163,6 +163,4 @@
 
  [:navigate.selector :lt.plugins.user.document/open-with-jump-stack-on-select]
  [:navigate.selector :-lt.objs.sidebar.navigate/open-on-select]
-
- [:opener :lt.objs.opener/existing-path-opens-linked-doc true]
 ]
