@@ -4,6 +4,8 @@
  [:app :lt.objs.plugins/load-js "user_compiled.js"]
  ;; [:app :lt.objs.editor/load-addon ["dialog/dialog.js" "dialog/dialog.css"]]
  [:app :lt.objs.settings/pair-keymap-diffs]
+ ;; [:app :lt.objs.editor/load-addon ["edit/closebrackets.js"]]
+ ;; [:editor :lt.objs.editor/set-codemirror-flags {:autoCloseBrackets true}]
  [:app :lt.objs.app/set-default-zoom-level 0.8]
  ;; default w/ blob-storage for work
  [:app :lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage"]
@@ -158,7 +160,7 @@
  [:editor.transient :-lt.objs.editor.file/dirty-on-change]
  [:files :lt.objs.files/file-types [{:exts [:cljs.hl :boot], :mime "text/x-clojurescript", :tags [:editor.cljs], :name "hoplon"}
                                     ;; Enable when working with react code
-                                    {:exts [:js], :mime "text/jsx", :tags [:editor.javascript], :name "Javascript"}
+                                    ;; {:exts [:js], :mime "text/jsx", :tags [:editor.javascript], :name "Javascript"}
                                     {:exts [:cljx], :mime "text/x-clojure", :tags [:editor.clj], :name "cljx"}]]
 
  [:navigate.selector :lt.plugins.user.document/open-with-jump-stack-on-select]
