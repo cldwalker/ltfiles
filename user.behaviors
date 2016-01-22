@@ -3,9 +3,6 @@
  ;; all of Light Table here
  [:app :lt.objs.plugins/load-js "user_compiled.js"]
  ;; [:app :lt.objs.editor/load-addon ["dialog/dialog.js" "dialog/dialog.css"]]
- [:app :lt.objs.settings/pair-keymap-diffs]
- ;; [:app :lt.objs.editor/load-addon ["edit/closebrackets.js"]]
- ;; [:editor :lt.objs.editor/set-codemirror-flags {:autoCloseBrackets true}]
  [:app :lt.objs.app/set-default-zoom-level 0.8]
  ;; default w/ blob-storage for work
  [:app :lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage"]
@@ -135,6 +132,7 @@
  [:document :lt.objs.document/set-linked-doc-options {:shared-history true}]
 
  ;; The editor tag is applied to all editors
+ [:editor :lt.objs.editor/autoclose-brackets]
  [:editor :lt.objs.editor/no-wrap]
  [:editor :lt.objs.style/set-theme "solarized"]
  ;; [:editor :-lt.plugins.vim/activate-vim]
