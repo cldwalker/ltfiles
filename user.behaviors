@@ -3,27 +3,14 @@
  ;; all of Light Table here
  [:app :lt.objs.plugins/load-js "user_compiled.js"]
  ;; [:app :lt.objs.editor/load-addon ["dialog/dialog.js" "dialog/dialog.css"]]
+  ;; [:editor :lt.objs.editor/set-codemirror-flags {:autoCloseTags #js {:indentTags ["html"]}}]
  [:app :lt.objs.app/set-default-zoom-level 0.8]
  ;; default w/ blob-storage for work
  [:app :lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage"]
  ;; :ltexec_clj is a custom ex_command from my vim.cljs
  [:app :lt.plugins.vim/map-keys {"0" "^",
-                                      "-" ":ltexec user.find-next-clojure-word",
-                                      "j" "gj",
-                                      "k" "gk"
-                                      "gJ" ":ltexec user.smart-join"
-                                      "''" ":ltexec lt.plugins.marks/jump-to-last-edit-mark"
 
                                       ;; <Space> is a leader key in normal mode
-                                      "<Space>b" ":ltexec behaviors.modify-user"
-                                      "<Space>B" ":ltexec behaviors.view-default"
-                                      ; c - for cancel/clear/kill actions
-                                      "<Space>cc" ":ltexec clear-console"
-                                      "<Space>cC" ":ltexec editor.disconnect-clients"
-                                      "<Space>ce" ":ltexec eval.cancel-all!"
-                                      "<Space>ct" ":ltexec_clj [:tabset.next :user.close-current-tabs :tabset.close]"
-                                      "<Space>cw" ":ltexec editor.watch.remove-all"
-                                      "<Space>cs" ":ltexec reset-working"
                                       ;; (d)ev
                                       "<Space>dc" ":ltexec user.jump-to-command"
                                       "<Space>db" ":ltexec user.jump-to-behavior"
@@ -163,4 +150,9 @@
 
  [:navigate.selector :lt.plugins.user.document/open-with-jump-stack-on-select]
  [:navigate.selector :-lt.objs.sidebar.navigate/open-on-select]
+
+  ;; nrepl remote cljs debug
+ ;; [:app :lt.plugins.clojure/set-default-cljs-client nil]
+ ;; [:nrepl.client.common :lt.plugins.clojure/cljs-result]
+ ;; [:nrepl.client.common :lt.plugins.clojure/cljs-exception]
 ]

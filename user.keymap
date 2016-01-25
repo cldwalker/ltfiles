@@ -77,6 +77,24 @@
  ;; Satisfied having as a default. Can always make this more specific - https://github.com/LightTable/LightTable/issues/1379
  [:editor.keys.vim.normal "backspace" :paredit-plus.backward-delete]
 
+  ;; CodeMirror keys
+  [:editor.keys.vim.normal.cm "-" :user.find-next-clojure-word]
+  [:editor.keys.vim.normal.cm "j" "gj"]
+  [:editor.keys.vim.normal.cm "k" "gk"]
+  [:editor.keys.vim.normal.cm "gJ" :user.smart-join]
+
+  ;; <Space> is a leader key in normal mode
+  [:editor.keys.vim.normal.cm "<Space>b" :behaviors.modify-user]
+  [:editor.keys.vim.normal.cm "<Space>B" :behaviors.view-default]
+  ; c - for cancel/clear/kill actions
+  [:editor.keys.vim.normal.cm "<Space>cc" :clear-console]
+  [:editor.keys.vim.normal.cm "<Space>cC" :editor.disconnect-clients]
+  [:editor.keys.vim.normal.cm "<Space>ce" :eval.cancel-all!]
+  ;; "<Space>ct" ":ltexec_clj [:tabset.next :user.close-current-tabs :tabset.close]"
+  [:editor.keys.vim.normal.cm "<Space>cw" :editor.watch.remove-all]
+  [:editor.keys.vim.normal.cm "<Space>cs" :reset-working]
+
+
  ;; avoid going too out of the way keys for command bar
  [:filter-list.input "ctrl-n" (:filter-list.input.move-selection 1)]
  [:filter-list.input "ctrl-p" (:filter-list.input.move-selection -1)]
