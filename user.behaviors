@@ -81,36 +81,7 @@
                                       "<Space>sR" ":ltexec kukui.reset-sync-and-sync-all"
                                       "<Space>ss" ":ltexec kukui.sync-file-to-db"
                                       "<Space>sS" ":ltexec kukui.stamp-children"
-                                      ; (t)oggle
-                                      "<Space>tc" ":ltexec toggle-console"
-                                      "<Space>tl" ":ltexec user.toggle-line-numbers"
-                                      "<Space>to" ":ltexec user.toggle-open-in-current-editor"
-                                      "<Space>tw" ":ltexec user.toggle-strip-whitespace"
-                                      "<Space>w" ":ltexec workspace.show"
-                                      "<Space>x" ":ltexec user.smart-tab-close"
-
-                                      ;; \\ is leader key for paredit
-                                      ;; loosely inspired by https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
-                                      "\\." ":ltexec paredit.grow.right"
-                                      "\\," ":ltexec paredit.shrink.right"
-                                      "\\<" ":ltexec paredit.grow.left"
-                                      "\\>" ":ltexec paredit.shrink.left"
-                                      "\\b" ":ltexec user.paredit-kill-backword"
-                                      "\\d" ":ltexec paredit-plus.delete-pair-contents"
-                                      "\\f" ":ltexec paredit.move.down.forward"
-                                      "\\j" ":ltexec paredit-plus.join-sexps"
-                                      "\\k" ":ltexec user.paredit-kill"
-                                      "\\n" ":ltexec user.paredit-newline-before-pair-close"
-                                      "\\N" ":ltexec paredit-plus.new-line-after-pair-close"
-                                      "\\u" ":ltexec paredit.move.up.backward"
-                                      "\\r" ":ltexec paredit-plus.raise-sexp"
-                                      ;; handles top-level case that paredit doesn't
-                                      "\\s" ":ltexec paredit-plus.splice-sexp"
-                                      "\\|" ":ltexec paredit-plus.split-sexp"
-                                      "\\(" ":ltexec paredit-plus.wrap-round"
-                                      "\\{" ":ltexec paredit-plus.wrap-curly"
-                                      "\\[" ":ltexec paredit-plus.wrap-square"
-                                      "\\'" ":ltexec paredit-plus.wrap-quote"}]
+                                 }]
  [:app :lt.plugins.photon/set-directories
   [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo" "~/code/priv" "~/code/work" "~/.gitbeam" "~/code"]]
  [:app :-lt.objs.intro/show-intro]

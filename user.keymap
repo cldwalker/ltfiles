@@ -93,6 +93,35 @@
   ;; "<Space>ct" ":ltexec_clj [:tabset.next :user.close-current-tabs :tabset.close]"
   [:editor.keys.vim.normal.cm "<Space>cw" :editor.watch.remove-all]
   [:editor.keys.vim.normal.cm "<Space>cs" :reset-working]
+  ; (t)oggle
+  [:editor.keys.vim.normal.cm "<Space>tc" :toggle-console]
+  [:editor.keys.vim.normal.cm "<Space>tl" :user.toggle-line-numbers]
+  [:editor.keys.vim.normal.cm "<Space>to" :user.toggle-open-in-current-editor]
+  [:editor.keys.vim.normal.cm "<Space>tw" :user.toggle-strip-whitespace]
+  [:editor.keys.vim.normal.cm "<Space>w" :workspace.show]
+  [:editor.keys.vim.normal.cm "<Space>x" :user.smart-tab-close]
+  ;; \\ is leader key for paredit
+  ;; loosely inspired by https://groups.google.com/forum/#!topic/light-table-discussion/BIyWHnRcoWc
+  [:editor.keys.vim.normal.cm "\\." :paredit.grow.right]
+  [:editor.keys.vim.normal.cm "\\," :paredit.shrink.right]
+  [:editor.keys.vim.normal.cm "\\<" :paredit.grow.left]
+  [:editor.keys.vim.normal.cm "\\>" :paredit.shrink.left]
+  [:editor.keys.vim.normal.cm "\\b" :user.paredit-kill-backword]
+  [:editor.keys.vim.normal.cm "\\d" :paredit-plus.delete-pair-contents]
+  [:editor.keys.vim.normal.cm "\\f" :paredit.move.down.forward]
+  [:editor.keys.vim.normal.cm "\\j" :paredit-plus.join-sexps]
+  [:editor.keys.vim.normal.cm "\\k" :user.paredit-kill]
+  [:editor.keys.vim.normal.cm "\\n" :user.paredit-newline-before-pair-close]
+  [:editor.keys.vim.normal.cm "\\N" :paredit-plus.new-line-after-pair-close]
+  [:editor.keys.vim.normal.cm "\\u" :paredit.move.up.backward]
+  [:editor.keys.vim.normal.cm "\\r" :paredit-plus.raise-sexp]
+  ;; handles top-level case that paredit doesn't
+  [:editor.keys.vim.normal.cm "\\s" :paredit-plus.splice-sexp]
+  [:editor.keys.vim.normal.cm "\\|" :paredit-plus.split-sexp]
+  [:editor.keys.vim.normal.cm "\\(" :paredit-plus.wrap-round]
+  [:editor.keys.vim.normal.cm "\\{" :paredit-plus.wrap-curly]
+  [:editor.keys.vim.normal.cm "\\[" :paredit-plus.wrap-square]
+  [:editor.keys.vim.normal.cm "\\'" :paredit-plus.wrap-quote]
 
 
  ;; avoid going too out of the way keys for command bar
