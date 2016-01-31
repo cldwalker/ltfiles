@@ -7,81 +7,6 @@
  [:app :lt.objs.app/set-default-zoom-level 0.8]
  ;; default w/ blob-storage for work
  [:app :lt.objs.files/file.ignore-pattern "(^\\..*)|\\.class$|target/|svn|cvs|\\.git|\\.pyc|~|\\.swp|\\.jar|.DS_Store|\\.nrepl-port|blob-storage"]
- ;; :ltexec_clj is a custom ex_command from my vim.cljs
- [:app :lt.plugins.vim/map-keys {"0" "^",
-
-                                      ;; <Space> is a leader key in normal mode
-                                      ;; (d)ev
-                                      "<Space>dc" ":ltexec user.jump-to-command"
-                                      "<Space>db" ":ltexec user.jump-to-behavior"
-                                      "<Space>do" ":ltexec user.jump-to-object"
-                                      "<Space>ds" ":ltexec user.clojurescript-spy"
-                                      "<Space>dS" ":ltexec user.clojurescript-unspy"
-                                      ;; (f)ind
-                                      "<Space>fd" ":ltexec user.search-current-directory"
-                                      "<Space>ff" ":ltexec user.search-current-file"
-                                      "<Space>fF" ":ltexec user.search-current-folder"
-                                      "<Space>fu" ":ltexec user.search-current-folder-for-fn-usage"
-                                      "<Space>fw" ":ltexec user.search-current-file-with-current-word" ; same as vim's [I
-                                      "<Space>fW" ":ltexec user.search-current-folder-with-current-word"
-                                      "<Space>gi" ":ltexec gitbeam.in-with-clipboard"
-                                      "<Space>gI" ":ltexec gitbeam.in-with-current-word"
-                                      "<Space>go" ":ltexec gitbeam.out-with-external-browser"
-                                      "<Space>gn" ":ltexec lt.plugins.modific.commands/goto-next-change"
-                                      "<Space>gp" ":ltexec lt.plugins.modific.commands/goto-prev-change"
-                                      "<Space>gr" ":ltexec lt.plugins.modific.commands/revert-change"
-                                      "<Space>gs" ":ltexec lt.plugins.modific.commands/show-original"
-                                      "<Space>k" ":ltexec keymap.modify-user"
-                                      "<Space>K" ":ltexec keymap.view-default"
-                                      "<Space>l" ":ltexec user.connect-to-lt-ui"
-                                      ; (m) misc
-                                      "<Space>mc" ":ltexec user.jump-to-ctag"
-                                      "<Space>me" ":ltexec sancho.open-grimoire-examples"
-                                      "<Space>mE" ":ltexec sancho.open-grimoire-url"
-                                      "<Space>mo" ":ltexec user.eval-once"
-                                      "<Space>ms" ":ltexec user.print-fn-source"
-                                      "<Space>mu" ":ltexec sancho.open-crossclj-url"
-                                      ; (o)pen
-                                      "<Space>ob" ":ltexec_clj [:add-browser-tab :browser.url-bar.focus]"
-                                      "<Space>oc" ":ltexec user.rotate-console"
-                                      "<Space>oC" ":ltexec_clj [:user.ensure-and-focus-second-tabset :console-tab :console.show]"
-                                      "<Space>od" ":ltexec show-connect"
-                                      "<Space>of" ":ltexec claire-show"
-                                      "<Space>oF" ":ltexec_clj [:user.ensure-and-focus-second-tabset :editor.open-current-file-in-browser]"
-                                      "<Space>ok" ":ltexec user.keybinding-bar"
-                                      "<Space>op" ":ltexec photon.add-folder"
-                                      "<Space>oP" ":ltexec photon.remove-folder"
-                                      "<Space>or" ":ltexec user.show-registers"
-                                      "<Space>ot" ":ltexec tabset.new"
-                                      "<Space>ou" ":ltexec user.system-open-current-url"
-                                      "<Space>oU" ":ltexec user.tab-open-current-url"
-                                      "<Space>ov" ":ltexec user.vertical-split-current-file" ; sams as vim's C-w v
-                                      "<Space>ow" ":ltexec workspace.show-recents"
-                                      "<Space>oz" ":ltexec_clj [:tabs.close-others :window.fullscreen]" ; (z)oom
-                                      "<Space>pc" ":ltexec user.system-open-plugin-changelog"
-                                      "<Space>pm" ":ltexec plugin-manager.show"
-                                      "<Space>r" ":ltexec user.refresh-current-workspace-folder"
-                                      ; s - kukui
-                                      "<Space>sc" ":ltexec kukui.types-counts"
-                                      "<Space>sC" ":ltexec kukui.all-types-counts"
-                                      "<Space>sd" ":ltexec kukui.toggle-descs"
-                                      "<Space>si" ":ltexec kukui.input-query-and-open-file"
-                                      "<Space>sj" ":ltexec kukui.jump-to-entity"
-                                      "<Space>sJ" ":ltexec kukui.jump-to-query-result-source"
-                                      "<Space>sl" ":ltexec kukui.query-with-local-type"
-                                      "<Space>soe" ":ltexec kukui.open-entity"
-                                      "<Space>son" ":ltexec kukui.open-regex-name-search"
-                                      "<Space>sos" ":ltexec kukui.open-regex-search"
-                                      "<Space>sot" ":ltexec kukui.open-entity-tagged"
-                                      "<Space>soT" ":ltexec kukui.open-entity-type"
-                                      "<Space>sp" ":ltexec kukui.previous-query"
-                                      "<Space>sq" ":ltexec kukui.query-and-open-file"
-                                      "<Space>sQ" ":ltexec kukui.query-and-print"
-                                      "<Space>sr" ":ltexec kukui.reset-sync"
-                                      "<Space>sR" ":ltexec kukui.reset-sync-and-sync-all"
-                                      "<Space>ss" ":ltexec kukui.sync-file-to-db"
-                                      "<Space>sS" ":ltexec kukui.stamp-children"
-                                 }]
  [:app :lt.plugins.photon/set-directories
   [:plugins "~/code/fork" "~/code/cjars" "~/code/gems" "~/code/repo" "~/code/priv" "~/code/work" "~/.gitbeam" "~/code"]]
  [:app :-lt.objs.intro/show-intro]
@@ -123,7 +48,7 @@
  [:navigate.selector :-lt.objs.sidebar.navigate/open-on-select]
 
   ;; nrepl remote cljs debug
- ;; [:app :lt.plugins.clojure/set-default-cljs-client nil]
- ;; [:nrepl.client.common :lt.plugins.clojure/cljs-result]
- ;; [:nrepl.client.common :lt.plugins.clojure/cljs-exception]
+ [:app :lt.plugins.clojure/set-default-cljs-client nil]
+ [:nrepl.client.common :lt.plugins.clojure/cljs-result]
+ [:nrepl.client.common :lt.plugins.clojure/cljs-exception]
 ]

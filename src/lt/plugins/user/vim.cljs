@@ -3,7 +3,6 @@
   spread across other namespaces."
   (:require [lt.objs.editor :as editor]
             [lt.objs.editor.pool :as pool]
-            [lt.plugins.vim :as vim]
             [lt.plugins.user.util :as util]
             [cljs.reader :as reader]
             [clojure.string :as s]
@@ -62,10 +61,6 @@
               :desc "show vim's registers"
               :exec show-registers})
 
-;; like :ltexec but execs multiple commands
-(vim/ex-command {:name "ltexec_clj"
-                 :func (fn [cm info]
-                         (util/exec-commands (reader/read-string (.-argString info))))})
 (defn smart-join-line
   []
   (when-let [ed (pool/last-active)]
