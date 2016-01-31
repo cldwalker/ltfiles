@@ -1,81 +1,81 @@
 [
- [:app "alt-d" :dev-inspector]
- [:app "alt-t o" :tabs.move-new-tabset]
- [:app "alt-space" :user.commandbar]
- [:app "alt-l" :user.def-let]
- [:app "cmd-b" :user.open-buffers]
- ;; needs to be in :app to print actual context
- [:app "alt-t c" :user.print-context]
- [:app "alt-tab" :tabset.next]
- [:app "alt-x" :tabset.close]
- [:app "cmd-k" :clear-inline-results]
- [:app "alt-t r" :tabs.move-next-tabset]
- [:app "-ctrl-x ctrl-f" :claire-show]
+  [:app "alt-d" :dev-inspector]
+  [:app "alt-t o" :tabs.move-new-tabset]
+  [:app "alt-space" :user.commandbar]
+  [:app "alt-l" :user.def-let]
+  [:app "cmd-b" :user.open-buffers]
+  ;; needs to be in :app to print actual context
+  [:app "alt-t c" :user.print-context]
+  [:app "alt-tab" :tabset.next]
+  [:app "alt-x" :tabset.close]
+  [:app "cmd-k" :clear-inline-results]
+  [:app "alt-t r" :tabs.move-next-tabset]
+  [:app "-ctrl-x ctrl-f" :claire-show]
 
- ;; Broken alt combos: i,e
+  ;; Broken alt combos: i,e
 
- [:editor "alt-g" :gitbeam.out-with-external-browser]
+  [:editor "alt-g" :gitbeam.out-with-external-browser]
 
- ;; here instead of <Space> vim/map-keys b/c of selection limitation
- [:editor "alt-," :user.toggle-current-inline-result]
- [:editor "ctrl-j" :editor.sublime.selectLinesDownward]
- [:editor "alt-shift-w" :editor.watch.unwatch]
- [:editor "ctrl-k" :editor.sublime.selectLinesUpward]
- [:editor "cmd-=" :paredit.select.parent :smart-indent-selection :paredit.select.clear]
- [:editor "alt-v" :user.view-current-inline-result]
- [:editor "alt-w" :editor.watch.watch-selection]
- ;;Eval the parent ( ... )
- [:editor "alt-enter" (:paredit.select.parent "(") :eval-editor-form :paredit.select.clear]
- [:editor "alt-shift-c" :user.copy-current-inline-result]
- [:editor "alt-;" :user.comment-let]
- [:editor "alt-shift-g" :gitbeam.out-with-internal-browser]
- [:editor "alt-=" :smart-indent-selection]
- [:editor "alt-c" :gitbeam.out-with-clipboard-copy]
+  ;; here instead of <Space> vim/map-keys b/c of selection limitation
+  [:editor "alt-," :user.toggle-current-inline-result]
+  [:editor "ctrl-j" :editor.sublime.selectLinesDownward]
+  [:editor "alt-shift-w" :editor.watch.unwatch]
+  [:editor "ctrl-k" :editor.sublime.selectLinesUpward]
+  [:editor "cmd-=" :paredit.select.parent :smart-indent-selection :paredit.select.clear]
+  [:editor "alt-v" :user.view-current-inline-result]
+  [:editor "alt-w" :editor.watch.watch-selection]
+  ;;Eval the parent ( ... )
+  [:editor "alt-enter" (:paredit.select.parent "(") :eval-editor-form :paredit.select.clear]
+  [:editor "alt-shift-c" :user.copy-current-inline-result]
+  [:editor "alt-;" :user.comment-let]
+  [:editor "alt-shift-g" :gitbeam.out-with-internal-browser]
+  [:editor "alt-=" :smart-indent-selection]
+  [:editor "alt-c" :gitbeam.out-with-clipboard-copy]
 
 
- ;; Thanks to https://github.com/jamii/lt-config/ for most watches
- [:editor.clj "alt-shift-p" (:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:verbatim true, :result-type :replace})]
- [:editor.clj "alt-m" (:eval.custom "(with-out-str (clojure.pprint/write (macroexpand-1 '__SELECTION__) :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:verbatim true, :result-type :inline})]
- [:editor.clj "alt-p" (:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:verbatim true, :result-type :inline})]
- [:editor.clj "alt-r" (:eval.custom "(clojure.test/run-tests)" {:result-type :statusbar})]
- [:editor.clj "alt-shift-b" (:eval.custom "(do (require '[criterium.core]) (with-out-str (criterium.core/bench (do __SELECTION__))))" {:verbatim true, :result-type :inline})]
- [:editor.clj "alt-b" (:eval.custom "(with-out-str (time (do __SELECTION__)))" {:verbatim true, :result-type :inline})]
+  ;; Thanks to https://github.com/jamii/lt-config/ for most watches
+  [:editor.clj "alt-shift-p" (:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:verbatim true, :result-type :replace})]
+  [:editor.clj "alt-m" (:eval.custom "(with-out-str (clojure.pprint/write (macroexpand-1 '__SELECTION__) :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:verbatim true, :result-type :inline})]
+  [:editor.clj "alt-p" (:eval.custom "(with-out-str (clojure.pprint/write __SELECTION__ :suppress-namespaces false :dispatch clojure.pprint/code-dispatch))" {:verbatim true, :result-type :inline})]
+  [:editor.clj "alt-r" (:eval.custom "(clojure.test/run-tests)" {:result-type :statusbar})]
+  [:editor.clj "alt-shift-b" (:eval.custom "(do (require '[criterium.core]) (with-out-str (criterium.core/bench (do __SELECTION__))))" {:verbatim true, :result-type :inline})]
+  [:editor.clj "alt-b" (:eval.custom "(with-out-str (time (do __SELECTION__)))" {:verbatim true, :result-type :inline})]
 
- ;; watches
- [:editor.clj "alt-t" (:editor.watch.custom-watch-selection
-                       "(let [start (java.lang.System/nanoTime)
-                       res (do __SELECTION__)]
-                       __|(str (float (/ (- (java.lang.System/nanoTime) start) 1000000)) \" ms\")|__
-                       res)"
-                       {:verbatim true, :class "timed"})]
- [:editor.clj "alt-shift-t" (:editor.watch.custom-watch-selection "(let [result (do __SELECTION__)] (prn __SELECTION*__ result) __|result|__ result)" {})]
- ;; requires lein-kibit
- ;; from https://github.com/danielribeiro/LightTableKibit
- [:editor.clj "alt-k" (:eval.custom
-                       "(do
-                       (require 'kibit.check)
-                       (prn :WOW)
-                       (if-let [better (kibit.check/check-expr '__SELECTION__)]
-                       (with-out-str
-                       (clojure.pprint/write (:alt better)
-                       :suppress-namespaces true
-                       :dispatch clojure.pprint/code-dispatch))
-                            __SELECTION*__))"
-                       {:verbatim true, :result-type :replace})]
+  ;; watches
+  [:editor.clj "alt-t" (:editor.watch.custom-watch-selection
+                         "(let [start (java.lang.System/nanoTime)
+                         res (do __SELECTION__)]
+                         __|(str (float (/ (- (java.lang.System/nanoTime) start) 1000000)) \" ms\")|__
+                         res)"
+                         {:verbatim true, :class "timed"})]
+  [:editor.clj "alt-shift-t" (:editor.watch.custom-watch-selection "(let [result (do __SELECTION__)] (prn __SELECTION*__ result) __|result|__ result)" {})]
+  ;; requires lein-kibit
+  ;; from https://github.com/danielribeiro/LightTableKibit
+  [:editor.clj "alt-k" (:eval.custom
+                         "(do
+                         (require 'kibit.check)
+                         (prn :WOW)
+                         (if-let [better (kibit.check/check-expr '__SELECTION__)]
+                         (with-out-str
+                         (clojure.pprint/write (:alt better)
+                         :suppress-namespaces true
+                         :dispatch clojure.pprint/code-dispatch))
+                         __SELECTION*__))"
+                         {:verbatim true, :result-type :replace})]
 
- [:editor.cljs "alt-p" (:eval.custom "(.log js/console __SELECTION__)" {:verbatim true, :result-type :inline})]
- [:editor.cljs "alt-shift-p" (:eval.custom "(prn __SELECTION__)" {:verbatim true, :result-type :inline})]
- ;; Sorts a clojure :require statement. Doesn't pretty print it yet
- [:editor.cljs "alt-r" (:eval.custom "(cons (first '__SELECTION__) (sort (rest '__SELECTION__)))" {:verbatim false, :result-type :replace})]
+  [:editor.cljs "alt-p" (:eval.custom "(.log js/console __SELECTION__)" {:verbatim true, :result-type :inline})]
+  [:editor.cljs "alt-shift-p" (:eval.custom "(prn __SELECTION__)" {:verbatim true, :result-type :inline})]
+  ;; Sorts a clojure :require statement. Doesn't pretty print it yet
+  [:editor.cljs "alt-r" (:eval.custom "(cons (first '__SELECTION__) (sort (rest '__SELECTION__)))" {:verbatim false, :result-type :replace})]
 
- [:editor.javascript "alt-enter" (:paredit.select.parent "{") :eval-editor-form :paredit.select.clear]
+  [:editor.javascript "alt-enter" (:paredit.select.parent "{") :eval-editor-form :paredit.select.clear]
 
- [:editor.keys.vim.normal "cmd-;" :user.vim-toggle-comment-selection]
- [:editor.keys.vim.normal "alt-q" :lt.plugins.reflow/reflow]
- ;;Select the parent expression, whether that's [], {}, or ()
- [:editor.keys.vim.normal "cmd-," :paredit.select.parent]
- ;; Satisfied having as a default. Can always make this more specific - https://github.com/LightTable/LightTable/issues/1379
- [:editor.keys.vim.normal "backspace" :paredit-plus.backward-delete]
+  [:editor.keys.vim.normal "cmd-;" :user.vim-toggle-comment-selection]
+  [:editor.keys.vim.normal "alt-q" :lt.plugins.reflow/reflow]
+  ;;Select the parent expression, whether that's [], {}, or ()
+  [:editor.keys.vim.normal "cmd-," :paredit.select.parent]
+  ;; Satisfied having as a default. Can always make this more specific - https://github.com/LightTable/LightTable/issues/1379
+  [:editor.keys.vim.normal "backspace" :paredit-plus.backward-delete]
 
   ;; CodeMirror keys
   [:editor.keys.vim.normal.cm "-" :user.find-next-clojure-word]
@@ -194,12 +194,12 @@
   [:editor.keys.vim.normal.cm "\\'" :paredit-plus.wrap-quote]
 
 
- ;; avoid going too out of the way keys for command bar
- [:filter-list.input "ctrl-n" (:filter-list.input.move-selection 1)]
- [:filter-list.input "ctrl-p" (:filter-list.input.move-selection -1)]
+  ;; avoid going too out of the way keys for command bar
+  [:filter-list.input "ctrl-n" (:filter-list.input.move-selection 1)]
+  [:filter-list.input "ctrl-p" (:filter-list.input.move-selection -1)]
 
- [:tabs "ctrl-tab" :snippet.select]
+  [:tabs "ctrl-tab" :snippet.select]
 
- [:workspace.focused "ctrl-n" :lt.plugins.workspace-nav/navigate-south]
- [:workspace.focused "ctrl-p" :lt.plugins.workspace-nav/navigate-north]
-]
+  [:workspace.focused "ctrl-n" :lt.plugins.workspace-nav/navigate-south]
+  [:workspace.focused "ctrl-p" :lt.plugins.workspace-nav/navigate-north]
+  ]
